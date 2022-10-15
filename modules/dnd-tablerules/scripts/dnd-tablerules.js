@@ -1,5 +1,13 @@
 
 /*
+    Long Rest no Heal
+*/
+
+// prehook save current hp
+// posthook restore prior hp
+
+
+/*
     Sticky Death Saves
 */
 
