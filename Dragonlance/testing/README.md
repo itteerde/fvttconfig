@@ -1,5 +1,7 @@
 # Testing
 
+If anything in any testing goes wrong in a way not immidiately clear, fixable and being fixed, create an issue refering to the testing document by linking within the issue or document changed expactations by modifying the testing document, commited with proper commit comment/s.
+
 # Regression Testing
 
 
