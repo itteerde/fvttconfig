@@ -65,6 +65,14 @@ Hooks.on("dnd5e.preLongRest", function () {
     console.log(arguments);
 
     // save current hp to sticky hp
+    if (typeof arguments[0].system.attributes.hp.sticky === "undefined") {
+
+        logDebug("sticky hp undefined, adding custom extension.");
+        arguments[0].system.attributes.hp["sticky"] = arguments[0].system.attributes.hp.value;
+    } else {
+        arguments[0].system.attributes.hp.sticky = arguments[0].system.attributes.hp.value;
+    }
+    arguments[0].update();
 });
 
 Hooks.on("dnd5e.restCompleted", function () {
@@ -72,6 +80,12 @@ Hooks.on("dnd5e.restCompleted", function () {
     console.log(arguments);
 
     // set current hp to sticky hp
+    if (typeof arguments[0].system.attributes.hp.sticky !== "undefined") {
+        arguments[0].system.attributes.hp.value = arguments[0].system.attributes.hp.sticky;
+    } else {
+        logError("sticky hp should have been set but were undefined.");
+    }
+    arguments[0].update();
 });
 
 
