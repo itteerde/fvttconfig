@@ -1,0 +1,15 @@
+{
+    "id": "Tablerules",
+    "title": "Tablerules - FVTT Module",
+    "description": "Simple module to add and configure table rules for our games.",
+    "authors": [
+        {
+            "name": "Umbratica"
+        }
+    ],
+    "version": "0.0.1",
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10"
+    }
+}
