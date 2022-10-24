@@ -1,3 +1,5 @@
+console.log("Tablerules is loading.");
+
 function logOurs(level, message) {
     let levelstring;
 
@@ -46,8 +48,6 @@ function logDebug(message) {
 // preupdate save current death saves
 // post update (find method) restore death saves to make the sticky
 
-console.log("Tablerules is loaded.");
-
 Hooks.on("init", function () {
     console.log("Tablerules hooked onto init.");
 });
@@ -69,3 +69,6 @@ Hooks.on("dnd5e.preLongRest", function () {
 
 // prehook save current hp
 // posthook restore prior hp
+
+
+console.log("Tablerules has been loaded.");
