@@ -57,17 +57,25 @@ Hooks.on("ready", function () {
 });
 
 
-/*
-    Long Rest no Heal
+/** 
+ * Long Rest no Heal
 */
-
 Hooks.on("dnd5e.preLongRest", function () {
     logDebug("caught dnd5e.preLongRest hook.");
     console.log(arguments);
+
+    // save current hp to sticky hp
+});
+
+Hooks.on("dnd5e.restCompleted", function () {
+    logDebug("caught dnd5e.restCompleted hook.");
+    console.log(arguments);
+
+    // set current hp to sticky hp
 });
 
 
-// prehook save current hp
+
 // posthook restore prior hp
 
 
