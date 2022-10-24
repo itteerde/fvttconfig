@@ -11,5 +11,8 @@
     "compatibility": {
         "minimum": "10",
         "verified": "10"
-    }
+    },
+    "scripts": [
+        "scripts/dnd-tablerules.js"
+    ]
 }
