@@ -49,7 +49,9 @@ Hooks.on("ready", function () {
 
 
 /**
- * disable automatic healing on resting
+ * modify resting rules
+ * - no hp gain on long rest
+ * - reset death saves (as they are now not reset on healing)
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
