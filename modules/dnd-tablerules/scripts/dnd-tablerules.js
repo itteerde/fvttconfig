@@ -39,15 +39,6 @@ function logDebug(message) {
     logOurs(3, message);
 }
 
-/*
-    Sticky Death Saves
-*/
-
-// arguments[0].system.attributes.death
-
-// preupdate save current death saves
-// post update (find method) restore death saves to make the sticky
-
 Hooks.on("init", function () {
     console.log("Tablerules hooked onto init.");
 });
