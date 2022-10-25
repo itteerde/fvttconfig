@@ -57,35 +57,13 @@ Hooks.on("ready", function () {
 });
 
 
-/** 
- * Long Rest no Heal
-*/
-Hooks.on("dnd5e.preLongRest", function () {
-    logDebug("caught dnd5e.preLongRest hook.");
-    console.log(arguments);
-
-    // save current hp to sticky hp
-    if (typeof arguments[0].system.attributes.hp.sticky === "undefined") {
-
-        logDebug("sticky hp undefined, adding custom extension.");
-        arguments[0].system.attributes.hp["sticky"] = arguments[0].system.attributes.hp.value;
-    } else {
-        arguments[0].system.attributes.hp.sticky = arguments[0].system.attributes.hp.value;
+/**
+ * disable automatic healing on resting
+ */
+Hooks.on("dnd5e.preRestCompleted", function () {
+    if (arguments[1].longRest) {
+        arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
     }
-    arguments[0].update();
-});
-
-Hooks.on("dnd5e.restCompleted", function () {
-    logDebug("caught dnd5e.restCompleted hook.");
-    console.log(arguments);
-
-    // set current hp to sticky hp
-    if (typeof arguments[0].system.attributes.hp.sticky !== "undefined") {
-        arguments[0].system.attributes.hp.value = arguments[0].system.attributes.hp.sticky;
-    } else {
-        logError("sticky hp should have been set but were undefined.");
-    }
-    arguments[0].update();
 });
 
 
