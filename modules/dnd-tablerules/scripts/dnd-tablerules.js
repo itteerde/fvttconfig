@@ -62,10 +62,24 @@ Hooks.on("ready", function () {
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
+        // disable automatic healing on resting
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
+
+        // reset death saves
     }
 });
 
+/**
+ * make death saves sticky (don't reset on healing)
+ */
+Hooks.on("preUpdateActor", function () {
+
+    // sticky death saves
+    if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
+        arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+    }
+    console.log(arguments);
+});
 
 
 // posthook restore prior hp
