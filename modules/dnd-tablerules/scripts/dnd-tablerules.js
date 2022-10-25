@@ -74,8 +74,4 @@ Hooks.on("preUpdateActor", function () {
     }
 });
 
-
-// posthook restore prior hp
-
-
 console.log("Tablerules has been loaded.");
