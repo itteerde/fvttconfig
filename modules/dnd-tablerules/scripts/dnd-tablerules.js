@@ -66,6 +66,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
 
         // reset death saves
+        arguments[1].updateData["system.attributes.death"] = { success: 0, failure: 0 };
     }
 });
 
@@ -75,10 +76,11 @@ Hooks.on("dnd5e.preRestCompleted", function () {
 Hooks.on("preUpdateActor", function () {
 
     // sticky death saves
-    if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
-        arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+    if (typeof arguments[1].system.attributes.death !== "undefined") {
+        if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
+            arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+        }
     }
-    console.log(arguments);
 });
 
 
