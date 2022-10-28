@@ -47,21 +47,6 @@ Hooks.on("ready", function () {
     console.log("Tablerules hooked onto ready.");
 });
 
-function isActor(a) {
-    if (typeof a !== "object") {
-        return false;
-    }
-    return a instanceof Actor;
-}
-
-function isActor5e(a) {
-    if (!isActor(a)) {
-        return false;
-    }
-
-    return a.constructor.name === "Actor5e";
-}
-
 
 /**
  * modify resting rules
