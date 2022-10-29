@@ -69,11 +69,13 @@ Hooks.on("dnd5e.preRestCompleted", function () {
 Hooks.on("preUpdateActor", function () {
 
     // sticky death saves
-    if (typeof arguments[1].system.attributes.death !== "undefined") {
-        if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
-            arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
-        }
-    }
+    if (typeof arguments[1].system !== "undefined")
+        if (typeof arguments[1].system.attributes !== "undefined")
+            if (typeof arguments[1].system.attributes.death !== "undefined") {
+                if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
+                    arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+                }
+            }
 });
 
 console.log("Tablerules has been loaded.");
