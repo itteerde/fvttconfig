@@ -100,6 +100,6 @@ Hooks.on("preUpdateActor", function () {
 });
 
 
-CONFIG["Tablerules"] = { "loglevel": 0, "stickdeatchsaves": true };
+CONFIG["Tablerules"] = { "loglevel": 0, "stickydeathsaves": true };
 
 console.log("Tablerules has been loaded.");
