@@ -28,14 +28,20 @@ function logError(message) {
 }
 
 function logWarning(message) {
+    if (CONFIG.Tablerules.loglevel < 1)
+        return;
     logOurs(1, message);
 }
 
 function logInfo(message) {
+    if (CONFIG.Tablerules.loglevel < 2)
+        return;
     logOurs(2, message);
 }
 
 function logDebug(message) {
+    if (CONFIG.Tablerules.loglevel < 3)
+        return;
     logOurs(3, message);
 }
 
@@ -70,10 +76,10 @@ function isToken5e(o) {
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
-        // disable automatic healing on resting
+        logDebug("preventing healing on Long Rest.");
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
 
-        // reset death saves
+        logDebug("resetting death saves on Long Rest.")
         arguments[1].updateData["system.attributes.death"] = { success: 0, failure: 0 };
     }
 });
@@ -83,7 +89,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
  */
 Hooks.on("preUpdateActor", function () {
 
-    // sticky death saves
+    logDebug("keeping sticky death saves.");
     if (typeof arguments[1].system !== "undefined")
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
@@ -92,5 +98,8 @@ Hooks.on("preUpdateActor", function () {
                 }
             }
 });
+
+
+CONFIG["Tablerules"] = { "loglevel": 0, "stickdeatchsaves": true };
 
 console.log("Tablerules has been loaded.");
