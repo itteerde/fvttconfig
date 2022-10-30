@@ -5,3 +5,11 @@
 Data reflecting any game mechanics usually would end up on the `Actor` active in the world the game happens to be played within. Most of it will have numberic differences in between `Actors`, too, so it seems natural to have them stored there. Storing things on an `Actor` in a non-invasive way is done by adding and maintaining `Documents`, for an `Effect` that is `.effects`, an `EmbeddedDocuments` `object`. E.g. `actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.stress"))` and `actor.createEmbeddedDocuments("ActiveEffect", [effectData])`.
 
 + `Stress` from `VRGtR`: `actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.stress"))`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/tools/macros/gm/stress.js).
+
+
+## Module Configuration
+
+Different `Modules` handle this differently. Some use the `CONFIG` object adding their named `object` with everything below that. This is the current apporach chosen.
+
++ `CONFIG.Tablerules`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
+    + log level: `CONFIG.Tablerules.loglevel`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
