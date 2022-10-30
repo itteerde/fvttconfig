@@ -1,3 +1,4 @@
+// icon suggestion: icons/magic/death/undead-ghosts-trio-blue.webp
 //const actorIds = ["tBmsCEZ4otbmmPcO","anotherID","..."]; // for corner cases and whatever
 const actorIds = canvas.tokens.controlled.map(t => t.actor.id);
 const icon = "icons/magic/death/undead-ghosts-trio-blue.webp";
