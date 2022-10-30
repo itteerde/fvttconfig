@@ -9,7 +9,7 @@ Data reflecting any game mechanics usually would end up on the `Actor` active in
 
 ## Module Configuration
 
-Different `Modules` handle this differently. Some use the `CONFIG` object adding their named `object` with everything below that. This is the current apporach chosen.
+Different `Modules` handle this differently. Some use the `CONFIG` object adding their named `object` with everything below that. This is the approach chosen currently.
 
 + `CONFIG.Tablerules`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
     + log level: `CONFIG.Tablerules.loglevel`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
