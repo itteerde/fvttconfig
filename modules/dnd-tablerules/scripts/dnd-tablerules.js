@@ -24,25 +24,41 @@ function logOurs(level, message) {
 }
 
 function logError(message) {
-    logOurs(0, message);
+    if (logOwn) {
+        logOurs(0, message);
+    } else {
+        console.error(message);
+    }
 }
 
 function logWarning(message) {
     if (CONFIG.Tablerules.loglevel < 1)
         return;
-    logOurs(1, message);
+    if (logOwn) {
+        logOurs(1, message);
+    } else {
+        console.warn(message);
+    }
 }
 
 function logInfo(message) {
     if (CONFIG.Tablerules.loglevel < 2)
         return;
-    logOurs(2, message);
+    if (logOwn) {
+        logOurs(2, message);
+    } else {
+        console.info(message);
+    }
 }
 
 function logDebug(message) {
     if (CONFIG.Tablerules.loglevel < 3)
         return;
-    logOurs(3, message);
+    if (logOwn) {
+        logOurs(3, message);
+    } else {
+        console.debug(message);
+    }
 }
 
 Hooks.on("init", function () {
@@ -100,6 +116,6 @@ Hooks.on("preUpdateActor", function () {
 });
 
 
-CONFIG["Tablerules"] = { "loglevel": 0, "stickydeathsaves": true };
+CONFIG["Tablerules"] = { "loglevel": 0, "logOwn": false, "stickydeathsaves": true };
 
 console.log("Tablerules has been loaded.");
