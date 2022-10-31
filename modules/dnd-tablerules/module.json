@@ -15,6 +15,26 @@
     "scripts": [
         "scripts/dnd-tablerules.js"
     ],
+    "packs": [
+        {
+            "name": "tablerules-items",
+            "label": "Tablerules Items",
+            "path": "packs/items.db",
+            "type": "Item",
+            "system": "dnd5e",
+            "private": "false",
+            "flags": {}
+        },
+        {
+            "name": "tablerules-macros",
+            "label": "Tablerules Macros",
+            "path": "packs/macros.db",
+            "type": "Macro",
+            "system": "dnd5e",
+            "private": "false",
+            "flags": {}
+        }
+    ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json",
     "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.3/dnd-tablerules_0.0.3.zip"
