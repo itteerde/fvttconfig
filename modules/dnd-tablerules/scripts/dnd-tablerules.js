@@ -1,3 +1,6 @@
+//const { performance } = require('perf_hooks');
+//var tablerules = { startTime: performance.now(), stopTime: null };
+
 console.log("Tablerules is loading.");
 
 function logOurs(level, message) {
@@ -118,4 +121,5 @@ Hooks.on("preUpdateActor", function () {
 
 CONFIG["Tablerules"] = { "loglevel": 0, "logOwn": false, "stickydeathsaves": true };
 
-console.log("Tablerules has been loaded.");
+//tablerules.stopTime = performance.now();
+console.log(`Tablerules has been loaded (${endTime - startTime}ms).`);
