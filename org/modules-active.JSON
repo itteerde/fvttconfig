@@ -1,0 +1,1556 @@
+[
+    {
+        "id": "autocomplete-whisper",
+        "title": "Autocomplete Whisper",
+        "description": "Whisper quicker with typeahead autocomplete suggestions and a popup menu of whisper targets.",
+        "authors": [
+            {
+                "name": "orcnog",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/orcnog/autocomplete-whisper/",
+        "flags": {},
+        "media": [],
+        "version": "1.0.4",
+        "compatibility": {
+            "minimum": "6",
+            "verified": "10"
+        },
+        "scripts": [
+            "modules/autocomplete-whisper/scripts/autocomplete-whisper.js"
+        ],
+        "esmodules": [],
+        "styles": [
+            "modules/autocomplete-whisper/styles/autocomplete-whisper.css"
+        ],
+        "languages": [],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/orcnog/autocomplete-whisper/master/module.json",
+        "download": "https://github.com/orcnog/autocomplete-whisper/raw/master/download/autocomplete-whisper.1.0.4.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "ddb-importer",
+        "title": "D&D Beyond Importer",
+        "description": "Import your dndbeyond.com characters, spells, items, monsters, encounters, and adventures!",
+        "authors": [
+            {
+                "name": "MrPrimate",
+                "email": "jack@mrprimate.co.uk",
+                "url": "https://mrprimate.co.uk",
+                "discord": "https://discord.gg/WzPuRuDJVP",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/mrprimate/ddb-importer",
+        "license": "MIT License",
+        "readme": "https://github.com/MrPrimate/ddb-importer/blob/main/README.md",
+        "changelog": "https://github.com/MrPrimate/ddb-importer/blob/main/CHANGELOG.md",
+        "flags": {},
+        "media": [],
+        "version": "3.1.19",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10"
+        },
+        "scripts": [
+            "modules/ddb-importer/vendor/jszip/jszip.min.js"
+        ],
+        "esmodules": [
+            "modules/ddb-importer/dist/main.js"
+        ],
+        "styles": [
+            "modules/ddb-importer/css/default.css",
+            "modules/ddb-importer/css/import.css",
+            "modules/ddb-importer/css/journal.css",
+            "modules/ddb-importer/css/notifications.css",
+            "modules/ddb-importer/css/adventure.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/ddb-importer/lang/en.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [
+                {
+                    "id": "dnd5e",
+                    "type": "system",
+                    "compatibility": {
+                        "verified": "2.0.1"
+                    }
+                }
+            ],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://github.com/mrprimate/ddb-importer/releases/download/latest/module.json",
+        "download": "https://github.com/mrprimate/ddb-importer/releases/download/3.1.19/ddb-importer.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "dfreds-convenient-effects",
+        "title": "DFreds Convenient Effects",
+        "description": "Adds easy to use toggleable active effects for common use cases",
+        "authors": [
+            {
+                "name": "DFreds",
+                "url": "https://github.com/DFreds",
+                "discord": "DFreds#1238",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/DFreds/dfreds-convenient-effects",
+        "license": "https://github.com/DFreds/dfreds-convenient-effects/blob/main/LICENSE",
+        "readme": "https://github.com/DFreds/dfreds-convenient-effects/blob/main/README.md",
+        "bugs": "https://github.com/DFreds/dfreds-convenient-effects/issues",
+        "changelog": "https://github.com/DFreds/dfreds-convenient-effects/releases",
+        "flags": {},
+        "media": [],
+        "version": "3.0.2",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10.288",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/dfreds-convenient-effects/scripts/main.js"
+        ],
+        "styles": [
+            "modules/dfreds-convenient-effects/styles/dfreds-convenient-effects.css"
+        ],
+        "languages": [],
+        "packs": [
+            {
+                "name": "dfreds-convenient-effects-macros",
+                "label": "DFreds Convenient Effects Macros",
+                "path": "modules/dfreds-convenient-effects/packs/macros.db",
+                "private": false,
+                "type": "Macro",
+                "system": "dnd5e",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [
+                {
+                    "id": "dnd5e",
+                    "type": "system",
+                    "compatibility": {}
+                }
+            ],
+            "requires": [
+                {
+                    "id": "socketlib",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://github.com/DFreds/dfreds-convenient-effects/releases/latest/download/module.json",
+        "download": "https://github.com/DFreds/dfreds-convenient-effects/releases/download/v3.0.2/dfreds-convenient-effects.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "dfreds-pocket-change",
+        "title": "DFreds Pocket Change",
+        "description": "Automatically adds money to NPC character sheets when dropped on the canvas based on the DMG's individual treasures table. This is best used with Loot Sheet NPC 5e.",
+        "authors": [
+            {
+                "name": "DFreds",
+                "url": "https://github.com/DFreds",
+                "discord": "DFreds#1238",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/DFreds/dfreds-pocket-change",
+        "license": "https://github.com/DFreds/dfreds-pocket-change/blob/main/LICENSE",
+        "readme": "https://github.com/DFreds/dfreds-pocket-change/blob/main/README.md",
+        "bugs": "https://github.com/DFreds/dfreds-pocket-change/issues",
+        "changelog": "https://github.com/DFreds/dfreds-pocket-change/releases",
+        "flags": {},
+        "media": [],
+        "version": "4.0.1",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10.286",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/dfreds-pocket-change/scripts/main.js"
+        ],
+        "styles": [],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/dfreds-pocket-change/lang/en.json",
+                "flags": {}
+            }
+        ],
+        "packs": [
+            {
+                "name": "dfreds-pocket-change-macros",
+                "label": "DFreds Pocket Change Macros",
+                "path": "modules/dfreds-pocket-change/packs/macros.db",
+                "private": false,
+                "type": "Macro",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://github.com/DFreds/dfreds-pocket-change/releases/latest/download/module.json",
+        "download": "https://github.com/DFreds/dfreds-pocket-change/releases/download/v4.0.1/dfreds-pocket-change.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "dice-calculator",
+        "title": "Dice Tray",
+        "description": "Adds a dice tray below chat, and turns the d20 near chat into a dice calculator.",
+        "authors": [
+            {
+                "name": "Asacolips",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator",
+        "flags": {},
+        "media": [],
+        "version": "1.5.2",
+        "compatibility": {
+            "minimum": "0.7.5",
+            "verified": "10"
+        },
+        "scripts": [
+            "modules/dice-calculator/scripts/js.cookie.js",
+            "modules/dice-calculator/scripts/dice-calculator.js",
+            "modules/dice-calculator/scripts/dice-tray.js"
+        ],
+        "esmodules": [],
+        "styles": [
+            "modules/dice-calculator/css/dice-calculator.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/dice-calculator/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Español",
+                "path": "modules/dice-calculator/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/dice-calculator/lang/ja.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator/raw/master/module.json",
+        "download": "https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator/-/archive/1.5.2/foundry-vtt-dice-calculator-master.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "dndAudioBundle-HammerHome",
+        "title": "D&D Audio Bundle - Hammer Home",
+        "description": "<p>The sounds of the small Hammlet of Hammer Home, blacksmith, docks, 2 inns/taverns, haunted forest, market, on the road, and wet dungeons.</p><p>41 MB</p><p>8 files</p>",
+        "authors": [
+            {
+                "name": "thdm/DatDamnZotz [DatDamnZotz#7962]",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/datdamnzotz/FoundryVTT-DnD-Audio-Bundle-Hammer-Home",
+        "flags": {},
+        "media": [],
+        "version": "1.5",
+        "compatibility": {
+            "minimum": "0.5.0",
+            "verified": "9"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "Hammer Home",
+                "label": "Hammer Home",
+                "path": "modules/dndAudioBundle-HammerHome/packs/playlist1.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/datdamnzotz/FoundryVTT-DnD-Audio-Bundle-Hammer-Home/master/module.json",
+        "download": "https://github.com/datdamnzotz/FoundryVTT-DnD-Audio-Bundle-Hammer-Home/releases/download/v1.5/v1.5.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "gAudioBundle-1",
+        "title": "Game Audio Bundle 1",
+        "description": "<p>High-quality sound effects from many of the best sound recordists and designers in the World. Use them personally or commercially without attribution. Sonniss LTD.</p>",
+        "authors": [
+            {
+                "name": "DatDamnZotz [DatDamnZotz#7962]",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-1",
+        "flags": {},
+        "media": [],
+        "version": "2.8",
+        "compatibility": {
+            "minimum": "0.5.0",
+            "verified": "9"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "Game Audio Bundle 1 - Playlists 1",
+                "label": "Game Audio Bundle 1 - Playlists 1",
+                "path": "modules/gAudioBundle-1/packs/playlist1.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-1/master/module.json",
+        "download": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-1/releases/download/v2.8/v2.8.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "gAudioBundle-2",
+        "title": "Game Audio Bundle 2",
+        "description": "<p>High-quality sound effects from many of the best sound recordists and designers in the World. Use them personally or commercially without attribution. Sonniss LTD.</p>",
+        "authors": [
+            {
+                "name": "DatDamnZotz [DatDamnZotz#7962]",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-2",
+        "flags": {},
+        "media": [],
+        "version": "2.8",
+        "compatibility": {
+            "minimum": "0.5.0",
+            "verified": "9"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "Game Audio Bundle 2 - Playlists 1",
+                "label": "Game Audio Bundle 2 - Playlists 1",
+                "path": "modules/gAudioBundle-2/packs/playlist1.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-2/master/module.json",
+        "download": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-2/releases/download/v2.8/v2.8.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "gAudioBundle-3",
+        "title": "Game Audio Bundle 3",
+        "description": "<p>High-quality sound effects from many of the best sound recordists and designers in the World. Use them personally or commercially without attribution. Sonniss LTD.</p>",
+        "authors": [
+            {
+                "name": "DatDamnZotz [DatDamnZotz#7962]",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-3",
+        "flags": {},
+        "media": [],
+        "version": "2.8",
+        "compatibility": {
+            "minimum": "0.5.0",
+            "verified": "0.8.9"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "Game Audio Bundle 3 - Playlists 1",
+                "label": "Game Audio Bundle 3 - Playlists 1",
+                "path": "modules/gAudioBundle-3/packs/playlist1.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-3/master/module.json",
+        "download": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-3/releases/download/v2.8/v2.8.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "gAudioBundle-4",
+        "title": "Game Audio Bundle 4",
+        "description": "<p>High-quality sound effects from many of the best sound recordists and designers in the World. Use them personally or commercially without attribution. Sonniss LTD.</p>",
+        "authors": [
+            {
+                "name": "DatDamnZotz [DatDamnZotz#7962]",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-4",
+        "flags": {},
+        "media": [],
+        "version": "2.8",
+        "compatibility": {
+            "minimum": "0.5.0",
+            "verified": "9"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "Game Audio Bundle 4 - Playlists 1",
+                "label": "Game Audio Bundle 4 - Playlists 1",
+                "path": "modules/gAudioBundle-4/packs/playlist1.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-4/master/module.json",
+        "download": "https://github.com/datdamnzotz/FoundryVTT-Game-Audio-Bundle-4/releases/download/v2.8/v2.8.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "itemcollection",
+        "title": "Item Containers",
+        "description": "Items that can hold other items - think backpack, sack or bag of holding",
+        "authors": [
+            {
+                "name": "tposney",
+                "url": "https://gitlab.com/tposney",
+                "discord": "@tposney",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/tposney/itemcollection/tree/master",
+        "readme": "https://gitlab.com/tposney/itemcollection/raw/master/README.md",
+        "changelog": "https://gitlab.com/tposney/itemcollection/raw/v10/Changelog.md",
+        "flags": {
+            "manifestPlusVersion": "1.2.0",
+            "allowBugReporter": true
+        },
+        "media": [
+            {
+                "type": "icon",
+                "loop": false,
+                "flags": {}
+            },
+            {
+                "type": "cover",
+                "loop": false,
+                "flags": {}
+            },
+            {
+                "type": "screenshot",
+                "loop": false,
+                "flags": {}
+            }
+        ],
+        "version": "10.0.4",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/itemcollection/ItemCollection.js"
+        ],
+        "styles": [
+            "modules/itemcollection/styles/ItemCollection.css"
+        ],
+        "languages": [
+            {
+                "lang": "ar",
+                "name": "Arabic",
+                "path": "modules/itemcollection/lang/ar.json",
+                "flags": {}
+            },
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/itemcollection/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "ko",
+                "name": "Korean",
+                "path": "modules/itemcollection/lang/ko.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "Français",
+                "path": "modules/itemcollection/lang/fr.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/itemcollection/lang/ja.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/itemcollection/lang/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "de",
+                "name": "Deutsch",
+                "path": "modules/itemcollection/lang/de.json",
+                "flags": {}
+            }
+        ],
+        "packs": [
+            {
+                "name": "itemcollection-premade-bags",
+                "label": "Premade Bags",
+                "path": "modules/itemcollection/packs/premade-bags.db",
+                "private": false,
+                "type": "Item",
+                "system": "dnd5e",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [
+                {
+                    "id": "dnd5e",
+                    "type": "system",
+                    "compatibility": {
+                        "minimum": "2.0.1",
+                        "verified": "2.0.1"
+                    }
+                }
+            ],
+            "requires": [
+                {
+                    "id": "lib-wrapper",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://gitlab.com/tposney/itemcollection/raw/v10/package/module.json",
+        "download": "https://gitlab.com/tposney/itemcollection/raw/v10/package/itemcollection-v10.0.4.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "lib-wrapper",
+        "title": "libWrapper",
+        "description": "Library for wrapping core Foundry VTT methods, meant to improve compatibility between packages that wrap the same methods.",
+        "authors": [
+            {
+                "name": "Rui Pinheiro",
+                "url": "https://github.com/ruipin",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/ruipin/fvtt-lib-wrapper",
+        "bugs": "https://github.com/ruipin/fvtt-lib-wrapper/issues",
+        "flags": {
+            "git_version": "04a266b396e0aaa34fe35b6dc66b277ac08e743f",
+            "allowBugReporter": true
+        },
+        "media": [],
+        "version": "1.12.10.0",
+        "compatibility": {
+            "minimum": "0.6.5",
+            "verified": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/lib-wrapper/lib-wrapper.js"
+        ],
+        "styles": [
+            "modules/lib-wrapper/lib-wrapper.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/lib-wrapper/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-PT",
+                "name": "Português (Portugal)",
+                "path": "modules/lib-wrapper/lang/pt-PT.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/lib-wrapper/lang/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Español",
+                "path": "modules/lib-wrapper/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/lib-wrapper/lang/ja.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json",
+        "download": "https://github.com/ruipin/fvtt-lib-wrapper/releases/download/v1.12.10.0/lib-wrapper-v1.12.10.0.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": true
+    },
+    {
+        "id": "michaelghelfi",
+        "title": "Michael Ghelfi Studios Audio Pack",
+        "description": "<p>An official audio pack of professional quality ambience and music from ENNIES-awarded composer Michael Ghelfi &amp; composer Filip Melvan. The sounds come from the greatest library of ambient sounds for TTRPGs and include 38 immersive ambiences and 17 memorable musical scores from our albums and Patreon. We have more than a thousand sounds to download on our website and Patreon. We have generous conditions for Streamers, Podcasters and content creators.</p>",
+        "authors": [
+            {
+                "name": "Michael Ghelfi Studios",
+                "flags": {}
+            }
+        ],
+        "url": "https://michaelghelfi.com/",
+        "flags": {},
+        "media": [],
+        "version": "1.3",
+        "compatibility": {
+            "minimum": "0.6.6",
+            "verified": "10"
+        },
+        "scripts": [],
+        "esmodules": [],
+        "styles": [],
+        "languages": [],
+        "packs": [
+            {
+                "name": "playlists",
+                "label": "Michael Ghelfi Studios",
+                "path": "modules/michaelghelfi/packs/playlists.db",
+                "private": false,
+                "type": "Playlist",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://foundryvtt.s3-us-west-2.amazonaws.com/modules/michaelghelfi/module.json",
+        "download": "https://foundryvtt.s3-us-west-2.amazonaws.com/modules/michaelghelfi/michaelghelfi.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "midi-qol",
+        "title": "Midi QOL",
+        "description": "Automates rolling weapon/spell attacks and applying damage",
+        "authors": [
+            {
+                "name": "tposney",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/tposney/midi-qol",
+        "bugs": "https://gitlab.com/tposney/midi-qol/-/issues",
+        "changelog": "https://gitlab.com/tposney/midi-qol/raw/v10/Changelog.md",
+        "flags": {
+            "allowBugReporter": true
+        },
+        "media": [],
+        "version": "10.0.15",
+        "compatibility": {
+            "minimum": "10.286",
+            "verified": "10",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/midi-qol/src/midi-qol.js"
+        ],
+        "styles": [
+            "modules/midi-qol/css/styles.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/midi-qol/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/midi-qol/lang/ja.json",
+                "flags": {}
+            },
+            {
+                "lang": "ko",
+                "name": "Korean",
+                "path": "modules/midi-qol/lang/ko.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "Français",
+                "path": "modules/midi-qol/lang/fr.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/midi-qol/lang/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Spanish",
+                "path": "modules/midi-qol/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "de",
+                "name": "Deutsch",
+                "path": "modules/midi-qol/lang/de.json",
+                "flags": {}
+            },
+            {
+                "lang": "it",
+                "name": "Italian",
+                "path": "modules/midi-qol/lang/it.json",
+                "flags": {}
+            }
+        ],
+        "packs": [
+            {
+                "name": "midiqol-sample-items",
+                "label": "MidiQOL Sample Items",
+                "path": "modules/midi-qol/packs/sampleitems.db",
+                "private": false,
+                "type": "Item",
+                "system": "dnd5e",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [
+                {
+                    "id": "dnd5e",
+                    "type": "system",
+                    "compatibility": {
+                        "minimum": "2.0.3"
+                    }
+                }
+            ],
+            "requires": [
+                {
+                    "id": "socketlib",
+                    "type": "module",
+                    "compatibility": {}
+                },
+                {
+                    "id": "lib-wrapper",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://gitlab.com/tposney/midi-qol/raw/v10/package/module.json",
+        "download": "https://gitlab.com/tposney/midi-qol/raw/v10/package/midi-qol-v10.0.15.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "monks-little-details",
+        "title": "Monk's Little Details",
+        "description": "Things to tidy up the interface and flow",
+        "authors": [
+            {
+                "name": "IronMonk",
+                "discord": "ironmonk88#4075",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/ironmonk88/monks-little-details",
+        "bugs": "https://github.com/ironmonk88/monks-little-details/issues",
+        "flags": {},
+        "media": [],
+        "version": "10.3",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/monks-little-details/monks-little-details.js",
+            "modules/monks-little-details/settings.js"
+        ],
+        "styles": [
+            "modules/monks-little-details/css/monks-little-details.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/monks-little-details/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/monks-little-details/lang/ja.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "French",
+                "path": "modules/monks-little-details/lang/fr.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Español",
+                "path": "modules/monks-little-details/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "it",
+                "name": "Italiano",
+                "path": "modules/monks-little-details/lang/it.json",
+                "flags": {}
+            },
+            {
+                "lang": "de",
+                "name": "Deutsch",
+                "path": "modules/monks-little-details/lang/de.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/monks-little-details/lang/pt-BR.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://github.com/ironmonk88/monks-little-details/releases/latest/download/module.json",
+        "download": "https://github.com/ironmonk88/monks-little-details/archive/10.3.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "pings",
+        "title": "Pings",
+        "description": "Allows pinging on the map",
+        "authors": [
+            {
+                "name": "Azzurite#2004",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/foundry-azzurite/pings",
+        "flags": {},
+        "media": [],
+        "version": "1.3.0",
+        "compatibility": {
+            "minimum": "9",
+            "verified": "9"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/pings/main.js"
+        ],
+        "styles": [],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/pings/languages/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/pings/languages/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/pings/languages/ja.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [
+                {
+                    "id": "settings-extender",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://gitlab.com/foundry-azzurite/pings/-/jobs/artifacts/master/raw/dist/pings/module.json?job=build",
+        "download": "https://gitlab.com/foundry-azzurite/pings/-/jobs/artifacts/master/raw/dist/pings.zip?job=build",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "popout",
+        "title": "PopOut!",
+        "description": "<p>This module adds a PopOut! button to most actor sheets, journal entries, and applications.</p><p>The PopOut! button allows you to open a sheet/application/document into its own window, for easier viewing or for use with multiple monitors.</p>",
+        "authors": [
+            {
+                "name": "KaKaRoTo",
+                "flags": {}
+            },
+            {
+                "name": "Posnet",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/League-of-Foundry-Developers/fvtt-module-popout",
+        "readme": "https://github.com/League-of-Foundry-Developers/fvtt-module-popout#readme",
+        "bugs": "https://github.com/League-of-Foundry-Developers/fvtt-module-popout/issues",
+        "flags": {},
+        "media": [],
+        "version": "2.9",
+        "compatibility": {
+            "minimum": "9",
+            "verified": "10.285",
+            "maximum": "10"
+        },
+        "scripts": [
+            "modules/popout/popout.js"
+        ],
+        "esmodules": [],
+        "styles": [],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/popout/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Español",
+                "path": "modules/popout/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "zh-tw",
+                "name": "正體中文",
+                "path": "modules/popout/lang/zh-tw.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/popout/lang/ja.json",
+                "flags": {}
+            },
+            {
+                "lang": "de",
+                "name": "Deutsch",
+                "path": "modules/popout/lang/de.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "Français",
+                "path": "modules/popout/lang/fr.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [
+                {
+                    "id": "lib-wrapper",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/League-of-Foundry-Developers/fvtt-module-popout/master/module.json",
+        "download": "https://github.com/League-of-Foundry-Developers/fvtt-module-popout/archive/v2.9.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "settings-extender",
+        "title": "Settings Extender",
+        "description": "Extends the settings menu, adding additional types for configuration values.",
+        "authors": [
+            {
+                "name": "Azzurite#2004",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/foundry-azzurite/settings-extender",
+        "flags": {},
+        "media": [],
+        "version": "1.2.1",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/settings-extender/settings-extender.js"
+        ],
+        "styles": [],
+        "languages": [],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://gitlab.com/foundry-azzurite/settings-extender/-/jobs/artifacts/1.2.1/raw/dist/settings-extender/module.json?job=build",
+        "download": "https://gitlab.com/foundry-azzurite/settings-extender/-/jobs/artifacts/1.2.1/raw/dist/settings-extender.zip?job=build",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": true
+    },
+    {
+        "id": "socketlib",
+        "title": "socketlib",
+        "description": "A library for easier handling of foundry sockets",
+        "authors": [
+            {
+                "name": "Manuel Vögele",
+                "email": "develop@manuel-voegele.de",
+                "discord": "Stäbchenfisch#5107",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/manuelVo/foundryvtt-socketlib",
+        "readme": "https://github.com/manuelVo/foundryvtt-socketlib/blob/master/README.md",
+        "bugs": "https://github.com/manuelVo/foundryvtt-socketlib/issues",
+        "changelog": "https://github.com/manuelVo/foundryvtt-socketlib/blob/master/CHANGELOG.md",
+        "flags": {},
+        "media": [],
+        "version": "1.0.12",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/socketlib/src/libwrapper_shim.js",
+            "modules/socketlib/src/socketlib.js"
+        ],
+        "styles": [],
+        "languages": [],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://raw.githubusercontent.com/manuelVo/foundryvtt-socketlib/master/module.json",
+        "download": "https://github.com/manuelVo/foundryvtt-socketlib/archive/v1.0.12.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": true
+    },
+    {
+        "id": "times-up",
+        "title": "Times Up",
+        "description": "Active expiry expiration",
+        "authors": [
+            {
+                "name": "tposney",
+                "flags": {}
+            }
+        ],
+        "url": "https://gitlab.com/tposney/times-up",
+        "readme": "https://gitlab.com/tposney/times-up/raw/master/Readme.md",
+        "bugs": "https://gitlab.com/tposney/times-up/-/issues",
+        "changelog": "https://gitlab.com/tposney/times-up/master/Changelog.md",
+        "flags": {},
+        "media": [],
+        "version": "10.0.2",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10",
+            "maximum": "10"
+        },
+        "scripts": [],
+        "esmodules": [
+            "modules/times-up/times-up.js"
+        ],
+        "styles": [
+            "modules/times-up/times-up.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/times-up/lang/en.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [
+                {
+                    "id": "lib-wrapper",
+                    "type": "module",
+                    "compatibility": {}
+                },
+                {
+                    "id": "socketlib",
+                    "type": "module",
+                    "compatibility": {}
+                }
+            ],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://gitlab.com/tposney/times-up/raw/v10/package/module.json",
+        "download": "https://gitlab.com/tposney/times-up/raw/v10/package/times-up-v10.0.2.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "token-auras",
+        "title": "Token Auras",
+        "description": "Provide options for configuring token auras.",
+        "authors": [
+            {
+                "name": "Kim Mantas",
+                "flags": {}
+            }
+        ],
+        "url": "https://bitbucket.org/Fyorl/token-auras",
+        "flags": {},
+        "media": [],
+        "version": "2.1",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10"
+        },
+        "scripts": [
+            "modules/token-auras/main.js"
+        ],
+        "esmodules": [],
+        "styles": [],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/token-auras/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/token-auras/lang/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "de",
+                "name": "Deutsch",
+                "path": "modules/token-auras/lang/de.json",
+                "flags": {}
+            },
+            {
+                "lang": "it",
+                "name": "Italiano",
+                "path": "modules/token-auras/lang/it.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "Français",
+                "path": "modules/token-auras/lang/fr.json",
+                "flags": {}
+            }
+        ],
+        "packs": [],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": false,
+        "manifest": "https://bitbucket.org/Fyorl/token-auras/raw/master/module.json",
+        "download": "https://bitbucket.org/Fyorl/token-auras/get/2.1.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    },
+    {
+        "id": "tokenmagic",
+        "title": "Token Magic FX",
+        "description": "<p>Add special effects and animations on your tokens, tiles, drawings and templates.</p>",
+        "authors": [
+            {
+                "name": "SecretFire",
+                "flags": {}
+            },
+            {
+                "name": "sPOiDar",
+                "flags": {}
+            },
+            {
+                "name": "Zimm",
+                "flags": {}
+            },
+            {
+                "name": "Lozalojo",
+                "flags": {}
+            },
+            {
+                "name": "Moerill",
+                "flags": {}
+            },
+            {
+                "name": "KLO",
+                "flags": {}
+            },
+            {
+                "name": "dev7355608",
+                "flags": {}
+            },
+            {
+                "name": "Mestre Digital",
+                "flags": {}
+            },
+            {
+                "name": "BrotherSharper-Touge",
+                "flags": {}
+            },
+            {
+                "name": "OsiJr",
+                "flags": {}
+            }
+        ],
+        "url": "https://github.com/Feu-Secret/Tokenmagic",
+        "flags": {},
+        "media": [],
+        "version": "0.6.1.2",
+        "compatibility": {
+            "minimum": "10",
+            "verified": "10.285",
+            "maximum": "10"
+        },
+        "scripts": [
+            "modules/tokenmagic/libs/filters/pixi-filters.js"
+        ],
+        "esmodules": [
+            "modules/tokenmagic/module/settings.js",
+            "modules/tokenmagic/module/tokenmagic.js",
+            "modules/tokenmagic/module/proto/PlaceableObjectProto.js",
+            "modules/tokenmagic/fx/Anime.js",
+            "modules/tokenmagic/fx/filters/FilterBlurEx.js",
+            "modules/tokenmagic/fx/filters/FilterDropShadowEx.js",
+            "modules/tokenmagic/fx/filters/FilterBevel.js",
+            "modules/tokenmagic/fx/filters/FilterAdjustment.js",
+            "modules/tokenmagic/fx/filters/FilterAdvancedBloom.js",
+            "modules/tokenmagic/fx/filters/FilterDistortion.js",
+            "modules/tokenmagic/fx/filters/FilterGlow.js",
+            "modules/tokenmagic/fx/filters/FilterOldFilm.js",
+            "modules/tokenmagic/fx/filters/FilterDropShadow.js",
+            "modules/tokenmagic/fx/filters/FilterOutline.js",
+            "modules/tokenmagic/fx/filters/FilterTwist.js",
+            "modules/tokenmagic/fx/filters/FilterZoomBlur.js",
+            "modules/tokenmagic/fx/filters/FilterBlur.js",
+            "modules/tokenmagic/fx/filters/FilterBulgePinch.js",
+            "modules/tokenmagic/fx/filters/FilterRemoveShadow.js",
+            "modules/tokenmagic/fx/filters/FilterRays.js",
+            "modules/tokenmagic/fx/filters/FilterFog.js",
+            "modules/tokenmagic/fx/filters/FilterXFog.js",
+            "modules/tokenmagic/fx/filters/FilterElectric.js",
+            "modules/tokenmagic/fx/filters/FilterShockWave.js",
+            "modules/tokenmagic/fx/filters/FilterFumes.js",
+            "modules/tokenmagic/fx/filters/FilterWaves.js",
+            "modules/tokenmagic/fx/filters/FilterFire.js",
+            "modules/tokenmagic/fx/filters/FilterFlood.js",
+            "modules/tokenmagic/fx/filters/FilterSmoke.js",
+            "modules/tokenmagic/fx/filters/FilterForceField.js",
+            "modules/tokenmagic/fx/filters/FilterMirrorImages.js",
+            "modules/tokenmagic/fx/filters/FilterXRays.js",
+            "modules/tokenmagic/fx/filters/FilterLiquid.js",
+            "modules/tokenmagic/fx/filters/FilterGleamingGlow.js",
+            "modules/tokenmagic/fx/filters/FilterPixelate.js",
+            "modules/tokenmagic/fx/filters/FilterSpiderWeb.js",
+            "modules/tokenmagic/fx/filters/FilterSolarRipples.js",
+            "modules/tokenmagic/fx/filters/FilterGlobes.js",
+            "modules/tokenmagic/fx/filters/FilterTransform.js",
+            "modules/tokenmagic/fx/filters/FilterSplash.js",
+            "modules/tokenmagic/fx/filters/FilterPolymorph.js",
+            "modules/tokenmagic/fx/filters/FilterXFire.js",
+            "modules/tokenmagic/fx/filters/FilterSprite.js",
+            "modules/tokenmagic/fx/filters/proto/FilterProto.js"
+        ],
+        "styles": [
+            "modules/tokenmagic/styles/tokenmagic.css"
+        ],
+        "languages": [
+            {
+                "lang": "en",
+                "name": "English",
+                "path": "modules/tokenmagic/lang/en.json",
+                "flags": {}
+            },
+            {
+                "lang": "fr",
+                "name": "French (FRANCE)",
+                "path": "modules/tokenmagic/lang/fr.json",
+                "flags": {}
+            },
+            {
+                "lang": "pt-BR",
+                "name": "Português (Brasil)",
+                "path": "modules/tokenmagic/lang/pt-BR.json",
+                "flags": {}
+            },
+            {
+                "lang": "es",
+                "name": "Spanish",
+                "path": "modules/tokenmagic/lang/es.json",
+                "flags": {}
+            },
+            {
+                "lang": "ko",
+                "name": "Korean",
+                "path": "modules/tokenmagic/lang/ko.json",
+                "flags": {}
+            },
+            {
+                "lang": "zh-tw",
+                "name": "正體中文",
+                "path": "modules/tokenmagic/lang/zh-tw.json",
+                "flags": {}
+            },
+            {
+                "lang": "ja",
+                "name": "日本語",
+                "path": "modules/tokenmagic/lang/ja.json",
+                "flags": {}
+            }
+        ],
+        "packs": [
+            {
+                "name": "tmMacros",
+                "label": "TokenMagic Portfolio",
+                "path": "modules/tokenmagic/packs/token-magic-portfolio.db",
+                "private": false,
+                "type": "Macro",
+                "flags": {}
+            },
+            {
+                "name": "tmSampleCompendium",
+                "label": "TokenMagic Book of Fire",
+                "path": "modules/tokenmagic/packs/token-magic-book-of-fire.db",
+                "private": false,
+                "type": "Macro",
+                "flags": {}
+            }
+        ],
+        "relationships": {
+            "systems": [],
+            "requires": [],
+            "conflicts": [],
+            "flags": {}
+        },
+        "socket": true,
+        "manifest": "https://raw.githubusercontent.com/Feu-Secret/Tokenmagic/master/tokenmagic/module.json",
+        "download": "https://github.com/Feu-Secret/Tokenmagic/releases/download/v0.6.1.2-beta/Tokenmagic.zip",
+        "protected": false,
+        "exclusive": false,
+        "coreTranslation": false,
+        "library": false
+    }
+]
