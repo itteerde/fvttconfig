@@ -13,20 +13,10 @@ if (actor.type !== "character") {
     return;
 }
 
-/*
-const effect = actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.guidance.timesSinceLongRest"));
-const current = effect?.getFlag("world", "guidance", "timesSinceLongRest") ?? 0;
-*/
-
 const effect = actor.effects.find(e => e.getFlag("world", "guidance"));
 const current = effect?.getFlag("world", "guidance.timesSinceLongRest") ?? 0;
 
-console.info({ "current": current });
-
-//const max = foundry.utils.hasProperty(CONFIG, "Tablerules.guidance.maxTimesPerLongRest") ? CONFIG.Tablerules.guidance.maxTimesPerLongRest : 1;
 const max = CONFIG.Tablerules?.guidance?.maxTimesPerLongRest ?? 1;
-
-console.info({ "max": max });
 
 if (current >= max) {
     ui.notifications.warn(`${macroLabel}, maximum numbers per Long Rest: ${max}, current: ${current}. ${actor.name} at cooldown.`);
