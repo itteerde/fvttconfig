@@ -90,6 +90,7 @@ function isToken5e(o) {
  * modify resting rules
  * - no hp gain on long rest
  * - reset death saves (as they are now not reset on healing)
+ * - remove or reset guidance cooldown token
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
@@ -98,6 +99,10 @@ Hooks.on("dnd5e.preRestCompleted", function () {
 
         logDebug("resetting death saves on Long Rest.")
         arguments[1].updateData["system.attributes.death"] = { success: 0, failure: 0 };
+
+        logDebug("resetting guidance cooldown token.");
+        // ...
+
     }
 });
 
