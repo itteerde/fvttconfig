@@ -99,10 +99,6 @@ Hooks.on("dnd5e.preRestCompleted", function () {
 
         logDebug("resetting death saves on Long Rest.")
         arguments[1].updateData["system.attributes.death"] = { success: 0, failure: 0 };
-
-        logDebug("resetting guidance cooldown token.");
-        // ...
-
     }
 });
 
@@ -122,6 +118,10 @@ Hooks.on("preUpdateActor", function () {
 });
 
 
-CONFIG["Tablerules"] = { "loglevel": 0, "logOwn": false, "stickydeathsaves": true };
+CONFIG["Tablerules"] = {
+    "loglevel": 0, "logOwn": false,
+    "stickydeathsaves": true,
+    "guidance": { maxTimesPerLongRest: 1 }
+};
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
