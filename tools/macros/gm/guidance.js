@@ -25,7 +25,6 @@ if (current >= max) {
 }
 
 const effectData = { icon, label };
-console.log("here?");
 foundry.utils.setProperty(effectData, "flags.world.guidance.timesSinceLongRest", current + 1);
 foundry.utils.setProperty(effectData, "flags.dae.specialDuration", ["longRest"]);
 
