@@ -17,7 +17,10 @@ if (actor.type !== "character") {
 const effect = actor.effects.find(e => e.getFlag("world", "Nightmare Haunting"));
 
 const keys = ["system.attributes.hp.max"];
-const effectData = { icon, label };
+const changes = keys.map(key => {
+    return { };
+  });
+  const effectData = { changes, icon, label };
 
   function updateValue(actorId, dir) {
     const actor = game.actors.get(actorId);
@@ -25,7 +28,7 @@ const effectData = { icon, label };
     const current = effect?.getFlag("world", "stress") ?? 0;
     const stress = Number(Math.max(current + Number(dir), 0));
     const changes = keys.map(key => {
-      return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: `-${stress}` };
+      return { };
     });
     const effectData = { changes, icon, label };
     foundry.utils.setProperty(effectData, "flags.world.stress", stress);
