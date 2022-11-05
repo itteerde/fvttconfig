@@ -96,6 +96,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
         logDebug("preventing healing on Long Rest.");
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
+        arguments[1].dhp = 0;
 
         death = arguments[0].system.attributes.death;
         death.failure = 0;
