@@ -31,4 +31,4 @@ foundry.utils.setProperty(effectData, "flags.dae.specialDuration", ["longRest"])
 if (effect) return effect.update(effectData);
 await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
-new Roll("1d4", actor.getRollData()).toMessage({ speaker: actor.name, flavor: macroLabel });
+new Roll("1d4", actor.getRollData()).toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
