@@ -31,9 +31,9 @@ const effectData = { changes, icon, label };
 foundry.utils.setProperty(effectData, "flags.world.NightmareHaunting", hauntingDamage);
 
 if (effect) {
-    effect.update(effectData);
+    await effect.update(effectData);
 } else {
-    actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+    await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
 if (actor.system.attributes.hp.value > actor.system.attributes.hp.max) {
