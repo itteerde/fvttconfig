@@ -1,5 +1,5 @@
 // icon suggestion: icons/magic/death/undead-ghosts-trio-blue.webp
-const icon = icons/magic/death/hand-withered-gray.webp;
+const icon = "icons/magic/death/hand-withered-gray.webp";
 const label = "Nightmare Haunting";
 const macroLabel = "Nightmare Haunting";
 
@@ -14,17 +14,33 @@ if (actor.type !== "character") {
     return;
 }
 
-const effect = actor.effects.find(e => e.getFlag("world", "Nightmare Haunting"));
-const current = effect?.getFlag("world", "Nightmare Haunting") ?? 0;
+const effect = actor.effects.find(e => e.getFlag("world", "NightmareHaunting"));
+const current = effect?.getFlag("world", "NightmareHaunting") ?? 0;
 
-new Roll("1d10", actor.getRollData()).toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
+const roll = new Roll("1d10", actor.getRollData());
+await roll.evaluate();
+roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
 
-/*const keys = ["system.attributes.hp.max"];
+const hauntingDamage = current - roll.total;
+
+const keys = ["system.attributes.hp.max"];
 const changes = keys.map(key => {
-    return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -6 };
+    return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: hauntingDamage };
 });
 const effectData = { changes, icon, label };
+foundry.utils.setProperty(effectData, "flags.world.NightmareHaunting", hauntingDamage);
 
+if (actor.system.attributes.hp.value > actor.system.attributes.hp.max - roll.total){
+
+actor.system.attributes.hp.value =  actor.system.attributes.hp.max -roll.total;
+await actor.update();
+}
+
+if (effect) return effect.update(effectData);
+    return actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+
+
+/*
 function updateValue(actorId, dir) {
     const actor = game.actors.get(actorId);
     const effect = actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.stress"));
