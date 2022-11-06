@@ -30,14 +30,13 @@ const changes = keys.map(key => {
 const effectData = { changes, icon, label };
 foundry.utils.setProperty(effectData, "flags.world.NightmareHaunting", hauntingDamage);
 
-if (actor.system.attributes.hp.value > actor.system.attributes.hp.max - roll.total) {
-    console.log("hit corner case");
-    foundry.utils.setProperty(actor, "actor.system.attributes.hp.value", actor.system.attributes.hp.max - roll.total);
+if (effect) {
+    effect.update(effectData);
+} else {
+    actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
-if (effect) return effect.update(effectData);
-return actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
+console.log("still running");
 
 /*
 function updateValue(actorId, dir) {
