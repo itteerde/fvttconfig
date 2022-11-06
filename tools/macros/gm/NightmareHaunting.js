@@ -36,7 +36,14 @@ if (effect) {
     actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
-console.log("still running");
+if (actor.system.attributes.hp.value > actor.system.attributes.hp.max) {
+    console.log("need to reduce current hp");
+    actor.system.attributes.hp.value = actor.system.attributes.hp.max;
+}
+
+actor.update();
+
+
 
 /*
 function updateValue(actorId, dir) {
