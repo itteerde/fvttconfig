@@ -36,12 +36,14 @@ if (effect) {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
+/*
 if (actor.system.attributes.hp.value > actor.system.attributes.hp.max) {
     console.log("need to reduce current hp");
     actor.system.attributes.hp.value = actor.system.attributes.hp.max;
 }
+*/
 
-actor.update();
+await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.max });
 
 
 
