@@ -1,5 +1,5 @@
 // icon suggestion: icons/magic/death/undead-ghosts-trio-blue.webp
-const icon = icons / magic / death / hand - withered - gray.webp;
+const icon = icons/magic/death/hand-withered-gray.webp;
 const label = "Nightmare Haunting";
 const macroLabel = "Nightmare Haunting";
 
@@ -15,10 +15,13 @@ if (actor.type !== "character") {
 }
 
 const effect = actor.effects.find(e => e.getFlag("world", "Nightmare Haunting"));
+const current = effect?.getFlag("world", "Nightmare Haunting") ?? 0;
 
-const keys = ["system.attributes.hp.max"];
+new Roll("1d10", actor.getRollData()).toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
+
+/*const keys = ["system.attributes.hp.max"];
 const changes = keys.map(key => {
-    return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: `-${stress}` };
+    return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: -6 };
 });
 const effectData = { changes, icon, label };
 
@@ -35,3 +38,4 @@ function updateValue(actorId, dir) {
     if (effect) return effect.update(effectData);
     return actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
+*/
