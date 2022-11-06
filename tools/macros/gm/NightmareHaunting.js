@@ -36,29 +36,8 @@ if (effect) {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
-/*
+
 if (actor.system.attributes.hp.value > actor.system.attributes.hp.max) {
-    console.log("need to reduce current hp");
-    actor.system.attributes.hp.value = actor.system.attributes.hp.max;
+    await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.max });
 }
-*/
 
-await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.max });
-
-
-
-/*
-function updateValue(actorId, dir) {
-    const actor = game.actors.get(actorId);
-    const effect = actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.stress"));
-    const current = effect?.getFlag("world", "stress") ?? 0;
-    const stress = Number(Math.max(current + Number(dir), 0));
-    const changes = keys.map(key => {
-        return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: `-${stress}` };
-    });
-    const effectData = { changes, icon, label };
-    foundry.utils.setProperty(effectData, "flags.world.stress", stress);
-    if (effect) return effect.update(effectData);
-    return actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-}
-*/
