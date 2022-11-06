@@ -1,4 +1,4 @@
-// icon suggestion: icons/magic/death/undead-ghosts-trio-blue.webp
+// icon suggestion: icons/magic/death/hand-withered-gray.webp
 const icon = "icons/magic/death/hand-withered-gray.webp";
 const label = "Nightmare Haunting";
 const macroLabel = "Nightmare Haunting";
