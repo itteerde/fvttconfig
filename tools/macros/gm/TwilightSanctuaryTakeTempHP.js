@@ -36,6 +36,7 @@ const tokenSource = neitherThis;
 const tokenTarget = norThis;
 
 const cleric = tokenSource.actor;
+const clericLevel = 999;
 
 const distance = canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }) * 5;
 if (distance > 30) {
@@ -48,9 +49,9 @@ if (distance > 30) {
 }
 
 // create the Roll
-const clericLevel = 999;
 const roll = await new Roll(`1d6+${clericLevel}`, actor.getRollData()).evaluate({ async: true })
-await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: cleric.name }), flavor: `granting temporary hit points by ${macroLabel}` });
 
 // create the ChatMessage
+await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: cleric.name }), flavor: `granting temporary hit points by ${macroLabel}` });
+
 // upgrade hp.temp
