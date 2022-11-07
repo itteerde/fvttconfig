@@ -1,6 +1,7 @@
 /* 
     icon suggestion: icons/magic/light/light-lantern-lit-white.webp
     source: https://github.com/itteerde/fvttconfig/blob/main/tools/macros/gm/TwilightSanctuaryTakeTempHP.js
+    discussion: https://github.com/itteerde/fvttconfig/issues/29
 
     I think I like the version where the Cleric player gets the `Effect` (that can create the `Aura` [either already or once we adopt `Effect Macro` which we'll test]) for having the `Twilight Sanctuary` active, maybe being applied by hitting the `Feature` (think we have that possibility already). All players get another `Macro` `Take Twilight Sanctuary HP` that looks for the active `Twilight Sanctuary` (everyone can read everything through code, just not save changes non-locally, so everyone can find the source in order to read their Cleric-Level), `Roll` and upgrade their own `Actor.system.attributes.hp.temp`.
 
