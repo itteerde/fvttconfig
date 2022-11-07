@@ -8,16 +8,26 @@
     We do not let the Cleric player give the temp hp as that would require socket registering and programming or warpgate in order to modify an `Actor` the `User` does have the prvileges to modify.
 */
 
-const macroLabel = "Channel Divinity: Twilight Guidance tempHP";
-const sourceLabel = "Channel Divinity: Twilight Guidance";
+const macroLabel = "Channel Divinity: Twilight Sanctuary tempHP";
+const sourceLabel = "Channel Divinity: Twilight Sanctuary";
 
 //get the source Twilight Cleric
-const twilightClericPCs = game.actors.filter(a => {
-    if (a.type !== "character")
+const twilightClericPCs = canvas.tokens.placeables.filter(t => {
+    if (t.actor.type !== "character")
         return;
-    return a.items.find(i => i.name === "Twilight Domain");
+    if (!t.actor.items.find(i => i.name === "Twilight Domain"))
+        return;
+    return t.actor.effects.find(e => e.label === "Channel Divinity: Twilight Sanctuary");
 });
 console.log(twilightClericPCs);
+
+if (twilightClericPCs.length === 0) {
+    ui.notifications.error(
+        `${macroLabel}, ${twilightClericPCs.length} Twilight Clerics found.`,
+        { permanent: true }
+    );
+    return;
+}
 
 // check validity of source, maybe enforce hover if it is not?
 if (twilightClericPCs.length !== 1) {
@@ -29,17 +39,29 @@ if (twilightClericPCs.length !== 1) {
 
 
 // target?
+if (canvas.tokens.controlled.length !== 1) {
+    ui.notifications.error(`${macroLabel}, ${canvas.tokens.controlled.length} Actors selected. Select 1 and only 1.`, { permanent: true });
+    return;
+}
+
+if (actor.type !== "character") {
+    ui.notifications.error(`${macroLabel}, Actor selected is type:${actor.type}. Select a character.`);
+    return;
+}
+
 console.log({ target: actor, name: actor.name, id: actor._id });
 
 
 // check distance
-const tokenSource = neitherThis;
-const tokenTarget = norThis;
+const tokenSource = twilightClericPCs[0]; // this is not sound, there should be logid to chose if there are more than one.
+
+const tokenTarget = canvas.tokens.placeables.find(t => t.actor._id === actor._id); // also not sound technically. There might be more than one Token for the same correct Actor, and not all might be in range.
 
 const cleric = tokenSource.actor;
-const clericLevel = 999;
+const clericLevel = cleric.items.filter(i => i.type === "class").find(c => c.name === "Cleric").system.levels;
 
-const distance = canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }) * 5;
+const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }) * 5);
+console.log({ message: "distance", distance: distance });
 if (distance > 30) {
     ui.notifications.warn(
         `Distance between ${cleric.name} and ${actor.name} is ${distance}. Expected distance<=30.`,
