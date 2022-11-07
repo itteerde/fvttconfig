@@ -56,6 +56,10 @@ console.log({ target: actor, name: actor.name, id: actor._id });
 const tokenSource = twilightClericPCs[0]; // this is not sound, there should be logid to chose if there are more than one.
 
 const tokenTarget = canvas.tokens.placeables.find(t => t.actor._id === actor._id); // also not sound technically. There might be more than one Token for the same correct Actor, and not all might be in range.
+if (!tokenTarget) {
+    ui.notifications.error(`${macroLabel}, Actor context ${actor} does not match ${tokenTarget} found.`);
+    return;
+}
 
 const cleric = tokenSource.actor;
 const clericLevel = cleric.items.filter(i => i.type === "class").find(c => c.name === "Cleric").system.levels;
@@ -75,6 +79,10 @@ if (distance > 30) {
 const roll = await new Roll(`1d6+${clericLevel}`, actor.getRollData()).evaluate({ async: true })
 
 // create the ChatMessage
-await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: cleric.name }), flavor: `granting temporary hit points by ${macroLabel}` });
+await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: cleric.name }), flavor: `getting temporary hit points by ${macroLabel} from ${cleric.name}.` });
 
-// upgrade hp.temp
+const currentTempHP = tokenTarget.actor.system.attributes.hp.temp !== null ? tokenTarget.actor.system.attributes.hp.temp : 0;
+const newTempHP = Math.max(roll.total, currentTempHP);
+console.log({ message: "newTempHP", temp: newTempHP });
+
+await actor.update({ "system.attributes.hp.temp": newTempHP });
