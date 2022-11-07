@@ -42,7 +42,7 @@ const clericLevel = 999;
 const distance = canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }) * 5;
 if (distance > 30) {
     ui.notifications.warn(
-        `${macroLabel}, ${twilightClericPCs.length} Twilight Clerics found. Expected 1 and only 1.`,
+        `Distance between ${cleric.name} and ${actor.name} is ${distance}. Expected distance<=30.`,
         { permanent: true }
     );
 
