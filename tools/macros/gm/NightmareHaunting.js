@@ -17,9 +17,8 @@ if (actor.type !== "character") {
 const effect = actor.effects.find(e => e.getFlag("world", "NightmareHaunting"));
 const current = effect?.getFlag("world", "NightmareHaunting") ?? 0;
 
-const roll = new Roll("1d10", actor.getRollData());
-await roll.evaluate();
-roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
+const roll = await new Roll("1d10", actor.getRollData()).evaluate({ async: true })
+await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), flavor: macroLabel });
 
 const hauntingDamage = current - roll.total;
 
