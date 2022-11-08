@@ -36,7 +36,7 @@
     },
     "consume": {
       "type": "charges",
-      "target": "",
+      "target": "N5Rj8OHq0kyMF2Pf",
       "amount": 1
     },
     "ability": "",
@@ -126,7 +126,7 @@
         "name": "Channel Divinity: Twilight Sanctuary",
         "type": "script",
         "scope": "global",
-        "command": "console.log(\"using?\");",
+        "command": "const icon = \"icons/magic/light/light-lantern-lit-white.webp\";\nconst label = \"Channel Divinity: Twilight Sanctuary\";\nconst macroLabel = \"Twilight Sanctuary\";\n\nconst effect = actor.effects.find(e => e.getFlag(\"world\", \"TwilightSanctuary\"));\nconst current = effect?.getFlag(\"world\", \"TwilightSanctuary\") ?? 1;\n\nconst effectData = { icon, label, duration: { seconds: 60 } };\nfoundry.utils.setProperty(effectData, \"flags.world.TwilightSanctuary\", current);\n\nfoundry.utils.setProperty(effectData, \"flags.effectmacro.onDisable\", \"token.document.setFlag(\\'token-auras\\', \\'aura1.distance\\',0); \\nconsole.log(\\'cheese and rice\\');\");\n\nif (effect) {\n    await effect.update(effectData);\n} else {\n    await actor.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n}\n\nactor.items.find(i => i.name === \"Channel Divinity: Twilight Sanctuary\").use();\n\ntoken.document.setFlag('token-auras', 'aura1.distance', 30);\ntoken.document.setFlag('token-auras', 'aura1.colour', \"#ddddff\");\ntoken.document.setFlag('token-auras', 'aura1.opacity', 0.5);\ntoken.document.setFlag('token-auras', 'aura1.permission', \"all\");\ntoken.document.setFlag('token-auras', 'aura1.square', false);\n\n\n\n\n\n\n\n\n// const twilightSanctuaryAura = token.getFlag('token-auras', 'auras');\nconsole.log(\"Twilight Sanctuary is doing things!!\");",
         "author": "g325YPUxaNNgCApI",
         "_id": null,
         "img": "icons/svg/dice-target.svg",
@@ -156,35 +156,14 @@
       "systemVersion": "2.0.3"
     }
   },
-  "effects": [
-    {
-      "label": "Channel Divinity: Twilight Sanctuary",
-      "icon": "icons/magic/light/light-lantern-lit-white.webp",
-      "origin": "Actor.H4Gt6jg17IYTtflH.Item.jkDPkkr3NmPTnjFG",
-      "duration": {
-        "rounds": 1,
-        "startTime": null,
-        "seconds": null,
-        "combat": null,
-        "turns": null,
-        "startRound": null,
-        "startTurn": null
-      },
-      "disabled": true,
-      "_id": "RxR3RESOXMw2rE3Q",
-      "changes": [],
-      "tint": null,
-      "transfer": false,
-      "flags": {}
-    }
-  ],
+  "effects": [],
   "img": "icons/magic/light/light-lantern-lit-white.webp",
   "_stats": {
     "systemId": "dnd5e",
     "systemVersion": "2.0.3",
     "coreVersion": "10.288",
     "createdTime": 1667823184290,
-    "modifiedTime": 1667847419714,
+    "modifiedTime": 1667921917885,
     "lastModifiedBy": "g325YPUxaNNgCApI"
   }
 }
