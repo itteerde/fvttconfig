@@ -1,3 +1,6 @@
+/*
+    Item-Macro Macro for the Feat Item Channel Divinity: Twilight Sanctuary as imported by DDB-Importer. Does not work indepently. Drop https://raw.githubusercontent.com/itteerde/fvttconfig/main/tools/item/feat/fvtt-Item-channel-divinity_-twilight-sanctuary.json onto appropriate Actor (Twilight Cleric) after deleting their imported version of the Feature. Mark to not overwrite for DDB-Importer afterwards.
+*/
 
 const icon = "icons/magic/light/light-lantern-lit-white.webp";
 const label = "Channel Divinity: Twilight Sanctuary";
