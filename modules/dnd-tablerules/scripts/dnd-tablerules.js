@@ -108,11 +108,11 @@ class Tablerules {
     }
 
     static isActor5e(o) {
-        return isOfClass(o, "Actor5e");
+        return Tablerules.isOfClass(o, "Actor5e");
     }
 
     static isToken5e(o) {
-        return isOfClass(o, "Token5e");
+        return Tablerules.isOfClass(o, "Token5e");
     }
 
 }
