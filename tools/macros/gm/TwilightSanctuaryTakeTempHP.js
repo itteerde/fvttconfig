@@ -64,7 +64,7 @@ if (!tokenTarget) {
 const cleric = tokenSource.actor;
 const clericLevel = cleric.items.filter(i => i.type === "class").find(c => c.name === "Cleric").system.levels;
 
-const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }) * 5);
+const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
 console.log({ message: "distance", distance: distance });
 if (distance > 30) {
     ui.notifications.warn(
