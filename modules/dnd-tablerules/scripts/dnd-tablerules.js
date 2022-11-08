@@ -98,6 +98,23 @@ class Tablerules {
             console.info(message);
         }
     }
+
+    static isOfClass(o, className) {
+        if (typeof o !== "object") {
+            return false;
+        }
+
+        return o.constructor.name === className;
+    }
+
+    static isActor5e(o) {
+        return isOfClass(o, "Actor5e");
+    }
+
+    static isToken5e(o) {
+        return isOfClass(o, "Token5e");
+    }
+
 }
 
 
@@ -108,22 +125,6 @@ Hooks.on("init", function () {
 Hooks.on("ready", function () {
     console.log("Tablerules hooked onto ready.");
 });
-
-function isOfClass(o, className) {
-    if (typeof o !== "object") {
-        return false;
-    }
-
-    return o.constructor.name === className;
-}
-
-function isActor5e(o) {
-    return isOfClass(o, "Actor5e");
-}
-
-function isToken5e(o) {
-    return isOfClass(o, "Token5e");
-}
 
 /**
  * modify resting rules
