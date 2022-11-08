@@ -12,6 +12,17 @@ class Tablerules {
         return Math.sqrt(r * r - (r - (r - h)) * (r - (r - h)));
     }
 
+    /*
+        dnd5e.preRestCompleted
+
+        Test if we can programm this way for nicer debugging/ if the expectation that this gives you prettier debugging is correct.
+    */
+    static dnd5ePreRestCompleted() {
+        console.log("Does this work?");
+        console.log(arguments);
+        console.log("If we got here without errors it probably does.");
+    }
+
 }
 
 
