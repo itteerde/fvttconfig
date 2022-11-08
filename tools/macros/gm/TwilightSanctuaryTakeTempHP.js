@@ -10,6 +10,7 @@
 
 const macroLabel = "Channel Divinity: Twilight Sanctuary tempHP";
 const sourceLabel = "Channel Divinity: Twilight Sanctuary";
+const useDistance3D = true;
 
 //get the source Twilight Cleric
 const twilightClericPCs = canvas.tokens.placeables.filter(t => {
@@ -65,10 +66,12 @@ const cleric = tokenSource.actor;
 const clericLevel = cleric.items.filter(i => i.type === "class").find(c => c.name === "Cleric").system.levels;
 
 const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
-console.log({ message: "distance", distance: distance });
-if (distance > 30) {
+const distance3D = Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
+console.log({ message: "distance", distance: distance, distance3D: distance3D });
+
+if ((useDistance3D ? distance3D : distance) > 30) {
     ui.notifications.warn(
-        `Distance between ${cleric.name} and ${actor.name} is ${distance}. Expected distance<=30.`,
+        `Distance between ${cleric.name} and ${actor.name} is ${(useDistance3D ? distance3D : distance)}. Expected distance<=30.`,
         { permanent: true }
     );
 
