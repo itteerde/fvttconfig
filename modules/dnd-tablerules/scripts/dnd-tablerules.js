@@ -1,6 +1,9 @@
 var start_time = performance.now();
 console.log("Tablerules is loading.");
 
+/*
+    Should be moved into Tablerules.config. At least do not make anything new in CONFIG.
+*/
 CONFIG["Tablerules"] = {
     "stickydeathsaves": true,
     "guidance": { maxTimesPerLongRest: 1 }

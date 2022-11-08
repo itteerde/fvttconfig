@@ -10,7 +10,4 @@ Data reflecting any game mechanics usually would end up on the `Actor` active in
 
 ## Module Configuration
 
-Different `Modules` handle this differently. Some use the `CONFIG` object adding their named `object` with everything below that. This is the approach chosen currently.
-
-+ `CONFIG.Tablerules`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
-    + log level: `CONFIG.Tablerules.loglevel`. [Source Link](https://github.com/itteerde/fvttconfig/blob/main/modules/dnd-tablerules/scripts/dnd-tablerules.js).
+Different `Modules` handle this differently. Some use the `CONFIG` object adding their named `object` with everything below that. This is the approach chosen initially. I do not thinkg that is good anymore. The new approach is to put everything we use under Tablerules.config, which is a static property of our class Tablerules, which will from here on get everything for several reasons including debugging and namespace-like considerations.
