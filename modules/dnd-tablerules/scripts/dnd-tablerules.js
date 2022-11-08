@@ -1,6 +1,20 @@
 var start_time = performance.now();
 console.log("Tablerules is loading.");
 
+class Tablerules {
+
+    /*
+        Radius of the disc being a sphere of radius r cut in the distance/ height h from its center. Especially radius of the disc projected onto the floor by a source of a spherical effect flying at height/ elevation h over ground/ projection surface.
+    */
+    static rSphereCut(r, h) {
+        if (h > r)
+            return 0;
+        return Math.sqrt(r * r - (r - (r - h)) * (r - (r - h)));
+    }
+
+}
+
+
 function logOurs(level, message) {
     let levelstring;
 
