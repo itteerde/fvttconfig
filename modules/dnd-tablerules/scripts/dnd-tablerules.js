@@ -1,7 +1,17 @@
 var start_time = performance.now();
 console.log("Tablerules is loading.");
 
+CONFIG["Tablerules"] = {
+    "stickydeathsaves": true,
+    "guidance": { maxTimesPerLongRest: 1 }
+};
+
 class Tablerules {
+
+    static config = {
+        loglevel: 0,
+        logOwn: false
+    }
 
     /*
         Radius of the disc being a sphere of radius r cut in the distance/ height h from its center. Especially radius of the disc projected onto the floor by a source of a spherical effect flying at height/ elevation h over ground/ projection surface.
@@ -23,69 +33,70 @@ class Tablerules {
         console.log("If we got here without errors it probably does.");
     }
 
-}
+    static log(level, message) {
+        let levelstring;
 
+        switch (level) {
+            case 0:
+                levelstring = "ERROR";
+                break;
+            case 1:
+                levelstring = "WARNING";
+                break;
+            case 2:
+                levelstring = "INFO";
+                break;
+            case 3:
+                levelstring = "DEBUG";
+                break;
+            default:
+                console.error("No logging level set.");
+                console.error(message);
+        }
 
-function logOurs(level, message) {
-    let levelstring;
-
-    switch (level) {
-        case 0:
-            levelstring = "ERROR";
-            break;
-        case 1:
-            levelstring = "WARNING";
-            break;
-        case 2:
-            levelstring = "INFO";
-            break;
-        case 3:
-            levelstring = "DEBUG";
-            break;
-        default:
-            console.log("no logging level set");
+        console.log("Tablerules | " + levelstring + ":" + message);
     }
 
-    console.log("Tablerules | " + levelstring + ":" + message);
-}
 
-function logError(message) {
-    if (logOwn) {
-        logOurs(0, message);
-    } else {
-        console.error(message);
+    static debug(message) {
+        if (CONFIG.Tablerules.loglevel < 3)
+            return;
+        if (Tablerules.config.logOwn) {
+            Tablerules.log(3, message);
+        } else {
+            console.debug(message);
+        }
+    }
+
+    static error(message) {
+        if (Tablerules.config.logOwn) {
+            Tablerules.log(0, message);
+        } else {
+            console.error(message);
+        }
+    }
+
+    static warn(message) {
+        if (CONFIG.Tablerules.loglevel < 1)
+            return;
+        if (Tablerules.config.logOwn) {
+            Tablerules.log(1, message);
+        } else {
+            console.warn(message);
+        }
+    }
+
+    static info(message) {
+        if (CONFIG.Tablerules.loglevel < 2)
+            return;
+        if (Tablerules.config.logOwn) {
+            Tablerules.log(2, message);
+        } else {
+            console.info(message);
+        }
     }
 }
 
-function logWarning(message) {
-    if (CONFIG.Tablerules.loglevel < 1)
-        return;
-    if (logOwn) {
-        logOurs(1, message);
-    } else {
-        console.warn(message);
-    }
-}
-
-function logInfo(message) {
-    if (CONFIG.Tablerules.loglevel < 2)
-        return;
-    if (logOwn) {
-        logOurs(2, message);
-    } else {
-        console.info(message);
-    }
-}
-
-function logDebug(message) {
-    if (CONFIG.Tablerules.loglevel < 3)
-        return;
-    if (logOwn) {
-        logOurs(3, message);
-    } else {
-        console.debug(message);
-    }
-}
 
 Hooks.on("init", function () {
     console.log("Tablerules hooked onto init.");
@@ -118,7 +129,7 @@ function isToken5e(o) {
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
-        logDebug("preventing healing on Long Rest.");
+        Tablerules.debug("preventing healing on Long Rest.");
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
         arguments[1].dhp = 0;
 
@@ -126,7 +137,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
         death.failure = 0;
         death.success = 0;
 
-        logDebug("resetting death saves on Long Rest.")
+        Tablerules.debug("resetting death saves on Long Rest.")
         arguments[1].updateData["system.attributes.death"] = death;
     }
 });
@@ -136,7 +147,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
  */
 Hooks.on("preUpdateActor", function () {
 
-    logDebug("keeping sticky death saves.");
+    Tablerules.debug("keeping sticky death saves.");
     if (typeof arguments[1].system !== "undefined")
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
@@ -145,12 +156,5 @@ Hooks.on("preUpdateActor", function () {
                 }
             }
 });
-
-
-CONFIG["Tablerules"] = {
-    "loglevel": 0, "logOwn": false,
-    "stickydeathsaves": true,
-    "guidance": { maxTimesPerLongRest: 1 }
-};
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
