@@ -115,6 +115,13 @@ class Tablerules {
         return Tablerules.isOfClass(o, "Token5e");
     }
 
+    /*
+        call from appropriate hook to check for Variant: Encumbrance and maintain Effects implementing those rules https://www.dndbeyond.com/sources/phb/using-ability-scores#VariantEncumbrance.
+    */
+    static checkVariantEncumbrance() {
+
+    }
+
 }
 
 
