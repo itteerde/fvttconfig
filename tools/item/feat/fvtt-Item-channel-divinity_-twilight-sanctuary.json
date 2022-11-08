@@ -126,7 +126,7 @@
         "name": "Channel Divinity: Twilight Sanctuary",
         "type": "script",
         "scope": "global",
-        "command": "const icon = \"icons/magic/light/light-lantern-lit-white.webp\";\nconst label = \"Channel Divinity: Twilight Sanctuary\";\nconst macroLabel = \"Twilight Sanctuary\";\n\nconst effect = actor.effects.find(e => e.getFlag(\"world\", \"TwilightSanctuary\"));\nconst current = effect?.getFlag(\"world\", \"TwilightSanctuary\") ?? 1;\n\nconst effectData = { icon, label, duration: { seconds: 60 } };\nfoundry.utils.setProperty(effectData, \"flags.world.TwilightSanctuary\", current);\n\nfoundry.utils.setProperty(effectData, \"flags.effectmacro.onDisable\", \"token.document.setFlag(\\'token-auras\\', \\'aura1.distance\\',0); \\nconsole.log(\\'cheese and rice\\');\");\n\nif (effect) {\n    await effect.update(effectData);\n} else {\n    await actor.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n}\n\nactor.items.find(i => i.name === \"Channel Divinity: Twilight Sanctuary\").use();\n\ntoken.document.setFlag('token-auras', 'aura1.distance', 30);\ntoken.document.setFlag('token-auras', 'aura1.colour', \"#ddddff\");\ntoken.document.setFlag('token-auras', 'aura1.opacity', 0.5);\ntoken.document.setFlag('token-auras', 'aura1.permission', \"all\");\ntoken.document.setFlag('token-auras', 'aura1.square', false);\n\n\n\n\n\n\n\n\n// const twilightSanctuaryAura = token.getFlag('token-auras', 'auras');\nconsole.log(\"Twilight Sanctuary is doing things!!\");",
+        "command": "const icon = \"icons/magic/light/light-lantern-lit-white.webp\";\nconst label = \"Channel Divinity: Twilight Sanctuary\";\nconst macroLabel = \"Twilight Sanctuary\";\n\nconst effect = actor.effects.find(e => e.getFlag(\"world\", \"TwilightSanctuary\"));\nconst current = effect?.getFlag(\"world\", \"TwilightSanctuary\") ?? 1;\n\nconst effectData = { icon, label, duration: { seconds: 60 } };\nfoundry.utils.setProperty(effectData, \"flags.world.TwilightSanctuary\", current);\n\nconst effectMacroData = { onDelete: { script: \"token.document.setFlag('token-auras', 'aura1.distance', 0);\" } };\nfoundry.utils.setProperty(effectData, \"flags.effectmacro\", effectMacroData);\n\nif (effect) {\n    await effect.update(effectData);\n} else {\n    await actor.createEmbeddedDocuments(\"ActiveEffect\", [effectData]);\n}\n\nactor.items.find(i => i.name === \"Channel Divinity: Twilight Sanctuary\").use();\n\ntoken.document.setFlag('token-auras', 'aura1.distance', 30);\ntoken.document.setFlag('token-auras', 'aura1.colour', \"#ddddff\");\ntoken.document.setFlag('token-auras', 'aura1.opacity', 0.5);\ntoken.document.setFlag('token-auras', 'aura1.permission', \"all\");\ntoken.document.setFlag('token-auras', 'aura1.square', false);",
         "author": "g325YPUxaNNgCApI",
         "_id": null,
         "img": "icons/svg/dice-target.svg",
@@ -163,7 +163,7 @@
     "systemVersion": "2.0.3",
     "coreVersion": "10.288",
     "createdTime": 1667823184290,
-    "modifiedTime": 1667921917885,
+    "modifiedTime": 1667922831959,
     "lastModifiedBy": "g325YPUxaNNgCApI"
   }
 }

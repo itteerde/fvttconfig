@@ -9,7 +9,8 @@ const current = effect?.getFlag("world", "TwilightSanctuary") ?? 1;
 const effectData = { icon, label, duration: { seconds: 60 } };
 foundry.utils.setProperty(effectData, "flags.world.TwilightSanctuary", current);
 
-foundry.utils.setProperty(effectData, "flags.effectmacro.onDisable", "token.document.setFlag(\'token-auras\', \'aura1.distance\',0); \nconsole.log(\'cheese and rice\');");
+const effectMacroData = { onDelete: { script: "token.document.setFlag('token-auras', 'aura1.distance', 0);" } };
+foundry.utils.setProperty(effectData, "flags.effectmacro", effectMacroData);
 
 if (effect) {
     await effect.update(effectData);
@@ -24,13 +25,3 @@ token.document.setFlag('token-auras', 'aura1.colour', "#ddddff");
 token.document.setFlag('token-auras', 'aura1.opacity', 0.5);
 token.document.setFlag('token-auras', 'aura1.permission', "all");
 token.document.setFlag('token-auras', 'aura1.square', false);
-
-
-
-
-
-
-
-
-// const twilightSanctuaryAura = token.getFlag('token-auras', 'auras');
-console.log("Twilight Sanctuary is doing things!!");
