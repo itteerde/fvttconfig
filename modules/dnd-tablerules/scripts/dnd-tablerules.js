@@ -57,12 +57,12 @@ class Tablerules {
                 console.error(message);
         }
 
-        console.log("Tablerules | " + levelstring + ":" + message);
+        console.log({ message: "Tablerules | " + levelstring + ":" + message, obj: typeof message === "object" ? message : null });
     }
 
 
     static debug(message) {
-        if (CONFIG.Tablerules.loglevel < 3)
+        if (Tablerules.config.loglevel < 3)
             return;
         if (Tablerules.config.logOwn) {
             Tablerules.log(3, message);
@@ -80,7 +80,7 @@ class Tablerules {
     }
 
     static warn(message) {
-        if (CONFIG.Tablerules.loglevel < 1)
+        if (Tablerules.config.loglevel < 1)
             return;
         if (Tablerules.config.logOwn) {
             Tablerules.log(1, message);
@@ -90,7 +90,7 @@ class Tablerules {
     }
 
     static info(message) {
-        if (CONFIG.Tablerules.loglevel < 2)
+        if (Tablerules.config.loglevel < 2)
             return;
         if (Tablerules.config.logOwn) {
             Tablerules.log(2, message);
