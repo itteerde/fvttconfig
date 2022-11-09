@@ -19,6 +19,7 @@ clause’s subject position.
 # Updating Dev
 
 + Restore Prod to Dev.
++ Workout a SOP for stripping passwords, preferably including a restore step in order to have it for the case of another backup-update-restore cycle on Prod should we ever need to go back to that last resort operation for some major update or because needs to fix something that was broken on Prod and deciding to not restore a backup.
 + Review Issues.
 
 ## Activities Protocol
