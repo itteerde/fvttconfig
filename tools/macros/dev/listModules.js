@@ -4,6 +4,7 @@ const modulesActive = game.modules.filter(m => m.active);
 const moduleReport = modulesActive.map(
     m => ({ id: m.id, title: m.title, version: m.version })
 );
+console.log(modulesActive);
 console.log(moduleReport);
 
 let reportString = "";
