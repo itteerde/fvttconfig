@@ -1,0 +1,23 @@
+{
+    "id": "umbratica-logger",
+    "title": "Umbratica-Logger",
+    "description": "Logging Module.",
+    "authors": [
+        {
+            "name": "Umbratica"
+        }
+    ],
+    "version": "0.0.1",
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10.288"
+    },
+    "scripts": [
+        "scripts/umbratica-logger.js"
+    ],
+    "packs": [
+    ],
+    "url": "https://github.com/itteerde/fvttconfig/",
+    "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/umbratica-logger/module.json",
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/v.0.0.1/umbratica-logger_0.0.1.zip"
+}

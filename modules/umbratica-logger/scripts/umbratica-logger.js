@@ -1,0 +1,7 @@
+class UmbraticaLogger {
+
+    static config = {
+
+    }
+}
+
