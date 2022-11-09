@@ -6,6 +6,14 @@ const icon = "icons/magic/light/light-lantern-lit-white.webp";
 const label = "Channel Divinity: Twilight Sanctuary";
 const macroLabel = "Twilight Sanctuary";
 
+result = await item.use();
+if (!result) { // especially the resource might have run out.
+    if (Tablerules.config.loglevel >= 3) {
+        Tablerules.debug({ message: `${macroLabel} received on ${item}.use()`, result: result });
+    }
+    return;
+}
+
 const effect = actor.effects.find(e => e.getFlag("world", "TwilightSanctuary"));
 const current = effect?.getFlag("world", "TwilightSanctuary") ?? 1;
 
@@ -20,8 +28,6 @@ if (effect) {
 } else {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
-
-actor.items.find(i => i.name === "Channel Divinity: Twilight Sanctuary").use();
 
 token.document.setFlag('token-auras', 'aura1.distance', 30);
 token.document.setFlag('token-auras', 'aura1.colour', "#ddddff");
