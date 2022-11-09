@@ -18,11 +18,25 @@ clause’s subject position.
 
 # Updating Dev
 
-+ Resore Prod to Dev.
++ Restore Prod to Dev.
 + Review Issues.
+
+## Activities Protocol
+
+```
+If there is another Dev from Prod iteration this needs to be reset or a new protocol needs to be added.
+```
+
+1. Configure Settings -> Item-Macros -> sheet-hook
+
+
+## Item-Macros
+
+## Effect-Macros
 
 
 # Invetgration Tests
+
 
 
 # Update on Prod
