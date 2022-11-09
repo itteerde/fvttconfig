@@ -14,6 +14,7 @@ clause’s subject position.
 
 + List and review Modules installed and active.
 + Review MidiQOL settings.
++ Compendium Folders.
 
 
 # Updating Dev
