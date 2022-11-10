@@ -87,6 +87,16 @@ class TRMath {
         return Math.ceil(level / 4) + 1;
     }
 
+    /**
+     * https://www.dndbeyond.com/sources/phb/adventuring#Jumping
+     * 
+     * @param {number} strength Character's Strength Ability Score, usually 8 to 20.
+     * @param {boolean} hasApproachRun false if the Character has no approach run of at least 10ft, true otherwise (and assumed).
+     * @returns {number} maximum horizontal distance covered without a Skill Check.
+     */
+    static jumpLong(strength, hasApproachRun) {
+        return strength * ((hasApproachRun || hasApproachRun === undefined) ? 1 : 0.5);
+    }
 }
 
 class TRUtils {
