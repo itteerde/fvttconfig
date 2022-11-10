@@ -9,10 +9,17 @@ CONFIG["Tablerules"] = {
     "guidance": { maxTimesPerLongRest: 1 }
 };
 
+/*
+    Math for the game, so not just generally useful math, but more than that rules-related calculations or definitions.
+*/
 class TRMath {
 
-    /*
+    /**
         Radius of the disc being a sphere of radius r cut in the distance/ height h from its center. Especially radius of the disc projected onto the floor by a source of a spherical effect flying at height/ elevation h over ground/ projection surface.
+
+        @param {number} r radius of the sphere, especially range of a spherical zone spell.
+        @param {number} h height/ elevation over ground/ projection surface.
+        @returns {number} radius of the projected disc.
     */
     static rSphereCut(r, h) {
         if (h > r)
@@ -20,6 +27,93 @@ class TRMath {
         return Math.sqrt(r * r - (r - (r - h)) * (r - (r - h)));
     }
 
+    /**
+     * https://www.dndbeyond.com/sources/dmg/running-the-game#SpecialTravelPace
+     * 
+     * @param {number} miles Miles to travel.
+     * @param {number} movement Special Movement, e.g. 80 if polymorphed into Giant Eagle.
+     * @param {string} speed slow, normal or fast.
+     * @returns {string} time (xh ym).
+     */
+    static timeTravelPaceTravel(miles, movement, speed) {
+        const speedMultiplier = (speed === "slow") ? 2 : (speed === "normal" ? 3 : 4);
+        const timeHours = miles / ((movement / 30) * speedMultiplier);
+        const hours = Math.floor(timeHours);
+        const minutes = Math.round((timeHours - hours) * 60);
+        return `${hours}h ${minutes}`;
+    }
+
+    /**
+     * https://www.dndbeyond.com/sources/phb/adventuring#TravelPace
+     * 
+     * @param {number} feet Distance in feet.
+     * @returns {string} time in minutes.
+     */
+    static timeTravelFeet(feet) {
+        return `${Math.round(feet / 300)}min`;
+    }
+
+    /**
+     * https://www.dndbeyond.com/sources/phb/adventuring#TravelPace
+     * 
+     * @param {number} miles Distance in miles.
+     * @param {string} speed slow, normal or fast. 
+     * @returns {string} time (xh ym).
+     */
+    static timeTravel(miles, speed) {
+        const milesPerHour = (speed === "slow") ? 2 : (speed === "normal" ? 3 : 4);
+        const timeHours = miles / milesPerHour;
+        const hours = Math.floor(timeHours);
+        const minutes = Math.round((timeHours - hours) * 60);
+
+        return `${hours}h ${minutes}`;
+    }
+
+    /**
+     * 
+     * @param {number} score Ability score (usually 8-20).
+     * @returns the ability modifier.
+     */
+    static abilityModifier(score) {
+        return (Math.floor((score - 10) / 2));
+    }
+
+    /**
+     *  
+     * @param {number} level Character level.
+     * @returns {number} proficiency bonus.
+     */
+    static proficiencyBonus(level) {
+        return Math.ceil(level / 4) + 1;
+    }
+
+    static #logf(n) {
+        return n === 0 ? 0 : (n + .5) * Math.log(n) - n + 0.9189385332046728 + 0.08333333333333333 / n - 0.002777777777777778 * Math.pow(n, -3);
+    }
+
+    /**
+     * Approximation of the Binomial with Stirling's approximation for log(n!)
+     * 
+     * @param {number} n 
+     * @param {number} k 
+     * @returns {number} approximation of the Binomial.
+     */
+    static binomial(n, k) {
+        return Math.round(Math.exp(TRMath.#logf(n) - TRMath.#logf(n - k) - TRMath.#logf(k)));
+    }
+
+    static diceP(p, n, s) {
+        let sum = 0;
+        let limit = Math.floor((p - n) / s);
+        let kSign = 1;
+        for (let k = 0; k <= limit; k++) {
+
+            sum += kSign * (TRMath.binomial(n, k) * TRMath.binomial(p - (s * k), p - (s * k) - n));
+            kSign = kSign === 1 ? -1 : 1;
+        }
+
+        return (sum / (Math.pow(s, n)));
+    }
 }
 
 class TRUtils {
