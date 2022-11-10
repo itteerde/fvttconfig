@@ -35,7 +35,7 @@ class TRMath {
      * @param {string} speed slow, normal or fast.
      * @returns {string} time (xh ym).
      */
-    static timeTravelPaceTravel(miles, movement, speed) {
+    static timeTravelSpecialTravelPace(miles, movement, speed) {
         const speedMultiplier = (speed === "slow") ? 2 : (speed === "normal" ? 3 : 4);
         const timeHours = miles / ((movement / 30) * speedMultiplier);
         const hours = Math.floor(timeHours);
