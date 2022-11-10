@@ -107,6 +107,22 @@ class TRUtils {
     static makeEffect() {
         return "notImplementedYet";
     }
+
+    /**
+     * Distance between two Tokens.
+     * 
+     * @param {Token} tokenSource One of the two Tokens.
+     * @param {Token} tokenTarget The other Token.
+     * @param {boolean} [in3D=true] false if to ignore elevation difference. By default true meassuring 3-dimensional.
+     * @returns {number} the distance.
+     */
+    static distanceTokens(tokenSource, tokenTarget, in3D = true) {
+        const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
+        if (!in3D)
+            return distance;
+
+        return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
+    }
 }
 
 class Tablerules {
@@ -129,6 +145,11 @@ class Tablerules {
             barbarian: {},
             bard: {},
             cleric: {
+                life: {
+                    features: {
+                        preserveLife: { key: "Channel Divinity: Preserve Life", label: "Channel Divinity: Preserve Life" }
+                    }
+                },
                 twilight: {
                     features: {
                         twilightSanctuary: { key: "Channel Divinity: Twilight Sanctuary", label: "Channel Divinity: Twilight Sanctuary" }
