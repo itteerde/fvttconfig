@@ -17,6 +17,46 @@ class Tablerules {
     }
 
     /*
+        For looking up keys (for cases where we cannot use _id and don't want to use names).
+
+        For example for the Twilight Sanctuary case the consumer cannot get an ID because the creator has no privileges to create the information on the other players' Actors. So the consumer searches for a viable source. That should not be by name, but by a technical key that is stored in a way the player cannot change. This allows the player to flavor their Feature without breaking the mechanics.
+
+        Once anything using any key within has been implemented the key cannot be changed without breaking everything that has been implemented with it.
+    */
+    static dictionary = {
+        class: {
+            artificer: {},
+            barbarian: {},
+            bard: {},
+            cleric: {
+                twilight: {
+                    features: {
+                        twilightSanctuary: { key: "Channel Divinity: Twilight Sanctuary", label: "Channel Divinity: Twilight Sanctuary" }
+                    }
+                }
+            },
+            druid: {},
+            fighter: {},
+            monk: {},
+            paladin: {},
+            ranger: {},
+            rogue: {},
+            sorcerer: {},
+            warlock: {},
+            wizard: {},
+            bloodHunter: {}
+        },
+        race: {
+            shifter: {
+                features: {
+                    shiftingBearhide: { key: "Shifting: Bearhide", label: "Shifting: Bearhide" }
+                }
+            }
+        }
+
+    }
+
+    /*
         Radius of the disc being a sphere of radius r cut in the distance/ height h from its center. Especially radius of the disc projected onto the floor by a source of a spherical effect flying at height/ elevation h over ground/ projection surface.
     */
     static rSphereCut(r, h) {
