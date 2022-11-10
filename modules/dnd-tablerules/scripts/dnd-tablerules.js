@@ -87,33 +87,6 @@ class TRMath {
         return Math.ceil(level / 4) + 1;
     }
 
-    static #logf(n) {
-        return n === 0 ? 0 : (n + .5) * Math.log(n) - n + 0.9189385332046728 + 0.08333333333333333 / n - 0.002777777777777778 * Math.pow(n, -3);
-    }
-
-    /**
-     * Approximation of the Binomial with Stirling's approximation for log(n!)
-     * 
-     * @param {number} n 
-     * @param {number} k 
-     * @returns {number} approximation of the Binomial.
-     */
-    static binomial(n, k) {
-        return Math.round(Math.exp(TRMath.#logf(n) - TRMath.#logf(n - k) - TRMath.#logf(k)));
-    }
-
-    static diceP(p, n, s) {
-        let sum = 0;
-        let limit = Math.floor((p - n) / s);
-        let kSign = 1;
-        for (let k = 0; k <= limit; k++) {
-
-            sum += kSign * (TRMath.binomial(n, k) * TRMath.binomial(p - (s * k), p - (s * k) - n));
-            kSign = kSign === 1 ? -1 : 1;
-        }
-
-        return (sum / (Math.pow(s, n)));
-    }
 }
 
 class TRUtils {
