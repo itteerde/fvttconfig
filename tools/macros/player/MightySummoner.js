@@ -42,14 +42,11 @@ await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.va
 
 const items = actor.items.filter(i => i.type === "weapon");
 
-function setMagical(item) {
-    const changes = item.system.properties;
+for (i = 0; i < items.length; i++) {
+    const changes = items[i].system.properties;
     changes.mgc = true;
-    item.update({ "system.properties": changes });
+    await items[i].update({ "system.properties": changes });
 }
-items.forEach(setMagical);
-
-console.log(items);
 
 
 // ChatMessage
