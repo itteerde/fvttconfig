@@ -70,8 +70,24 @@ If there is another Dev from Prod iteration this needs to be reset or a new prot
 ## Effect-Macros
 
 
-# Invetgration Tests
+# Integration Tests
 
+1. Preparation
+    1. Restore from Production.
+    1. Unistall CPR System.
+    1. Restart FVTT.
+    1. Open Console.
+1. Update all Modules.
+1. Adopt new Modules
+    1. Install Item-Macro Module (1.8.0).
+    1. Install Effect-Marco Module (10.0.7).
+    1. Activate Item-Macro and Effect-Macro.
+1. Improve Settings
+    1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
+    1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
+    1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
+1. Twilight Sanctuary?
+1. Mighty Summoner
 
 
 # Update on Prod
