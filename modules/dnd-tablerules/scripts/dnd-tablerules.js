@@ -156,7 +156,13 @@ class Tablerules {
                     }
                 }
             },
-            druid: {},
+            druid: {
+                shepherd: {
+                    features: {
+                        mightySummoner: { key: "Mighty Summoner", label: "Mighty Summoner" }
+                    }
+                }
+            },
             fighter: {},
             monk: {},
             paladin: {},
