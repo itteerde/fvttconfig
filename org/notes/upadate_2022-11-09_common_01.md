@@ -88,12 +88,31 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
     1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
     1. Change Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
+    1. Make Jorrick Trusted Player.
 1. Twilight Sanctuary
     1. Open Actor Dusk.
     1. Delete Channel Divinity: Twilight Sanctuary Feature Item from Dusk Actor.
     1. Drag and Drop Feature Item Channel Divinity: Twilight Sanctuary from Tablerules Items Compendium onto Actor Dusk.
+    1. Drag Actor Dusk Token on Canvs (Port N.).
 1. Testing with User
     1. Connect Jorrick.
+    1. GM: End Combat in Wildspace.
+    1. GM: Activate Scene Port N.
+    1. Jorrick: Drop Jorrick Actor onto Port N.
+    1. GM: Add Actor Jorrick Token (Jorrick) and Actor Dusk Token (Dusk) to combat.
+    1. GM: Unpause Game.
+    1. Jorrick: Move Actor Jorrick Token (Jorrick) more than 30ft away from Actor Dusk Token (Dusk).
+    1. GM: Advance to Dusk's Turn if necessary
+    1. GM: use Channel Divinity: Twilight Sanctuary by using the Dice controll on the Dusk Character Sheet.
+    1. GM: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to your Control Bar (yeah this, should probably be a two players connected test...)
+    1. GM: Use the Macro `Twilight Sanctuary tHP`. Should give Dusk `hp.temp` and tell us about it in Chat.
+    1. GM: Advance Turn.
+    1. Jorrick: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to your Control Bar.
+    1. Jorrick: Check that you are more than 30ft away from Dusk. If not fix it. Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Move Jorrick just completely into the `token-aura`, but change `elevation` to 25ft.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Move Jorrick directly above Dusk.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Should give Jorrick `hp.temp` and tell us about it in Chat.
 1. Mighty Summoner
     1. Install tr-summons.
     1. Put Mighty Summoner Macro into Control Bar.
@@ -127,9 +146,30 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Changed MidiQOL -> Workflow Settings -> Misc -> `Show Item details in chat card` to `Details: NPC + PC`.
     1. Changed Item-Macro -> `Character Sheet Hook` to activated.
     1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles.
+    1. Made Jorrick Trusted Player.
 1. Twilight Sanctuary
-    1. Open
-
+    1. Opened Actor Dusk.
+    1. Deleted Channel Divinity: Twilight Sanctuary Feature Item from Dusk Actor.
+    1. Draged and Droped Feature Item Channel Divinity: Twilight Sanctuary from Tablerules Items Compendium onto Actor Dusk.
+    1. Draged and droped Actor Dusk Token on Canvs (Port N.).
+1. Testing with User
+    1. Connected Jorrick.
+    1. GM: Ended Combat in Wildspace.
+    1. GM: Activated Scene Port N.
+    1. Jorrick: Dropped Jorrick Actor onto Port N.
+    1. GM: Added Actor Jorrick Token (Jorrick) and Actor Dusk Token (Dusk) to combat.
+    1. GM: Unpause Game.
+    1. Jorrick: Move Actor Jorrick Token (Jorrick) more than 30ft away from Actor Dusk Token (Dusk).
+    1. GM: use Channel Divinity: Twilight Sanctuary by using the Dice controll on the Dusk Character Sheet.
+    1. GM: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to Control Bar.
+    1. GM: Used the Macro `Twilight Sanctuary tHP`. Gave Dusk `hp.temp` and told us about it in Chat.
+    1. GM: Advanced Turn.
+    1. Jorrick: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to your Control Bar.
+    1. Jorrick: Checked that you are more than 30ft away from Dusk. Used the Macro `Twilight Sanctuary tHP`. There was a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Moved Jorrick just completely into the `token-aura`, changed `elevation` to 25ft.
+    1. Jorrick: Used the Macro `Twilight Sanctuary tHP`. There was a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Moved Jorrick directly above Dusk.
+    1. Jorrick: Used the Macro `Twilight Sanctuary tHP`. Give Jorrick `hp.temp` and told us about it in Chat.
 
 
 
