@@ -18,6 +18,11 @@ if (canvas.tokens.hover === null) {
     return;
 }
 
+if (canvas.tokens.hover.document.disposition !== 1) {// guess your own summons should always be friendly
+    ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} is not friendly: ${canvas.tokens.hover.document.disposition}.`);
+    return;
+}
+
 const rollFormula = game.actors.find(a => a._id === canvas.tokens.hover.document.actorId).system.attributes.hp.formula;
 if (rollFormula === undefined) {
     ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target.`);
@@ -38,7 +43,7 @@ else {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
-await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.value + 2 * hitDice });
+await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.value + 2 * hitDice, "system.attributes.hp.max": actor.system.attributes.hp.max + 2 * hitDice });
 
 const items = actor.items.filter(i => i.type === "weapon");
 
