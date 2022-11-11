@@ -113,6 +113,9 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.warn` message informing you that Jorrick is to far away.
     1. Jorrick: Move Jorrick directly above Dusk.
     1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Should give Jorrick `hp.temp` and tell us about it in Chat.
+    1. GM: Advance Turns for 10 Turns. The Aura and the `Effect` `Channel Divinity: Twilight Sanctuary` should (seem to [aura is size 0]) be removed from Dusk.
+    1. GM: Advance Turn to Jorrick.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.error` message informing you that Jorrick did not find a Twilight Cleric (yeah, the message is not ideal).
 1. Mighty Summoner
     1. Install tr-summons.
     1. Put Mighty Summoner Macro into Control Bar.
@@ -170,6 +173,8 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Jorrick: Used the Macro `Twilight Sanctuary tHP`. There was a `ui.notifications.warn` message informing you that Jorrick is to far away.
     1. Jorrick: Moved Jorrick directly above Dusk.
     1. Jorrick: Used the Macro `Twilight Sanctuary tHP`. Give Jorrick `hp.temp` and told us about it in Chat.
+    1. GM: Advanced Turns for 10 Turns. The Aura and the `Effect` `Channel Divinity: Twilight Sanctuary` seemed to be removed from Dusk.
+    1. Jorrick: Used the Macro `Twilight Sanctuary tHP`. Checked that there was a `ui.notifications.error` message informing me that Jorrick did not find a Twilight Cleric (yeah, the message is not ideal).
 
 
 
