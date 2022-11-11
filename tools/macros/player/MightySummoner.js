@@ -29,6 +29,7 @@ const hitDice = new Roll(rollFormula).evaluate({ async: false }).dice.map(d => d
 const effectData = { icon, label };
 const effect = actor.effects.find(e => e.getFlag("world", Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.key));
 foundry.utils.setProperty(effectData, `flags.world.${Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.key}`, true);
+foundry.utils.setProperty(effectData, "flags.core.statusId", Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label);
 if (effect) {
     ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} already mightily empowered.`);
     return;
@@ -39,6 +40,16 @@ else {
 
 await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.value + 2 * hitDice });
 
-// iterate items to switch attack to magical
-// update on token.actor
+const items = actor.items.filter(i => i.type === "weapon");
+
+function setMagical(item) {
+    const changes = item.system.properties;
+    changes.mgc = true;
+    item.update({ "system.properties": changes });
+}
+items.forEach(setMagical);
+
+console.log(items);
+
+
 // ChatMessage
