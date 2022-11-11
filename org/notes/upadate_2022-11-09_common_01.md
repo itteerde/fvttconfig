@@ -88,6 +88,31 @@ If there is another Dev from Prod iteration this needs to be reset or a new prot
     1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
 1. Twilight Sanctuary?
 1. Mighty Summoner
+    1. Install tr-summons.
+    1. Put Mighty Summoner Macro into Control Bar.
+    1. Put Cycle Wildcard Token into Control Bar.
+    1. Configure an Elk.
+        1. Set Prototype Token => `dispostion=1`.
+        1. Set Prototype Token to random Wildcard art.
+        1. Set Prototype Token to use `modules/tr-summons/icons/elk/disc/*`.
+    1. Test summoning Elk.
+        1. Drag and Drop an Elk (the modified one).
+        1. Use Macro Mighty Summoner.
+        1. Copy and Paste empowered Elk.
+        1. Use Macro Cycle Wildcard Token.
 
 
 # Update on Prod
+
+1. Create Backup
+    1. Make sure you are looking at the correct Production folder.
+    1. Make sure there is no zip-file with the same name as the folder.
+    1. Zip the Production folder.
+1. Preparatory Housekeeping
+    1. Uninstall CPR.
+    1. Restart FVTT.
+    1. Open Console F12.
+1. Updating all Modules
+    1. Update all Modules.
+    1. Check Console.
+    1. Review Messages (expected incompatibility warnings from [which two are that, integration test?]).
