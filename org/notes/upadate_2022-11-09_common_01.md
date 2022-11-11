@@ -88,7 +88,10 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
     1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
     1. Change Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
-1. Twilight Sanctuary?
+1. Twilight Sanctuary
+    1. Open Actor Dusk.
+    1. Delete Channel Divinity: Twilight Sanctuary Feature Item from Dusk Actor.
+    1. Drag and Drop Feature Item Channel Divinity: Twilight Sanctuary from Tablerules Items Compendium onto Actor Dusk.
 1. Testing with User
     1. Connect Jorrick.
 1. Mighty Summoner
@@ -124,6 +127,8 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
     1. Changed MidiQOL -> Workflow Settings -> Misc -> `Show Item details in chat card` to `Details: NPC + PC`.
     1. Changed Item-Macro -> `Character Sheet Hook` to activated.
     1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles.
+1. Twilight Sanctuary
+    1. Open
 
 
 
