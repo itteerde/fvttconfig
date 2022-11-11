@@ -52,6 +52,11 @@ clause’s subject position.
     1. Added Elks.
     1. Installed `Module` `tr-summons`.
     1. Summoned Elks.
+1. Foundry VTT Update
+    1. Opened Console.
+    1. Updated FVTT to 10.290.
+    1. Updated All Modules, was only ours.
+    1. Started Migration of World Spelljammer. Finished with not duration percieved, nothing in Console. Back to Integration Testing...
 
 + Workout a SOP for stripping passwords, preferably including a restore step in order to have it for the case of another backup-update-restore cycle on Prod should we ever need to go back to that last resort operation for some major update or because needs to fix something that was broken on Prod and deciding to not restore a backup.
 + Review Issues.
@@ -67,6 +72,8 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
 
 # Integration Tests
 
+## Plan 1
+
 1. Preparation
     1. Restore from Production.
     1. Unistall CPR System.
@@ -80,8 +87,10 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
 1. Improve Settings
     1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
     1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
-    1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
+    1. Change Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
 1. Twilight Sanctuary?
+1. Testing with User
+    1. Connect Jorrick.
 1. Mighty Summoner
     1. Install tr-summons.
     1. Put Mighty Summoner Macro into Control Bar.
@@ -95,6 +104,28 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
         1. Use Macro Mighty Summoner.
         1. Copy and Paste empowered Elk.
         1. Use Macro Cycle Wildcard Token.
+
+## Test 1
+
+1. Preparation
+    1. Restored from Production.
+    1. Uninstalled CPR System.
+    1. Restarted FVTT.
+    1. Opened Console.
+1. FVTT Update
+    1. Was not needed as the FVTT installation has not been split yet and was therefore updated when updating for DEV.
+1. Updated all Modules.
+1. Adoption new Modules.
+    1. Installed Item-Macro 1.8.0.
+    1. Installed Effect-Macro 10.0.7.
+    1. Migrated World Spelljammer.
+    1. Activated Item-Macro and Effect-Macro.
+1. Improving Settiong
+    1. Changed MidiQOL -> Workflow Settings -> Misc -> `Show Item details in chat card` to `Details: NPC + PC`.
+    1. Changed Item-Macro -> `Character Sheet Hook` to activated.
+    1. Changed Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles.
+
+
 
 
 # Update on Prod
@@ -110,4 +141,12 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
 1. Updating all Modules
     1. Update all Modules.
     1. Check Console.
-    1. Review Messages (expected incompatibility warnings from [which two are that, integration test?]).
+    1. Review Messages (expected incompatibility warnings from [magicitems and ?, which two are that, integration test?]).
+1. Adopt new Modules
+    1. Install Item-Macro Module (1.8.0).
+    1. Install Effect-Marco Module (10.0.7).
+    1. Activate Item-Macro and Effect-Macro.
+1. Improve Settings
+    1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
+    1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
+    1. Change Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
