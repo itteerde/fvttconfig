@@ -3,13 +3,13 @@
  * 
  * icon suggestion: icons/magic/control/debuff-energy-hold-levitate-green.webp
  * 
+ * Create one valid target, hit with Macro, copy and paste (Tokens appear on cursor).
+ * 
  */
 
 const icon = "icons/magic/control/debuff-energy-hold-levitate-green.webp";
 const label = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label;
 const macroLabel = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label;
-
-// do it all with one click for selected tokens (maybe only if they are all valid targets)
 
 actor = canvas.tokens.hover?.actor;
 
