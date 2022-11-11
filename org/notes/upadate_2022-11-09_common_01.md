@@ -62,12 +62,7 @@ clause’s subject position.
 If there is another Dev from Prod iteration this needs to be reset or a new protocol needs to be added.
 ```
 
-1. Configure Settings -> Item-Macros -> sheet-hook
-
-
-## Item-Macros
-
-## Effect-Macros
+We are winging this in this instance. So we'll restrict ourselves to doing stuff that we are very confident will not do permanent harm.
 
 
 # Integration Tests
