@@ -45,6 +45,13 @@ clause’s subject position.
     1. Dragged and dropped our [Channel Divinity: Twilight Sanctuary](https://github.com/itteerde/fvttconfig/blob/main/tools/item/feat/fvtt-Item-channel-divinity_-twilight-sanctuary.json) `Feature Item` from Tablerules Items `Compendium` onto the Umbratica `Actor` `Character Sheet`.
     1. Put the `Macro` [TwilightSanctuaryTakeTempHP](https://github.com/itteerde/fvttconfig/blob/main/tools/macros/gm/TwilightSanctuaryTakeTempHP.js) on Wendal's Control Bar.
     1. Tested successfully activating the abitiy by using the item from the `Character Sheet` on Umbratica and consuming `hp.temp` from Wendal's `Control Bar`. Did not do extensive testing like with several Clerics and 3d distances. Also did not test duration and deletion.
+1. Mighty Summoner
+    1. Implemented HP-boost.
+    1. Implemented setting all `Items` of `type` `weapon` to magical.
+    1. Created `Module` `tr-summons`.
+    1. Added Elks.
+    1. Installed `Module` `tr-summons`.
+    1. Summoned Elks.
 
 + Workout a SOP for stripping passwords, preferably including a restore step in order to have it for the case of another backup-update-restore cycle on Prod should we ever need to go back to that last resort operation for some major update or because needs to fix something that was broken on Prod and deciding to not restore a backup.
 + Review Issues.
