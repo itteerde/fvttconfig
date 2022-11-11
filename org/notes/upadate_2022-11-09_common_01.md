@@ -187,6 +187,9 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
 1. Preparatory Housekeeping
     1. Uninstall CPR.
     1. Restart FVTT.
+1. FVTT Update
+    1. Update FVTT to 10.290.
+    1. Restart FVTT.
     1. Open Console F12.
 1. Updating all Modules
     1. Update all Modules.
