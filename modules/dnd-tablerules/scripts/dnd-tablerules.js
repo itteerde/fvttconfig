@@ -176,7 +176,7 @@ class Tablerules {
         race: {
             shifter: {
                 features: {
-                    shiftingBearhide: { key: "Shifting: Bearhide", label: "Shifting: Bearhide" }
+                    shiftingBeasthide: { key: "Shifting: Beasthide", label: "Shifting: Beasthide", scope: "Tablerules" }
                 }
             }
         },
