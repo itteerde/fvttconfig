@@ -179,6 +179,9 @@ class Tablerules {
                     shiftingBearhide: { key: "Shifting: Bearhide", label: "Shifting: Bearhide" }
                 }
             }
+        },
+        config: {
+            lightSource: { key: "Light Source", label: "Ligth Source", scope: "dnd-tablerules" }
         }
 
     }
@@ -215,7 +218,11 @@ class Tablerules {
                 console.error(message);
         }
 
-        console.log({ message: "Tablerules | " + levelstring + ":" + message, obj: typeof message === "object" ? message : null });
+        if (typeof message === "object") {
+            console.log(message);
+        } else {
+            console.log({ message: "Tablerules | " + levelstring + ":" + message, obj: typeof message === "object" ? message : null });
+        }
     }
 
 
@@ -273,11 +280,50 @@ class Tablerules {
         return Tablerules.isOfClass(o, "Token5e");
     }
 
+    static isItem5e(o) {
+        return Tablerules.isOfClass(o, "Item5e");
+    }
+
     /*
         call from appropriate hook to check for Variant: Encumbrance and maintain Effects implementing those rules https://www.dndbeyond.com/sources/phb/using-ability-scores#VariantEncumbrance.
     */
     static checkVariantEncumbrance() {
 
+    }
+
+    /**
+     * 
+     * @param {Token5e} token 
+     */
+    static setLighting(token) {
+        // actually do set the lighting
+    }
+
+    static setLightingByActor(actor) {
+        const tokens = needToBeFound;
+        for (i = 0; i < tokens.length; i++) {
+            this.setLighting(tokens[i]);
+        }
+    }
+
+    /**
+     * 
+     */
+    static dnd5UseItem() {
+
+        Tablerules.debug(arguments);
+
+        if (!this.isItem5e(arguments[0])) {
+            return;
+        }
+
+        const item = arguments[0];
+        if (item.getFlag(
+            Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
+        ) {
+            Tablerules.debug("Using a tablerules light source.");
+            Tablerules.setLightingByActor(item.parent);
+        }
     }
 
 }
@@ -326,4 +372,12 @@ Hooks.on("preUpdateActor", function () {
             }
 });
 
+/**
+ * 
+ */
+Hooks.on("dnd5e.useItem", function () {
+    Tablerules.dnd5UseItem(arguments);
+});
+
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
+
