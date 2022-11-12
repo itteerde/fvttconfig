@@ -304,7 +304,7 @@ class Tablerules {
         console.log({ item: item }); // looks fine
         console.log({ tokenDocument: token.document }); // undefined
 
-        item.update({
+        token.update({
             light: item.flags.Tablerules["Light Source"].light
         });
     }
