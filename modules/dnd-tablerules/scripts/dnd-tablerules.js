@@ -292,22 +292,21 @@ class Tablerules {
     }
 
     /**
+     * We are setting the lighting for all Tokens of the Actor upon the Item being used, this is doing that for one of the items only for better debugging.
      * 
-     * @param {Token5e} token 
+     * @param {Token5e} token The Token for which to change the lighting.
+     * @param {Item5e} item The light source Item carrying the lighting data.
      */
     static setLighting(token, item) {
         // actually do set the lighting
-        console.log("We turned on the lights!!!");
-        console.log(token);
-        console.log(item);
-        console.log({ tokenDocument: token.document });
+        console.log("setLighting(token, item)");
+        console.log({ token: token }); // looks fine
+        console.log({ item: item }); // looks fine
+        console.log({ tokenDocument: token.document }); // undefined
 
         item.update({
             light: item.flags.Tablerules["Light Source"].light
         });
-
-
-
     }
 
     static setLightingByActor(actor, item) {
