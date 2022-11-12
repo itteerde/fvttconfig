@@ -180,6 +180,76 @@ We are winging this in this instance. So we'll restrict ourselves to doing stuff
 
 # Update on Prod
 
+## Plan
+
+1. Create Backup
+    1. Make sure you are looking at the correct Production folder.
+    1. Make sure there is no zip-file with the same name as the folder.
+    1. Zip the Production folder.
+1. Preparatory Housekeeping
+    1. Uninstall CPR.
+    1. Restart FVTT.
+1. FVTT Update
+    1. Update FVTT to 10.290.
+    1. Restart FVTT.
+    1. Open Console F12.
+1. Updating all Modules
+    1. Update all Modules.
+    1. Check Console.
+    1. Review Messages (expected incompatibility warnings from [magicitems and ?, which two are that, integration test?]).
+1. Adopt new Modules
+    1. Install Item-Macro Module (1.8.0).
+    1. Install Effect-Marco Module (10.0.7).
+    1. Activate Item-Macro and Effect-Macro.
+1. Improve Settings
+    1. Change MidiQOL -> Misc -> `Show Item details in chat card` to `Details: NPC + PC` (this is not what is sounds like. Without this `Item.use()` does not display `description` which is generally bad).
+    1. Change Item-Macro -> `Character Sheet Hook` to activated (I do not believe this Module does anything without that?).
+    1. Change Core -> Open Permission Configuration -> `Use File Browser` to activated for all roles (without the players cannot assign icons to their Macros). One might consider keeping uploading images disabled as it is, but picking one that is already available should be allowed as long as Users are allowed to use `Script Macros` which we need for lots of stuff we are currently doing and will be doing.
+    1. Make Jorrick Trusted Player.
+1. Twilight Sanctuary
+    1. Open Actor Dusk.
+    1. Delete Channel Divinity: Twilight Sanctuary Feature Item from Dusk Actor.
+    1. Drag and Drop Feature Item Channel Divinity: Twilight Sanctuary from Tablerules Items Compendium onto Actor Dusk.
+    1. Drag Actor Dusk Token on Canvs (Port N.).
+1. Testing with User
+    1. Connect Jorrick.
+    1. GM: End Combat in Wildspace.
+    1. GM: Activate Scene Port N.
+    1. Jorrick: Drop Jorrick Actor onto Port N.
+    1. GM: Add Actor Jorrick Token (Jorrick) and Actor Dusk Token (Dusk) to combat.
+    1. GM: Unpause Game.
+    1. Jorrick: Move Actor Jorrick Token (Jorrick) more than 30ft away from Actor Dusk Token (Dusk).
+    1. GM: Advance to Dusk's Turn if necessary
+    1. GM: use Channel Divinity: Twilight Sanctuary by using the Dice controll on the Dusk Character Sheet.
+    1. GM: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to your Control Bar (yeah this, should probably be a two players connected test...)
+    1. GM: Use the Macro `Twilight Sanctuary tHP`. Should give Dusk `hp.temp` and tell us about it in Chat.
+    1. GM: Advance Turn.
+    1. Jorrick: Put the Macro `Twilight Sanctuary tHP` from the Tablerules Macro Compendium to your Control Bar.
+    1. Jorrick: Check that you are more than 30ft away from Dusk. If not fix it. Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Move Jorrick just completely into the `token-aura`, but change `elevation` to 25ft.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.warn` message informing you that Jorrick is to far away.
+    1. Jorrick: Move Jorrick directly above Dusk.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Should give Jorrick `hp.temp` and tell us about it in Chat.
+    1. GM: Advance Turns for 10 Turns. The Aura and the `Effect` `Channel Divinity: Twilight Sanctuary` should (seem to [aura is size 0]) be removed from Dusk.
+    1. GM: Advance Turn to Jorrick.
+    1. Jorrick: Use the Macro `Twilight Sanctuary tHP`. Check that there is a `ui.notifications.error` message informing you that Jorrick did not find a Twilight Cleric (yeah, the message is not ideal).
+1. Mighty Summoner
+    1. Install tr-summons.
+    1. Put Mighty Summoner Macro into Control Bar.
+    1. Put Cycle Wildcard Token into Control Bar.
+    1. Configure an Elk.
+        1. Set Prototype Token => `dispostion=1`.
+        1. Set Prototype Token to random Wildcard art.
+        1. Set Prototype Token to use `modules/tr-summons/icons/elk/disc/*`.
+    1. Test summoning Elk.
+        1. Drag and Drop an Elk (the modified one).
+        1. Use Macro Mighty Summoner.
+        1. Copy and Paste empowered Elk.
+        1. Use Macro Cycle Wildcard Token.
+
+
+## Notes
+
 1. Create Backup
     1. Make sure you are looking at the correct Production folder.
     1. Make sure there is no zip-file with the same name as the folder.
