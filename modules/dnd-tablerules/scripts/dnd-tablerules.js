@@ -297,7 +297,7 @@ class Tablerules {
      * @param {Token5e} token The Token for which to change the lighting.
      * @param {Item5e} item The light source Item carrying the lighting data.
      */
-    static setLighting(token, item) {
+    static async setLighting(token, item) {
         // actually do set the lighting
         console.log("setLighting(token, item)");
         console.log({ token: token }); // looks fine
@@ -309,7 +309,7 @@ class Tablerules {
         });
     }
 
-    static setLightingByActor(actor, item) {
+    static async setLightingByActor(actor, item) {
         console.log(actor);
         const tokens = game.scenes.reduce((acc, scene) => {
             acc.push(...scene.tokens);
@@ -324,7 +324,7 @@ class Tablerules {
     /**
      * 
      */
-    static dnd5UseItem() {
+    static async dnd5UseItem() {
 
         Tablerules.debug(arguments);
 
