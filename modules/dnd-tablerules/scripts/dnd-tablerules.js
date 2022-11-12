@@ -295,13 +295,22 @@ class Tablerules {
      * 
      * @param {Token5e} token 
      */
-    static setLighting(token) {
+    static setLighting(token, item) {
         // actually do set the lighting
         console.log("We turned on the lights!!!");
         console.log(token);
+        console.log(item);
+        console.log({ tokenDocument: token.document });
+
+        item.update({
+            light: item.flags.Tablerules["Light Source"].light
+        });
+
+
+
     }
 
-    static setLightingByActor(actor) {
+    static setLightingByActor(actor, item) {
         console.log(actor);
         const tokens = game.scenes.reduce((acc, scene) => {
             acc.push(...scene.tokens);
@@ -309,7 +318,7 @@ class Tablerules {
         }, []);
         const actorTokens = tokens.filter(t => t.actorId === actor._id);
         for (let i = 0; i < actorTokens.length; i++) {
-            this.setLighting(actorTokens[i]);
+            this.setLighting(actorTokens[i], item);
         }
     }
 
@@ -322,7 +331,7 @@ class Tablerules {
 
         if (!Tablerules.isItem5e(arguments[0])) {
             console.log("Not a 5e item!!");
-            //   return;
+            return;
         }
 
         const item = arguments[0];
@@ -331,7 +340,7 @@ class Tablerules {
             Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
         ) {
             Tablerules.debug("Using a tablerules light source.");
-            Tablerules.setLightingByActor(item.parent);
+            Tablerules.setLightingByActor(item.parent, item);
         }
     }
 
