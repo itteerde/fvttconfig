@@ -181,7 +181,7 @@ class Tablerules {
             }
         },
         config: {
-            lightSource: { key: "Light Source", label: "Ligth Source", scope: "dnd-tablerules" }
+            lightSource: { key: "Light Source", label: "Ligth Source", scope: "Tablerules" }
         }
 
     }
@@ -297,12 +297,19 @@ class Tablerules {
      */
     static setLighting(token) {
         // actually do set the lighting
+        console.log("We turned on the lights!!!");
+        console.log(token);
     }
 
     static setLightingByActor(actor) {
-        const tokens = needToBeFound;
-        for (i = 0; i < tokens.length; i++) {
-            this.setLighting(tokens[i]);
+        console.log(actor);
+        const tokens = game.scenes.reduce((acc, scene) => {
+            acc.push(...scene.tokens);
+            return acc;
+        }, []);
+        const actorTokens = tokens.filter(t => t.actorId === actor._id);
+        for (let i = 0; i < actorTokens.length; i++) {
+            this.setLighting(actorTokens[i]);
         }
     }
 
@@ -313,11 +320,13 @@ class Tablerules {
 
         Tablerules.debug(arguments);
 
-        if (!this.isItem5e(arguments[0])) {
-            return;
+        if (!Tablerules.isItem5e(arguments[0])) {
+            console.log("Not a 5e item!!");
+            //   return;
         }
 
         const item = arguments[0];
+        console.log(item);
         if (item.getFlag(
             Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
         ) {
@@ -376,7 +385,7 @@ Hooks.on("preUpdateActor", function () {
  * 
  */
 Hooks.on("dnd5e.useItem", function () {
-    Tablerules.dnd5UseItem(arguments);
+    Tablerules.dnd5UseItem(...arguments);
 });
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);

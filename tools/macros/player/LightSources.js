@@ -9,3 +9,4 @@ const actor = actors[0]; // lets make it work for one and repeat for all after w
 
 const effect = actor.effects.find(e => e.getFlag("world", Tablerules.dictionary.config.lightSource.key));
 const effectData = { icon, label };
+
