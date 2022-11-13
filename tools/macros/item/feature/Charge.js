@@ -8,7 +8,7 @@ const label = "Charge";
 const macroLabel = "Charge";
 const icon = "icons/creatures/mammals/ox-bull-horned-glowing-orange.webp";
 
-if ((await item.use()) === null) {
+if (await item.use() === null) {
     return;
 }
 
