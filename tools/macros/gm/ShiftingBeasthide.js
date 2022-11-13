@@ -17,7 +17,7 @@ const effect = actor.effects.find(e => e.getFlag(Tablerules.dictionary.race.shif
 const current = effect?.getFlag(Tablerules.dictionary.race.shifter.features.shiftingBeasthide.scope, Tablerules.dictionary.race.shifter.features.shiftingBeasthide.key) ?? false;
 
 const effectData = { changes, icon, label, duration: { seconds: 60 } };
-foundry.utils.setProperty(effectData, Tablerules.dictionary.race.shifter.features.shiftingBeasthide.key, true);
+foundry.utils.setProperty(effectData, `flags.${Tablerules.dictionary.race.shifter.features.shiftingBeasthide.scope}.${Tablerules.dictionary.race.shifter.features.shiftingBeasthide.key}`, true);
 
 if (effect) { effect.update(effectData); }
 else {
