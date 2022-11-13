@@ -13,7 +13,7 @@
     "version": "0.0.2",
     "compatibility": {
         "minimum": "10",
-        "verified": "10.288"
+        "verified": "10.290"
     },
     "scripts": [
     ],
