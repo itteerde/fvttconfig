@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.0.12",
+    "version": "0.0.13",
     "compatibility": {
         "minimum": "10",
         "verified": "10.290"
@@ -43,5 +43,5 @@
     ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json",
-    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.11/dnd-tablerules_0.0.12.zip"
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.11/dnd-tablerules_0.0.11.zip"
 }
