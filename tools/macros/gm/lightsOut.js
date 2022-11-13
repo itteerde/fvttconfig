@@ -1,4 +1,4 @@
-// icon suggestion: icons/sundries/lights/torch-brown-lit.webp
+// icon suggestion: icons/sundries/lights/lantern-steel.webp
 const tokensToBeModified = canvas.tokens.controlled;
 for (let i = 0; i < tokensToBeModified.length; i++) {
     if (tokensToBeModified[i].data.light.dim !== 0) {
