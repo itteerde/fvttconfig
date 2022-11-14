@@ -5,13 +5,22 @@
  * 
  */
 
+const macroLabel = "Spirit Totem: Unicorn";
+
 if (await item.use() === null) {
     return;
 }
 
 
 
-const template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
+const templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
+
+if (templates.length !== 1) {
+    ui.notifications.error(`${macroLabel}, ${templates.length} Measuring Templates (effects on map) fount. Place or delete to make it 1.`, { permanent: true });
+    return;
+}
+
+const template = templates[0];
 
 console.log(template);
 
