@@ -25,3 +25,8 @@ const template = templates[0];
 console.log(template);
 
 // create Effect on Actor with the UUID of the template, that is looked up by the Macro of the healing part to calculate the valid targets.
+
+// does not find the effect because the Active Effect being created implicitely seems to happen asynchronously and actually happens after this.
+const effect = actor.effects.find(e => e._source.origin === `Actor.${actor._id}.Item.${item._id}`);
+
+console.log(effect);
