@@ -298,11 +298,6 @@ class Tablerules {
      * @param {Item5e} item The light source Item carrying the lighting data.
      */
     static setLighting(token, item) {
-        // actually do set the lighting
-        console.log("setLighting(token, item)");
-        console.log({ token: token }); // looks fine
-        console.log({ item: item }); // looks fine
-        console.log({ tokenDocument: token.document }); // undefined
 
         token.update({
             light: item.flags.Tablerules["Light Source"].light
@@ -310,7 +305,6 @@ class Tablerules {
     }
 
     static setLightingByActor(actor, item) {
-        console.log(actor);
         const tokens = game.scenes.reduce((acc, scene) => {
             acc.push(...scene.tokens);
             return acc;
@@ -334,7 +328,6 @@ class Tablerules {
         }
 
         const item = arguments[0];
-        console.log(item);
         if (item.getFlag(
             Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
         ) {
