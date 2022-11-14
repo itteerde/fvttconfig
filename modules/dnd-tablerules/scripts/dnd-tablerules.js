@@ -340,6 +340,7 @@ class Tablerules {
         ) {
             Tablerules.debug("Using a tablerules light source.");
             Tablerules.setLightingByActor(item.parent, item);
+            return;
         }
     }
 
