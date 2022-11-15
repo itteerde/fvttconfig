@@ -127,6 +127,8 @@ class TRUtils {
 
 class Tablerules {
 
+    static SCOPE = "Tablerules";
+
     static config = {
         loglevel: 0,
         logOwn: false
@@ -159,7 +161,10 @@ class Tablerules {
             druid: {
                 shepherd: {
                     features: {
-                        mightySummoner: { key: "Mighty Summoner", label: "Mighty Summoner" }
+                        mightySummoner: { key: "Mighty Summoner", label: "Mighty Summoner" },
+                        spiritTotem: {
+                            unicornSpirit: { key: "Spirit Totem: Unicorn Spirit", label: "Spirit Totem: Unicorn Spirit", scope: Tablerules.SCOPE }
+                        }
                     }
                 }
             },

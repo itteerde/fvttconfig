@@ -16,17 +16,13 @@ if (await item.use() === null) {
 const templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
 
 if (templates.length !== 1) {
-    ui.notifications.error(`${macroLabel}, ${templates.length} Measuring Templates (effects on map) fount. Place or delete to make it 1.`, { permanent: true });
+    ui.notifications.error(`${macroLabel}, ${templates.length} Measuring Templates (effects on map) found. Place or delete to make it 1.`, { permanent: true });
     return;
 }
 
 const template = templates[0];
+await template.setFlag(Tablerules.SCOPE, Tablerules.dictionary.class.druid.shepherd.features.spiritTotem.unicornSpirit.key, true);
+
 
 console.log(template);
 
-// create Effect on Actor with the UUID of the template, that is looked up by the Macro of the healing part to calculate the valid targets.
-
-// does not find the effect because the Active Effect being created implicitely seems to happen asynchronously and actually happens after this.
-const effect = actor.effects.find(e => e._source.origin === `Actor.${actor._id}.Item.${item._id}`);
-
-console.log(effect);
