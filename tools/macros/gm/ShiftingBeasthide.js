@@ -3,9 +3,9 @@ const icon = "icons/creatures/mammals/cat-hunched-glowing-red.webp";
 const label = "Shifting";
 const macroLabel = "Shifting";
 
-console.log(actor);
-await item.use();
-console.log(item);
+if ((await item.use()) === null) {
+    return;
+}
 
 
 const changes = [
@@ -30,6 +30,5 @@ await roll.toMessage({ speaker: ChatMessage.getSpeaker({ actor: actor.name }), f
 
 const currentTempHP = actor.system.attributes.hp.temp !== null ? actor.system.attributes.hp.temp : 0;
 const newTempHP = Math.max(roll.total, currentTempHP);
-console.log({ message: "newTempHP", temp: newTempHP });
 
 await actor.update({ "system.attributes.hp.temp": newTempHP });
