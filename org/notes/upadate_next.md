@@ -3,7 +3,7 @@
 1. Adopt Requestor Module.
 
 
-# Plan
+# Production Update Plan
 
 ## Dave
 
@@ -30,7 +30,14 @@
     1. Update Modules Active at repo/README.md.
 
 
-# Integration Test
+# Integration Test Plan
+
+1. Issues
+    1. Test [Rage](https://github.com/itteerde/fvttconfig/issues/7).
+    1. Test [Sticky HP-Modifications](https://github.com/itteerde/fvttconfig/issues/21).
+    1. Test [Shepherd Druid Summons](https://github.com/itteerde/fvttconfig/issues/26).
+    1. Test [Reckless Attack](https://github.com/itteerde/fvttconfig/issues/33).
+    1. State Findings about [Requestor Module](https://github.com/itteerde/fvttconfig/issues/42), expected are none.
 
 
 # Quality Control
