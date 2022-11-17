@@ -52,5 +52,107 @@
     ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json",
-    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.11/dnd-tablerules.zip"
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.11/dnd-tablerules.zip",
+    "relationships":{
+        "systems": [
+            {
+                "id": "dnd5e",
+                "type": "system",
+                "compatibility": {
+                    "verified": "2.0.3"
+                }
+            }
+
+        ],
+        "requires": [
+            {
+                "id": "autocomplete-whisper",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "1.0.4",
+                    "verified": "1.0.4"
+                }
+            },
+            {
+                "id": "dae",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "10.0.13",
+                    "verified": "10.0.13"
+                }
+            },
+            {
+                "id": "dice-calculator",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "1.5.2",
+                    "verified": "1.5.2"
+                }
+            },
+            {
+                "id": "effective-transferral",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "1.2.5",
+                    "verified": "1.2.5"
+                }
+            },
+            {
+                "id": "effectmacro",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "10.0.7",
+                    "verified": "10.0.7"
+                }
+            },
+            {
+                "id": "itemacro",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "1.8.0",
+                    "verified": "1.8.0"
+                }
+            },
+            {
+                "id": "magicitems",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "3.0.0",
+                    "verified": "3.0.0"
+                }
+            },
+            {
+                "id": "token-auras",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "2.1",
+                    "verified": "2.1"
+                }
+            },
+            {
+                "id": "tokenmagic",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "0.6.1.2",
+                    "verified": "0.6.1.2"
+                }
+            },
+            {
+                "id": "tr-summons",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "0.0.4",
+                    "verified": "0.0.4"
+                }
+            },
+            {
+                "id": "warpgate",
+                "type": "module",
+                "compatibility": {
+                    "minimum": "1.15.1",
+                    "verified": "1.15.1"
+                }
+            }
+        ]
+    }
 }
