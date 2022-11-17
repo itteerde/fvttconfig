@@ -59,8 +59,10 @@
                 "id": "dnd5e",
                 "type": "system",
                 "compatibility": {
+                    "minimum": "2.0.3",
                     "verified": "2.0.3"
-                }
+                },
+                "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }
 
         ],
@@ -71,7 +73,8 @@
                 "compatibility": {
                     "minimum": "1.0.4",
                     "verified": "1.0.4"
-                }
+                },
+                "manifest": "https://raw.githubusercontent.com/orcnog/autocomplete-whisper/master/module.json"
             },
             {
                 "id": "dae",
@@ -79,7 +82,8 @@
                 "compatibility": {
                     "minimum": "10.0.13",
                     "verified": "10.0.13"
-                }
+                },
+                "manifest": "https://gitlab.com/tposney/dae/raw/v10/package/module.json"
             },
             {
                 "id": "dice-calculator",
@@ -87,7 +91,8 @@
                 "compatibility": {
                     "minimum": "1.5.2",
                     "verified": "1.5.2"
-                }
+                },
+                "manifest": "https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator/raw/master/module.json"
             },
             {
                 "id": "effective-transferral",
@@ -95,7 +100,8 @@
                 "compatibility": {
                     "minimum": "1.2.5",
                     "verified": "1.2.5"
-                }
+                },
+                "manifest": "https://github.com/GamerFlix/effective-transferral/releases/latest/download/module.json"
             },
             {
                 "id": "effectmacro",
@@ -103,7 +109,8 @@
                 "compatibility": {
                     "minimum": "10.0.7",
                     "verified": "10.0.7"
-                }
+                },
+                "manifest": "https://github.com/krbz999/effectmacro/releases/latest/download/module.json"
             },
             {
                 "id": "itemacro",
@@ -111,7 +118,8 @@
                 "compatibility": {
                     "minimum": "1.8.0",
                     "verified": "1.8.0"
-                }
+                },
+                "manifest": "https://github.com/Kekilla0/Item-Macro/releases/download/1.8.0/module.json"
             },
             {
                 "id": "magicitems",
@@ -119,7 +127,8 @@
                 "compatibility": {
                     "minimum": "3.0.0",
                     "verified": "3.0.0"
-                }
+                },
+                "manifest": "https://gitlab.com/riccisi/foundryvtt-magic-items/raw/master/module/module.json"
             },
             {
                 "id": "token-auras",
@@ -127,7 +136,8 @@
                 "compatibility": {
                     "minimum": "2.1",
                     "verified": "2.1"
-                }
+                },
+                "manifest": "https://bitbucket.org/Fyorl/token-auras/raw/master/module.json"
             },
             {
                 "id": "tokenmagic",
@@ -135,7 +145,8 @@
                 "compatibility": {
                     "minimum": "0.6.1.2",
                     "verified": "0.6.1.2"
-                }
+                },
+                "manifest": "https://raw.githubusercontent.com/Feu-Secret/Tokenmagic/master/tokenmagic/module.json"
             },
             {
                 "id": "tr-summons",
@@ -152,7 +163,8 @@
                 "compatibility": {
                     "minimum": "1.15.1",
                     "verified": "1.15.1"
-                }
+                },
+                "manifest": "https://github.com/trioderegion/warpgate/releases/latest/download/module.json"
             }
         ]
     }
