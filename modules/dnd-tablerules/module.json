@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.0.17",
+    "version": "0.0.18",
     "compatibility": {
         "minimum": "10",
         "verified": "10.290"
@@ -22,6 +22,15 @@
         "scripts/dnd-tablerules.js"
     ],
     "packs": [
+        {
+            "name": "tablerules-actors",
+            "label": "Tablerules Actors",
+            "path": "packs/actors.db",
+            "type": "Actor",
+            "system": "dnd5e",
+            "private": "false",
+            "flags": {}
+        },
         {
             "name": "tablerules-items",
             "label": "Tablerules Items",
