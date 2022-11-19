@@ -360,7 +360,7 @@ class TRActorSheet5eCharacter extends ActorSheet5eCharacter {
 
         if (this.actor.type === "character") {
             Tablerules.debug("overwriting worked, could switch out sheets now.");
-            return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
+            return `modules/Tablerules/templates/actors/${this.actor.type}-sheet.hbs`;
         }
 
         return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
@@ -427,6 +427,11 @@ Hooks.on("dnd5e.rollDeathSave", function () {
 Hooks.on("dnd5e.useItem", function () {
     Tablerules.dnd5eUseItem(...arguments);
 });
+
+
+console.log("Tablerules registering sheets.");
+Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true });
+
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
 
