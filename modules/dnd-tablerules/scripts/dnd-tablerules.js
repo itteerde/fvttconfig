@@ -364,13 +364,14 @@ Hooks.on("dnd5e.preRestCompleted", function () {
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
         arguments[1].dhp = 0;
 
-        death = arguments[0].system.attributes.death;
-        death.failure = 0;
-        death.success = 0;
-
-        Tablerules.debug("resetting death saves on Long Rest.")
-        arguments[1].updateData["system.attributes.death"] = death;
     }
+
+    death = arguments[0].system.attributes.death;
+    death.failure = 0;
+    death.success = 0;
+
+    Tablerules.debug("resetting death saves on Short Rest.")
+    arguments[1].updateData["system.attributes.death"] = death;
 });
 
 /**
