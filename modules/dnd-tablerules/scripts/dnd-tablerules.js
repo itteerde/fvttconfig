@@ -186,6 +186,7 @@ class Tablerules {
             }
         },
         config: {
+            deathSaves: { key: "Death Saves", label: "Death Saves" },
             lightSource: { key: "Light Source", label: "Ligth Source", scope: "Tablerules" }
         }
 
@@ -323,7 +324,14 @@ class Tablerules {
     /**
      * 
      */
-    static dnd5UseItem() {
+    static dnd5eRollDeathSave() {
+        Tablerules.debug(arguments);
+    }
+
+    /**
+     * 
+     */
+    static dnd5eUseItem() {
 
         Tablerules.debug(arguments);
 
@@ -340,6 +348,22 @@ class Tablerules {
             Tablerules.setLightingByActor(item.parent, item);
             return;
         }
+    }
+
+}
+
+class TRActorSheet5eCharacter extends ActorSheet5eCharacter {
+
+    /** @override */
+    get template() {
+        if (!game.user.isGM && this.actor.limited) return "systems/dnd5e/templates/actors/limited-sheet.hbs";
+
+        if (this.actor.type === "character") {
+            Tablerules.debug("overwriting worked, could switch out sheets now.");
+            return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
+        }
+
+        return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
     }
 
 }
@@ -389,11 +413,19 @@ Hooks.on("preUpdateActor", function () {
             }
 });
 
+
+/**
+ * 
+ */
+Hooks.on("dnd5e.rollDeathSave", function () {
+    Tablerules.dnd5eRollDeathSave(...arguments);
+});
+
 /**
  * 
  */
 Hooks.on("dnd5e.useItem", function () {
-    Tablerules.dnd5UseItem(...arguments);
+    Tablerules.dnd5eUseItem(...arguments);
 });
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
