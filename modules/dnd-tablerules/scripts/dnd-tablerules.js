@@ -433,7 +433,7 @@ Hooks.on("dnd5e.useItem", function () {
 
 
 console.log("Tablerules registering sheets.");
-Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true });
+Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
 
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
