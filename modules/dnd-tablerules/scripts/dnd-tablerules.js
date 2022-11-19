@@ -352,7 +352,10 @@ class Tablerules {
 
 }
 
-class TRActorSheet5eCharacter extends ActorSheet5eCharacter {
+/**
+ * https://github.com/foundryvtt/dnd5e/blob/master/dnd5e.mjs
+ */
+class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eCharacter {
 
     /** @override */
     get template() {
