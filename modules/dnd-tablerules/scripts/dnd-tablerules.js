@@ -335,32 +335,33 @@ class Tablerules {
 
         actor.setFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key, deaths);
 
-        await actor.update({`flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`: deaths});
+        const key = `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`;
+        actor.update({ key: deaths });
 
         Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
-}
+    }
 
     /**
      * 
      */
     static dnd5eUseItem() {
 
-    Tablerules.debug(arguments);
+        Tablerules.debug(arguments);
 
-    if (!Tablerules.isItem5e(arguments[0])) {
-        console.log("Not a 5e item!!");
-        return;
-    }
+        if (!Tablerules.isItem5e(arguments[0])) {
+            console.log("Not a 5e item!!");
+            return;
+        }
 
-    const item = arguments[0];
-    if (item.getFlag(
-        Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
-    ) {
-        Tablerules.debug("Using a tablerules light source.");
-        Tablerules.setLightingByActor(item.parent, item);
-        return;
+        const item = arguments[0];
+        if (item.getFlag(
+            Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
+        ) {
+            Tablerules.debug("Using a tablerules light source.");
+            Tablerules.setLightingByActor(item.parent, item);
+            return;
+        }
     }
-}
 
 }
 
