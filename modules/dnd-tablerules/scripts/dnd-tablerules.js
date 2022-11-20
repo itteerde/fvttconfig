@@ -186,7 +186,7 @@ class Tablerules {
             }
         },
         config: {
-            deathSaves: { key: "Death Saves", label: "Death Saves" },
+            deathSaves: { key: "Death Saves", label: "Death Saves", default: { rolesSinceReset: 0 } },
             lightSource: { key: "Light Source", label: "Ligth Source", scope: "Tablerules" }
         }
 
@@ -325,7 +325,17 @@ class Tablerules {
      * 
      */
     static dnd5eRollDeathSave() {
-        Tablerules.debug(arguments);
+
+        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
+        const actor = arguments[0];
+
+        const deaths = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key) ?? Tablerules.dictionary.config.deathSaves.default;
+
+        deaths.rolesSinceReset++;
+
+        actor.setFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key, deaths);
+
+        Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
     }
 
     /**
@@ -362,7 +372,7 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
         if (!game.user.isGM && this.actor.limited) return "systems/dnd5e/templates/actors/limited-sheet.hbs";
 
         if (this.actor.type === "character") {
-            Tablerules.debug("overwriting worked, could switch out sheets now.");
+            Tablerules.debug("overwritten get template.");
             return `modules/Tablerules/templates/actors/${this.actor.type}-sheet.hbs`;
         }
 
