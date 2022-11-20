@@ -327,6 +327,8 @@ class Tablerules {
     static dnd5eRollDeathSave() {
 
         Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
+        console.log({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
+
         const actor = arguments[0];
 
         const deaths = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key) ?? Tablerules.dictionary.config.deathSaves.default;
@@ -335,21 +337,9 @@ class Tablerules {
 
         actor.setFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key, deaths);
 
+        foundry.utils.setProperty(arguments[2], `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`, deaths);
 
-        const keyString = `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`;
-        console.log("keyString being");
-        console.log(keyString);
-        console.log({
-            keyString: keyString,
-            deaths: deaths
-        });
-
-        const updateData = {};
-        foundry.utils.setProperty(updateData, keyString, deaths);
-        console.log({ updateData: updateData });
-
-        actor.update(updateData);
-
+        console.log({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
         Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
     }
 
@@ -392,6 +382,25 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
         }
 
         return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
+    }
+
+    getData() {
+
+        console.log(this);
+        //"flags.Tablerules.config.deathSaves.rollsSinceReset": this.flags.Tablerules.config.deathSaves.rollsSinceReset,
+        //"flags.Tablerules.config.deathSaves.dc": this.flags.Tablerules.config.deathSaves.dc
+
+        return foundry.utils.mergeObject(super.getData(), {
+            "flags.Tablerules.deathSaves.rollsSinceReset": 1
+        });
+    }
+
+
+    /** @inheritdoc */
+    async _updateObject(event, formData) {
+        console.log({ event: event, formData: formData });
+
+        return super._updateObject(event, formData);
     }
 
 }
