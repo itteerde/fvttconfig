@@ -339,6 +339,10 @@ class Tablerules {
         const keyString = `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`;
         console.log("keyString being");
         console.log(keyString);
+        console.log({
+            keyString: keyString,
+            deaths: deaths
+        });
         actor.update({ keyString: deaths });
 
         Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
