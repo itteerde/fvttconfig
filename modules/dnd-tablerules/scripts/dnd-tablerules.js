@@ -343,7 +343,12 @@ class Tablerules {
             keyString: keyString,
             deaths: deaths
         });
-        actor.update({ keyString: deaths });
+
+        const updateData = {};
+        foundry.utils.setProperty(updateData, keyString, deaths);
+        console.log({ updateData: updateData });
+
+        actor.update(updateData);
 
         Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
     }
