@@ -390,9 +390,13 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
         //"flags.Tablerules.config.deathSaves.rollsSinceReset": this.flags.Tablerules.config.deathSaves.rollsSinceReset,
         //"flags.Tablerules.config.deathSaves.dc": this.flags.Tablerules.config.deathSaves.dc
 
-        return foundry.utils.mergeObject(super.getData(), {
+        const data = foundry.utils.mergeObject(super.getData(), {
             "flags.Tablerules.deathSaves.rollsSinceReset": 1
         });
+
+        console.log(data);
+
+        return data;
     }
 
 
