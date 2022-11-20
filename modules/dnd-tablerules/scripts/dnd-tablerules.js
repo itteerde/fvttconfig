@@ -470,6 +470,65 @@ Hooks.on("dnd5e.useItem", function () {
 });
 
 
+Hooks.on('init', () => {
+    // 
+    game.settings.register('Tablerules', 'enableTablerules', {
+        name: "Enable Tablerules",
+        hint: "Enables Tablerules Module",
+        scope: 'world',
+        config: true,
+        default: true,
+        type: Boolean,
+    });
+
+    game.settings.register('Tablerules', 'deathSaveDC', {
+        name: "Death Save DC",
+        hint: "This will set the DC of Deathsaves.",
+        scope: 'world',
+        config: true,
+        default: 10,
+        type: Number,
+    });
+
+    game.settings.register('Tablerules', 'stickyDeathSaves', {
+        name: "Enable Sticky Death Saves",
+        hint: "Normally Death Saves reset when you regain consciousness. This will set Death Saves to reset with a short rest.",
+        scope: 'world',
+        config: true,
+        default: true,
+        type: Boolean,
+    });
+
+    game.settings.register('Tablerules', 'noHealOnLongRest', {
+        name: "Enable No Heal on Long Rest",
+        hint: "Typically, HP is regained on a Long Rest. This will disable that feature.",
+        scope: 'world',
+        config: true,
+        default: true,
+        type: Boolean,
+    });
+
+    game.settings.register('Tablerules', 'thisIsATest', {
+        name: "This is a Test",
+        hint: "This is only a test.",
+        scope: 'world',
+        config: true,
+        default: "Test of the emergency broadcast system.",
+        type: Object,
+    });
+
+
+});
+
+
+
+
+
+
+
+
+
+
 console.log("Tablerules registering sheets.");
 Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
 
