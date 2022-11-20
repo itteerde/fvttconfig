@@ -343,6 +343,16 @@ class Tablerules {
         Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
     }
 
+    static dnd5ePreRollDeathSave() {
+
+        arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
+
+        console.log("deathSaveDC wuz here.");
+
+
+
+    }
+
     /**
      * 
      */
@@ -461,6 +471,11 @@ Hooks.on("preUpdateActor", function () {
 Hooks.on("dnd5e.rollDeathSave", function () {
     Tablerules.dnd5eRollDeathSave(...arguments);
 });
+
+Hooks.on("dnd5e.preRollDeathSave", function () {
+    Tablerules.dnd5ePreRollDeathSave(...arguments);
+});
+
 
 /**
  * 
