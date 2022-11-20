@@ -186,8 +186,8 @@ class Tablerules {
             }
         },
         config: {
-            deathSaves: { key: "Death Saves", label: "Death Saves", default: { rolesSinceReset: 0 } },
-            lightSource: { key: "Light Source", label: "Ligth Source", scope: "Tablerules" }
+            deathSaves: { key: "deathSaves", label: "Death Saves", default: { rollsSinceReset: 0 } },
+            lightSource: { key: "Light Source", label: "Light Source", scope: "Tablerules" }
         }
 
     }
