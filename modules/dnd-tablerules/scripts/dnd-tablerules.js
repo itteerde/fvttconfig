@@ -508,14 +508,18 @@ Hooks.on("dnd5e.preRestCompleted", function () {
  */
 Hooks.on("preUpdateActor", function () {
 
-    Tablerules.debug("keeping sticky death saves.");
+    Tablerules.debug("before keeping sticky death saves.");
+    Tablerules.debug(arguments);
     if (typeof arguments[1].system !== "undefined")
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
-                if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
-                    arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+                if (arguments[2].dhp > 0) {
+                    arguments[1].system.attributes.death.success = 0;
+                    arguments[1].system.attributes.death.failure = arguments[0].system.attributes.death.failure;
                 }
             }
+    Tablerules.debug("after modifying arguments to make sticky death saves.");
+    Tablerules.debug(arguments);
 });
 
 
