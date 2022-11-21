@@ -128,11 +128,19 @@ class TRUtils {
 class Tablerules {
 
     static SCOPE = "Tablerules";
+    static LOGLEVEL = {
+        error: 0,
+        warning: 1,
+        info: 2,
+        debug: 3
+    };
 
     static config = {
         loglevel: 0,
         logOwn: false
     }
+
+
 
     /*
         For looking up keys (for cases where we cannot use _id and don't want to use names).
@@ -424,10 +432,6 @@ Hooks.on("init", function () {
     console.log("Tablerules hooked onto init.");
 });
 
-Hooks.on("ready", function () {
-    console.log("Tablerules hooked onto ready.");
-});
-
 /**
  * modify resting rules
  * - no hp gain on long rest
@@ -523,18 +527,40 @@ Hooks.on('init', () => {
         type: Boolean,
     });
 
-    game.settings.register('Tablerules', 'thisIsATest', {
-        name: "This is a Test",
-        hint: "This is only a test.",
+    game.settings.register("Tablerules", "logLevel", {
+        name: "Log Level",
+        hint: "The Module's own log level.",
         scope: 'world',
         config: true,
-        default: "Test of the emergency broadcast system.",
-        type: Object,
+        default: "error",
+        type: Number,
+        choices: {
+            0: "error",
+            1: "warning",
+            2: "info",
+            3: "debug"
+        },
+        onChange: () => window.location.reload()
     });
 
+    game.settings.register('Tablerules', 'logOwn', {
+        name: "Use own logging function.",
+        hint: "Enable to log using own logging method.",
+        scope: 'world',
+        config: true,
+        default: false,
+        type: Boolean,
+        onChange: () => window.location.reload()
+    });
 
 });
 
+Hooks.on("ready", function () {
+    console.log("Tablerules hooked onto ready.");
+
+    Tablerules.config.loglevel = game.settings.get("Tablerules", "logLevel");
+    Tablerules.config.logOwn = game.settings.get("Tablerules", "logOwn");
+});
 
 
 
