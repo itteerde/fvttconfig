@@ -123,6 +123,81 @@ class TRUtils {
 
         return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
     }
+
+
+    static registerSettings() {
+        game.settings.register('Tablerules', 'isEnabled', {
+            name: "Enable Tablerules",
+            hint: "Enables Tablerules Module changes. If we ever implement this disabling this setting will make all other Tablerules settings be ignored and return the stuff that has settings configured return to what it is without the Module. This has no effect as of now, and might just get removed instead of being implemented in the future.",
+            scope: 'world',
+            config: true,
+            default: true,
+            type: Boolean,
+        });
+
+        game.settings.register('Tablerules', 'deathSaveDC', {
+            name: "Death Save DC",
+            hint: "This will set the DC of Deathsaves. Setting of 10 is the D&D 5e default, other values enable for brighter or darker games, such as 15 for Tomb of Annihilation.",
+            scope: 'world',
+            config: true,
+            default: 10,
+            type: Number,
+        });
+
+        game.settings.register('Tablerules', 'stickyDeathSaves', {
+            name: "Sticky Death Saves",
+            hint: "Normally Death Saves reset when you regain consciousness (technically being updated to hp.value>0). This will set Death Saves to reset with a Short Rest.",
+            scope: 'world',
+            config: true,
+            default: true,
+            type: Boolean,
+        });
+
+        game.settings.register('Tablerules', 'truelyBlindDeathSaves', {
+            name: "Truely Blind Death Saves",
+            hint: "Enable to hide Death Save results from the Character Sheet while the character is unconscious.",
+            scope: 'world',
+            config: true,
+            default: true,
+            type: Boolean
+        });
+
+        game.settings.register('Tablerules', 'noHealOnLongRest', {
+            name: "Long Rest does not reset HP",
+            hint: "Typically, all HP are regained on a Long Rest. This will disable that feature.",
+            scope: 'world',
+            config: true,
+            default: true,
+            type: Boolean,
+        });
+
+        game.settings.register("Tablerules", "logLevel", {
+            name: "Log Level",
+            hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
+            scope: 'world',
+            config: true,
+            default: "error",
+            type: Number,
+            choices: {
+                0: "error",
+                1: "warning",
+                2: "info",
+                3: "debug"
+            },
+            onChange: () => window.location.reload()
+        });
+
+        game.settings.register('Tablerules', 'logOwn', {
+            name: "Use own logging function.",
+            hint: "Enable to log using own logging method. Disable for play and enable for development if debugging (with Log Level set to debug above).",
+            scope: 'world',
+            config: true,
+            default: false,
+            type: Boolean,
+            onChange: () => window.location.reload()
+        });
+    }
+
 }
 
 class Tablerules {
@@ -490,69 +565,7 @@ Hooks.on("dnd5e.useItem", function () {
 
 
 Hooks.on('init', () => {
-    // 
-    game.settings.register('Tablerules', 'enableTablerules', {
-        name: "Enable Tablerules",
-        hint: "Enables Tablerules Module",
-        scope: 'world',
-        config: true,
-        default: true,
-        type: Boolean,
-    });
-
-    game.settings.register('Tablerules', 'deathSaveDC', {
-        name: "Death Save DC",
-        hint: "This will set the DC of Deathsaves.",
-        scope: 'world',
-        config: true,
-        default: 10,
-        type: Number,
-    });
-
-    game.settings.register('Tablerules', 'stickyDeathSaves', {
-        name: "Enable Sticky Death Saves",
-        hint: "Normally Death Saves reset when you regain consciousness. This will set Death Saves to reset with a short rest.",
-        scope: 'world',
-        config: true,
-        default: true,
-        type: Boolean,
-    });
-
-    game.settings.register('Tablerules', 'noHealOnLongRest', {
-        name: "Enable No Heal on Long Rest",
-        hint: "Typically, HP is regained on a Long Rest. This will disable that feature.",
-        scope: 'world',
-        config: true,
-        default: true,
-        type: Boolean,
-    });
-
-    game.settings.register("Tablerules", "logLevel", {
-        name: "Log Level",
-        hint: "The Module's own log level.",
-        scope: 'world',
-        config: true,
-        default: "error",
-        type: Number,
-        choices: {
-            0: "error",
-            1: "warning",
-            2: "info",
-            3: "debug"
-        },
-        onChange: () => window.location.reload()
-    });
-
-    game.settings.register('Tablerules', 'logOwn', {
-        name: "Use own logging function.",
-        hint: "Enable to log using own logging method.",
-        scope: 'world',
-        config: true,
-        default: false,
-        type: Boolean,
-        onChange: () => window.location.reload()
-    });
-
+    TRUtils.registerSettings();
 });
 
 Hooks.on("ready", function () {
