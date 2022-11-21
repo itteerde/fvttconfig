@@ -448,6 +448,9 @@ class Tablerules {
 
         if (success >= 3) {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, true);
+
+            arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
+            //arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
             Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
         }
 
