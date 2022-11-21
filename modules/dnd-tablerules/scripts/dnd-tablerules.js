@@ -410,30 +410,12 @@ class Tablerules {
     static dnd5eRollDeathSave() {
 
         Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
-        console.log({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
-
-        const actor = arguments[0];
-
-        const deaths = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key) ?? Tablerules.dictionary.config.deathSaves.default;
-
-        deaths.rollsSinceReset++;
-
-        actor.setFlag(Tablerules.SCOPE, Tablerules.dictionary.config.deathSaves.key, deaths);
-
-        foundry.utils.setProperty(arguments[2], `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.deathSaves.key}`, deaths);
-
-        console.log({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
-        Tablerules.debug({ message: "end of Tablerules.dnd5eRollDeathSave", object: actor });
     }
 
     static dnd5ePreRollDeathSave() {
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
-
-        console.log("deathSaveDC wuz here.");
-
-
-
+        Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
     }
 
     /**
@@ -477,18 +459,11 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
         return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
     }
 
-    getData() {
-
-        console.log(this);
-        //"flags.Tablerules.config.deathSaves.rollsSinceReset": this.flags.Tablerules.config.deathSaves.rollsSinceReset,
-        //"flags.Tablerules.config.deathSaves.dc": this.flags.Tablerules.config.deathSaves.dc
-
-        const data = foundry.utils.mergeObject(super.getData(), {
-            "flags.Tablerules.deathSaves.rollsSinceReset": 1
+    async getData() {
+        const data = foundry.utils.mergeObject(await super.getData(), {
+            "Tablerules.truelyBlindDeathSaves": game.settings.get("Tablerules", "truelyBlindDeathSaves")
         });
-
-        console.log(data);
-
+        Tablerules.debug(data);
         return data;
     }
 
