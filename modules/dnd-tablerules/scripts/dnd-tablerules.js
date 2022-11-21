@@ -269,7 +269,9 @@ class Tablerules {
             }
         },
         config: {
-            deathSaves: { key: "deathSaves", label: "Death Saves", default: { rollsSinceReset: 0 } },
+            death: {
+                stabilized: { key: "death.stabilized", label: "Death Saves: Is Stabile" }
+            },
             lightSource: { key: "Light Source", label: "Light Source", scope: "Tablerules" }
         }
 
@@ -404,19 +406,54 @@ class Tablerules {
         }
     }
 
-    /**
-     * 
-     */
-    static dnd5eRollDeathSave() {
-
-        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave", object: arguments });
-    }
-
     static dnd5ePreRollDeathSave() {
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
         Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
     }
+
+    static dnd5eRollDeathSave() {
+
+        const actor = arguments[0];
+        const stabilized = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key) ?? false;
+
+        if (!stabilized) {// has not been defined yet
+            foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
+        }
+
+        const roll = arguments[1]._total;
+        if (roll === 20 && !stabilized) {
+            foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
+
+            arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
+            return;
+        }
+
+        if (roll === 20 && stabilized) {//not really rolling, no crit success possible
+            arguments[1]._total = 19;
+        }
+
+        if (actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key)) { // stabilized, overwrite changes with old values
+            arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
+            arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
+
+            Tablerules.debug("Tablerules.dnd5eRollDeathSave, was already stabilized, keeping saves and returning.")
+            return;
+        }
+
+        let success = actor.system.attributes.death.success;
+        if (roll > arguments[1].options.targetValue) {
+            success++;
+        }
+
+        if (success >= 3) {
+            foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, true);
+            Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
+        }
+
+        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave end", object: arguments });
+    }
+
 
     /**
      * 
@@ -507,6 +544,11 @@ Hooks.on("dnd5e.preRestCompleted", function () {
  * make death saves sticky (don't reset on healing)
  */
 Hooks.on("preUpdateActor", function () {
+
+    if (arguments[2].dhp > 0) {
+        foundry.utils.setProperty(arguments[1], `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
+        Tablerules.debug(`set flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}=false`);
+    }
 
     Tablerules.debug("before keeping sticky death saves.");
     Tablerules.debug(arguments);
