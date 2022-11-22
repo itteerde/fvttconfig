@@ -29,11 +29,15 @@ const stress = Number(Math.max(current + changeBy, 0));
 const changes = keys.map(key => {
     return { key, mode: CONST.ACTIVE_EFFECT_MODES.ADD, value: `-${stress}` };
 });
-const effectData = { changes, icon, label };
+const effectData = { changes, icon };
+foundry.utils.setProperty(effectData, "label", `${label}: ${stress}`);
 foundry.utils.setProperty(effectData, "flags.world.stress", stress);
 if (effect) {
-    await effect.update(effectData);
-} else {
+    await effect.delete();
+}
+
+if (stress > 0) {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
+
 
