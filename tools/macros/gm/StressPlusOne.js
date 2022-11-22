@@ -21,8 +21,6 @@ if (canvas.tokens.hover === null) {
     return;
 }
 
-// works, but maybe save the state, delete the old one, create new one, in order to get out of the box stuff from ActiveEffect and Effect-Macro.
-
 const effect = actor.effects.find(e => foundry.utils.hasProperty(e, "flags.world.stress"));
 const current = effect?.getFlag("world", "stress") ?? 0;
 const stress = Number(Math.max(current + changeBy, 0));
@@ -39,5 +37,3 @@ if (effect) {
 if (stress > 0) {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
-
-
