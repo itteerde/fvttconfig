@@ -58,3 +58,6 @@ clause’s subject position.
 1. Accepting Stress
     1. Drag and Drop Stress+1 and Stress-1 from Tablerules Macros to Control Bar.
     1. Test for plausibility and review Console.
+1. Acception Guidance D&D One
+    1. Drag and Drop Guidance D&D One from Trablerules Macros to Control Bar.
+    1. Test for plausibility and review Console.
