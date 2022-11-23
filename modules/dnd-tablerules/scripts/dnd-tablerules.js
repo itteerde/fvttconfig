@@ -414,10 +414,11 @@ class Tablerules {
 
     static dnd5eRollDeathSave() {
 
+        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, start", object: arguments });
         const actor = arguments[0];
         const stabilized = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key) ?? false;
 
-        if (!stabilized) {// has not been defined yet
+        if (!stabilized) {// has not been defined yet, or, false overwritten because 'checking for undefined' is nontrivial
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
         }
 
@@ -426,23 +427,25 @@ class Tablerules {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized", object: arguments });
             return;
         }
 
         if (roll === 20 && stabilized) {//not really rolling, no crit success possible
             arguments[1]._total = 19;
+            arguments[2].updates["system.attributes.hp.value"] = 0;
         }
 
-        if (actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key)) { // stabilized, overwrite changes with old values
+        if (stabilized) { // stabilized, overwrite changes with old values
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
             arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
 
-            Tablerules.debug("Tablerules.dnd5eRollDeathSave, was already stabilized, keeping saves and returning.")
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, was already stabilized, keeping saves and returning.", arguments: arguments });
             return;
         }
 
         let success = actor.system.attributes.death.success;
-        if (roll > arguments[1].options.targetValue) {
+        if (roll >= arguments[1].options.targetValue) {
             success++;
         }
 
@@ -450,7 +453,7 @@ class Tablerules {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, true);
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
-            //arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
+            arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
             Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
         }
 
