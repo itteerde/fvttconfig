@@ -222,7 +222,7 @@
                     <div class="counter flexrow death-saves">
                         <h4 class="rollable" data-action="rollDeathSave">{{ localize "DND5E.DeathSave" }}</h4>
                         <div class="counter-value">
-                            {{#if (or (or (gt system.attributes.hp.value 0) (eq system.attributes.death.failure 3)) (not Tablerules.truelyBlindDeathSaves))}}
+                            {{#if (or (gt system.attributes.hp.value 0) (not Tablerules.truelyBlindDeathSaves))}}
                                 <i class="fas fa-check"></i>
                                 {{numberInput system.attributes.death.success name="system.attributes.death.success"
                                     placeholder="0"}}
@@ -230,7 +230,7 @@
                                 {{numberInput system.attributes.death.failure name="system.attributes.death.failure"
                                     placeholder="0"}}
                             {{else}}
-                                Hidden until conscious/dead (lingering injury?)
+                                Hidden until healed (lingering injury?)
                             {{/if}}
                         </div>
                     </div>
