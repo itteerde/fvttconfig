@@ -101,13 +101,6 @@ class TRMath {
 
 class TRUtils {
 
-    /*
-        Make Effect for Tablerules context, especially aware of the rules keys.
-    */
-    static makeEffect() {
-        return "notImplementedYet";
-    }
-
     /**
      * Distance between two Tokens.
      * 
@@ -124,6 +117,9 @@ class TRUtils {
         return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
     }
 
+    static isDebugEnabled() {
+        return (game.settings.get("Tablerules", "logLevel") >= 3);
+    }
 
     static registerSettings() {
         game.settings.register('Tablerules', 'isEnabled', {
@@ -201,7 +197,7 @@ class TRUtils {
     static registerWrappers() {
         console.log("Tablerules registering wrappers");
 
-        libWrapper.register(Tablerules.SCOPE, "dnd5e.documents.Actor5e.prototype.rollDeathSave", Tablerules.ddnd5e_documents_Actor5e_prototype__rollDeathSave, libWrapper.WRAPPER);
+        libWrapper.register(Tablerules.SCOPE, "dnd5e.documents.Actor5e.prototype.rollDeathSave", Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, libWrapper.WRAPPER);
     }
 
 }
@@ -402,23 +398,47 @@ class Tablerules {
         }
     }
 
-    static ddnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
+    /**
+     * 
+     * @param {*} wrapped dnd5e.documents.Actor5e.rollDeathSave()
+     * @param  {...any} args arguments provided to dnd5e.documents.Actor5e.rollDeathSave()
+     * @returns  modified return of dnd5e.documents.Actor5e.rollDeathSave()
+     */
+    static dnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
 
-        Tablerules.debug({ message: "Tablerules.ddnd5e_documents_Actor5e_prototype__rollDeathSave", wrapped: wrapped, args: args })
+        if (!game.settings.get(Tablerules.SCOPE, "isEnabled")) {
 
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({
+                    message: "Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, !isEnabled, returning wrapped.",
+                    wrapped: wrapped,
+                    args: args,
+                    isEnabled: game.settings.get(Tablerules.SCOPE, "isEnabled")
+                });
+            }
+
+            return wrapped(...args);
+        }
+
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({
+                message: "Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, executing own code.",
+                wrapped: wrapped,
+                args: args,
+                this: this
+            });
+        }
+
+        const actor = this;
+
+        // preprocessing
+
+        // execute wrapped, returns roll after updating, so still need to either do fudging around or skip it in favor for doing it ourselv with a modified version, so really overwritings still. If we overwrite it alltogether, could we still keep the pre-hook (not sure if we would like to anyways), or do we need to put our modifications in this?
         let result = wrapped(...args);
+
+        // postprocessing
+
         return result;
-    }
-
-    /*
-        dnd5e.preRestCompleted
-
-        Test if we can programm this way for nicer debugging/ if the expectation that this gives you prettier debugging is correct.
-    */
-    static dnd5ePreRestCompleted() {
-        console.log("Does this work?");
-        console.log(arguments);
-        console.log("If we got here without errors it probably does.");
     }
 
     static async dnd5ePreRollDeathSave() {
@@ -428,7 +448,13 @@ class Tablerules {
         const dead = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.dead.key) ?? false;
 
         if (dead) {
-            Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.", arguments: arguments });
+
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({
+                    message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.",
+                    arguments: arguments
+                });
+            }
 
             let chatData = {
                 content: `${actor.name} is ${dead ? "dead" : ""}${stabilized ? "stabilized" : ""}, faking roll.`,
@@ -442,13 +468,25 @@ class Tablerules {
         }
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
-        Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
+
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({
+                message: "Tablerules.dnd5ePreRollDeathSave",
+                object: arguments
+            });
+        }
 
     }
 
     static dnd5eRollDeathSave() {
 
-        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, start", object: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({
+                message: "Tablerules.dnd5eRollDeathSave, start",
+                object: arguments
+            });
+        }
+
         const actor = arguments[0];
         const stabilized = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key) ?? false;
 
@@ -457,7 +495,13 @@ class Tablerules {
         }
 
         if (stabilized) {
-            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.", arguments: arguments });
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({
+                    message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.",
+                    arguments: arguments
+                });
+            }
+
             return false;
         }
 
@@ -466,7 +510,14 @@ class Tablerules {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
-            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized", object: arguments });
+
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({
+                    message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized",
+                    object: arguments
+                });
+            }
+
             return;
         }
 
@@ -501,7 +552,12 @@ class Tablerules {
             Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
         }
 
-        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave end", object: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({
+                message: "Tablerules.dnd5eRollDeathSave end",
+                object: arguments
+            });
+        }
     }
 
 
@@ -510,7 +566,9 @@ class Tablerules {
      */
     static dnd5eUseItem() {
 
-        Tablerules.debug(arguments);
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.dnd5eUseItem", arguments: arguments });
+        }
 
         if (!Tablerules.isItem5e(arguments[0])) {
             console.log("Not a 5e item!!");
