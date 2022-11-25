@@ -198,6 +198,12 @@ class TRUtils {
         });
     }
 
+    static registerWrappers() {
+        console.log("Tablerules registering wrappers");
+
+        libWrapper.register(Tablerules.SCOPE, "dnd5e.documents.Actor5e.prototype.rollDeathSave", Tablerules.ddnd5e_documents_Actor5e_prototype__rollDeathSave, libWrapper.WRAPPER);
+    }
+
 }
 
 class Tablerules {
@@ -394,6 +400,14 @@ class Tablerules {
         for (let i = 0; i < actorTokens.length; i++) {
             this.setLighting(actorTokens[i], item);
         }
+    }
+
+    static ddnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
+
+        Tablerules.debug({ message: "Tablerules.ddnd5e_documents_Actor5e_prototype__rollDeathSave", wrapped: wrapped, args: args })
+
+        let result = wrapped(...args);
+        return result;
     }
 
     /*
@@ -625,6 +639,7 @@ Hooks.on("dnd5e.useItem", function () {
 
 Hooks.on('init', () => {
     TRUtils.registerSettings();
+    TRUtils.registerWrappers();
 });
 
 Hooks.on("ready", function () {
