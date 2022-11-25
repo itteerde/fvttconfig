@@ -167,6 +167,38 @@ class TRUtils {
             type: Boolean,
         });
 
+        game.settings.register("Tablerules", "measureLoadingTime", {
+            name: "Measure Loading Times (MLT)",
+            hint: "Measures the times it takes to load scenes on the client side.",
+            scope: "world",
+            config: true,
+            default: false,
+            type: Boolean
+        });
+
+        game.settings.register("Tablerules", "mltAlarmThreshold", {
+            name: "MLT Threshhold",
+            hint: "Threshold for alerting if if loading a scene takes longer than set in ms.",
+            scope: "world",
+            config: true,
+            default: 30000,
+            type: Number
+        });
+
+        game.settings.register("Tablerules", "mltReporting", {
+            name: "MLT Reporting",
+            hint: "Way to report threshold being violated.",
+            scope: "world",
+            config: true,
+            default: "disabled",
+            type: Number,
+            choices: {
+                0: "disabled",
+                1: "console",
+                2: "blind whisper"
+            }
+        });
+
         game.settings.register("Tablerules", "logLevel", {
             name: "Log Level",
             hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
