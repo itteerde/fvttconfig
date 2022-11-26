@@ -487,7 +487,7 @@ class Tablerules {
      * @param  {...any} args arguments provided to dnd5e.documents.Actor5e.rollDeathSave()
      * @returns  modified return of dnd5e.documents.Actor5e.rollDeathSave()
      */
-    static dnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
+    static async dnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
 
         if (!game.settings.get(Tablerules.SCOPE, "isEnabled")) {
 
@@ -512,16 +512,128 @@ class Tablerules {
             });
         }
 
-        const actor = this;
+        // modified clone code start
+        const death = this.system.attributes.death;
 
-        // preprocessing
+        // Display a warning if we are not at zero HP or if we already have reached 3
+        if (this.system.attributes.hp.value > 0) {
+            ui.notifications.warn(game.i18n.localize("DND5E.DeathSaveUnnecessary"));
+            return null;
+        }
 
-        // execute wrapped, returns roll after updating, so still need to either do fudging around or skip it in favor for doing it ourselv with a modified version, so really overwritings still. If we overwrite it alltogether, could we still keep the pre-hook (not sure if we would like to anyways), or do we need to put our modifications in this?
-        let result = wrapped(...args);
+        // Evaluate a global saving throw bonus
+        const speaker = ChatMessage.getSpeaker({ actor: this });
+        const globalBonuses = this.system.bonuses?.abilities ?? {};
+        const parts = [];
+        const data = this.getRollData();
 
-        // postprocessing
+        // Diamond Soul adds proficiency
+        if (this.getFlag("dnd5e", "diamondSoul")) {
+            parts.push("@prof");
+            data.prof = new Proficiency(this.system.attributes.prof, 1).term;
+        }
 
-        return result;
+        // Include a global actor ability save bonus
+        if (globalBonuses.save) {
+            parts.push("@saveBonus");
+            data.saveBonus = Roll.replaceFormulaData(globalBonuses.save, data);
+        }
+
+        // Evaluate the roll
+        const flavor = game.i18n.localize("DND5E.DeathSavingThrow");
+        const rollData = {
+            parts,
+            data,
+            title: `${flavor}: ${this.name}`,
+            flavor,
+            halflingLucky: this.getFlag("dnd5e", "halflingLucky"),
+            targetValue: 10,
+            messageData: {
+                speaker: speaker,
+                "flags.dnd5e.roll": { type: "death" }
+            }
+        };
+
+        /**
+         * A hook event that fires before a death saving throw is rolled for an Actor.
+         * @function dnd5e.preRollDeathSave
+         * @memberof hookEvents
+         * @param {Actor5e} actor                Actor for which the death saving throw is being rolled.
+         * @param {D20RollConfiguration} config  Configuration data for the pending roll.
+         * @returns {boolean}                    Explicitly return `false` to prevent death saving throw from being rolled.
+         */
+        if (Hooks.call("dnd5e.preRollDeathSave", this, rollData) === false) return;
+
+        const roll = await this.d20Roll(rollData);
+        if (!roll) return null;
+
+        // Take action depending on the result
+        const details = {};
+
+        // Save success
+        if (roll.total >= (game.settings.get("Tablerules", "deathSaveDC") ?? 10)) {
+            let successes = (death.success || 0) + 1;
+
+            // Critical Success = revive with 1hp
+            if (roll.isCritical) {
+                details.updates = {
+                    "system.attributes.death.success": 0,
+                    "system.attributes.death.failure": 0,
+                    "system.attributes.hp.value": 1
+                };
+                details.chatString = "DND5E.DeathSaveCriticalSuccess";
+            }
+
+            // 3 Successes = survive and reset checks
+            else if (successes === 3) {
+                details.updates = {
+                    "system.attributes.death.success": 0,
+                    "system.attributes.death.failure": 0
+                };
+                details.chatString = "DND5E.DeathSaveSuccess";
+            }
+
+            // Increment successes
+            else details.updates = { "system.attributes.death.success": Math.clamped(successes, 0, 3) };
+        }
+
+        // Save failure
+        else {
+            let failures = (death.failure || 0) + (roll.isFumble ? 2 : 1);
+            details.updates = { "system.attributes.death.failure": Math.clamped(failures, 0, 3) };
+            if (failures >= 3) {  // 3 Failures = death
+                details.chatString = "DND5E.DeathSaveFailure";
+            }
+        }
+
+        /**
+         * A hook event that fires after a death saving throw has been rolled for an Actor, but before
+         * updates have been performed.
+         * @function dnd5e.rollDeathSave
+         * @memberof hookEvents
+         * @param {Actor5e} actor              Actor for which the death saving throw has been rolled.
+         * @param {D20Roll} roll               The resulting roll.
+         * @param {object} details
+         * @param {object} details.updates     Updates that will be applied to the actor as a result of this save.
+         * @param {string} details.chatString  Localizable string displayed in the create chat message. If not set, then
+         *                                     no chat message will be displayed.
+         * @returns {boolean}                  Explicitly return `false` to prevent updates from being performed.
+         */
+        if (Hooks.call("dnd5e.rollDeathSave", this, roll, details) === false) return roll;
+
+        if (!foundry.utils.isEmpty(details.updates)) await this.update(details.updates);
+
+        // Display success/failure chat message
+        if (details.chatString) {
+            let chatData = { content: game.i18n.format(details.chatString, { name: this.name }), speaker };
+            ChatMessage.applyRollMode(chatData, roll.options.rollMode);
+            await ChatMessage.create(chatData);
+        }
+
+        // Return the rolled result
+        return roll;
+        // modified clone code end
+
     }
 
     static async dnd5ePreRollDeathSave() {
