@@ -101,6 +101,22 @@ class TRMath {
 
 class TRPerformance {
 
+    /**
+     * Whisper the threshold violation blind to GM.
+     * 
+     * @param {*} data 
+     */
+    static whisperAlert(data) {
+
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "TRPerformance.whisperAlert", data: data });
+        }
+
+        const message = data.message;
+        const timer = data.timer;
+        // create ChatMessage
+    }
+
 }
 
 class TRTimer {
