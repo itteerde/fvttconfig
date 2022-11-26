@@ -99,6 +99,41 @@ class TRMath {
     }
 }
 
+class TRPerformance {
+
+}
+
+class TRTimer {
+
+    constructor(name) {
+        this.name = name;
+        this.startTime = Date.now();
+        this.stopped = false;
+    }
+
+    stop() {
+        this.stopTime = Date.now();
+        this.stopped = true;
+    }
+
+    getStartTime() {
+        return this.startTime;
+    }
+
+    timeElapsed() {
+        if (this.stopped) {
+            return this.stopTime - this.startTime;
+        } else {
+            return Date.now() - this.startTime;
+        }
+    }
+
+    timeElapsedSeconds() {
+        return Math.round(this.timeElapsed() / 1000);
+    }
+
+}
+
 class TRUtils {
 
     /**
