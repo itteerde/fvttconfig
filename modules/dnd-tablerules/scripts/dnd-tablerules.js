@@ -537,8 +537,10 @@ Hooks.on("dnd5e.preRestCompleted", function () {
     if (TRUtils.isDebugEnabled()) {
         Tablerules.debug({ message: "resetting death saves on Rest (SR/LR).", arguments: arguments });
     }
-    foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.success", 0);
-    foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.failure", 0);
+    arguments[1].updateData["system.attributes.death.success"] = 0;
+    //foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.success", 0);
+    arguments[1].updateData["system.attributes.death.failure"] = 0;
+    //foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.failure", 0);
 
 });
 
@@ -554,8 +556,13 @@ Hooks.on("preUpdateActor", function () {
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
                 //The 'and' protects agaisnt 'on healing'
-                if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
-                    arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+                if (arguments[2].dhp !== undefined) {
+
+                    if (arguments[2].dph > 0) {
+                        arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
+                        arguments[1].system.attributes.death.success = 0;
+                    }
+
                 }
             }
     if (TRUtils.isDebugEnabled()) {
