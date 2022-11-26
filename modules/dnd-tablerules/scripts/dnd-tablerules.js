@@ -99,7 +99,61 @@ class TRMath {
     }
 }
 
+class TRPerformance {
+
+    /**
+     * Whisper the threshold violation blind to GM.
+     * 
+     * @param {*} data 
+     */
+    static whisperAlert(data) {
+
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "TRPerformance.whisperAlert", data: data });
+        }
+
+        const message = data.message;
+        const timer = data.timer;
+        // create ChatMessage
+    }
+
+}
+
+class TRTimer {
+
+    constructor(name) {
+        this.name = name;
+        this.startTime = Date.now();
+        this.stopped = false;
+    }
+
+    stop() {
+        this.stopTime = Date.now();
+        this.stopped = true;
+    }
+
+    getStartTime() {
+        return this.startTime;
+    }
+
+    timeElapsed() {
+        if (this.stopped) {
+            return this.stopTime - this.startTime;
+        } else {
+            return Date.now() - this.startTime;
+        }
+    }
+
+    timeElapsedSeconds() {
+        return Math.round(this.timeElapsed() / 1000);
+    }
+}
+
 class TRUtils {
+
+    static isDebugEnabled() {
+        return (game.settings.get("Tablerules", "logLevel") >= 3);
+    }
 
     /*
         Make Effect for Tablerules context, especially aware of the rules keys.
@@ -414,7 +468,9 @@ class Tablerules {
         const dead = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.dead.key) ?? false;
 
         if (dead) {
-            Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.", arguments: arguments });
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.", arguments: arguments });
+            }
 
             let chatData = {
                 content: `${actor.name} is ${dead ? "dead" : ""}${stabilized ? "stabilized" : ""}, faking roll.`,
@@ -428,13 +484,17 @@ class Tablerules {
         }
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
-        Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
+        }
 
     }
 
     static dnd5eRollDeathSave() {
 
-        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, start", object: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, start", object: arguments });
+        }
         const actor = arguments[0];
         const stabilized = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key) ?? false;
 
@@ -443,7 +503,9 @@ class Tablerules {
         }
 
         if (stabilized) {
-            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.", arguments: arguments });
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.", arguments: arguments });
+            }
             return false;
         }
 
@@ -452,7 +514,9 @@ class Tablerules {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
-            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized", object: arguments });
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized", object: arguments });
+            }
             return;
         }
 
@@ -476,7 +540,9 @@ class Tablerules {
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
             arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
-            Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, stabilized.", arguments: arguments });
+            }
         }
 
         if (failure >= 3) {
@@ -484,10 +550,14 @@ class Tablerules {
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
             arguments[2].updates["system.attributes.death.success"] = arguments[0].system.attributes.death.success;
-            Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, stabilized.", arguments: arguments });
+            }
         }
 
-        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave end", object: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave end", object: arguments });
+        }
     }
 
 
@@ -496,7 +566,9 @@ class Tablerules {
      */
     static dnd5eUseItem() {
 
-        Tablerules.debug(arguments);
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.dnd5eUseItem", arguments: arguments });
+        }
 
         if (!Tablerules.isItem5e(arguments[0])) {
             console.log("Not a 5e item!!");
@@ -507,7 +579,9 @@ class Tablerules {
         if (item.getFlag(
             Tablerules.dictionary.config.lightSource.scope, Tablerules.dictionary.config.lightSource.key)
         ) {
-            Tablerules.debug("Using a tablerules light source.");
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "Using a tablerules light source.", arguments: arguments });
+            }
             Tablerules.setLightingByActor(item.parent, item);
             return;
         }
@@ -525,7 +599,9 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
         if (!game.user.isGM && this.actor.limited) return "systems/dnd5e/templates/actors/limited-sheet.hbs";
 
         if (this.actor.type === "character") {
-            Tablerules.debug("overwritten get template.");
+            if (TRUtils.isDebugEnabled()) {
+                Tablerules.debug({ message: "overwritten get template.", arguments: arguments });
+            }
             return `modules/Tablerules/templates/actors/${this.actor.type}-sheet.hbs`;
         }
 
@@ -537,10 +613,11 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
             "Tablerules.truelyBlindDeathSaves": game.settings.get("Tablerules", "truelyBlindDeathSaves")
         });
         foundry.utils.setProperty(data, "Tablerules.deathsaves.dead", this.actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.dead.key) ?? false);
-        Tablerules.debug({ message: "TRActorSheet5eCharacter.getData", data: data });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "TRActorSheet5eCharacter.getData", data: data });
+        }
         return data;
     }
-
 
     /** @inheritdoc */
     async _updateObject(event, formData) {
@@ -563,7 +640,9 @@ Hooks.on("init", function () {
  */
 Hooks.on("dnd5e.preRestCompleted", function () {
     if (arguments[1].longRest) {
-        Tablerules.debug("preventing healing on Long Rest.");
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "preventing healing on Long Rest.", arguments: arguments });
+        }
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
         arguments[1].dhp = 0;
 
@@ -573,7 +652,9 @@ Hooks.on("dnd5e.preRestCompleted", function () {
     death.failure = 0;
     death.success = 0;
 
-    Tablerules.debug("resetting death saves on Short Rest.")
+    if (TRUtils.isDebugEnabled()) {
+        Tablerules.debug({ message: "resetting death saves on Short Rest.", arguments: arguments });
+    }
     arguments[1].updateData["system.attributes.death"] = death;
 });
 
@@ -585,11 +666,14 @@ Hooks.on("preUpdateActor", function () {
     if (arguments[2].dhp > 0) {
         foundry.utils.setProperty(arguments[1], `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
         foundry.utils.setProperty(arguments[1], `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.dead.key}`, false);
-        Tablerules.debug({ message: "preUpdateActor, setting flags (death saves)", arguments: arguments });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "preUpdateActor, setting flags (death saves)", arguments: arguments });
+        }
     }
 
-    Tablerules.debug("before keeping sticky death saves.");
-    Tablerules.debug(arguments);
+    if (TRUtils.isDebugEnabled()) {
+        Tablerules.debug({ message: "before keeping sticky death saves.", arguments: arguments });
+    }
     if (typeof arguments[1].system !== "undefined")
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
@@ -598,8 +682,9 @@ Hooks.on("preUpdateActor", function () {
                     arguments[1].system.attributes.death.failure = arguments[0].system.attributes.death.failure;
                 }
             }
-    Tablerules.debug("after modifying arguments to make sticky death saves.");
-    Tablerules.debug(arguments);
+    if (TRUtils.isDebugEnabled()) {
+        Tablerules.debug({ message: "after modifying arguments to make sticky death saves.", arguments: arguments });
+    }
 });
 
 
