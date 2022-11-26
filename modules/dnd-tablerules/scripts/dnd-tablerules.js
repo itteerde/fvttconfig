@@ -99,58 +99,14 @@ class TRMath {
     }
 }
 
-class TRPerformance {
-
-    /**
-     * Whisper the threshold violation blind to GM.
-     * 
-     * @param {*} data 
-     */
-    static whisperAlert(data) {
-
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "TRPerformance.whisperAlert", data: data });
-        }
-
-        const message = data.message;
-        const timer = data.timer;
-        // create ChatMessage
-    }
-
-}
-
-class TRTimer {
-
-    constructor(name) {
-        this.name = name;
-        this.startTime = Date.now();
-        this.stopped = false;
-    }
-
-    stop() {
-        this.stopTime = Date.now();
-        this.stopped = true;
-    }
-
-    getStartTime() {
-        return this.startTime;
-    }
-
-    timeElapsed() {
-        if (this.stopped) {
-            return this.stopTime - this.startTime;
-        } else {
-            return Date.now() - this.startTime;
-        }
-    }
-
-    timeElapsedSeconds() {
-        return Math.round(this.timeElapsed() / 1000);
-    }
-
-}
-
 class TRUtils {
+
+    /*
+        Make Effect for Tablerules context, especially aware of the rules keys.
+    */
+    static makeEffect() {
+        return "notImplementedYet";
+    }
 
     /**
      * Distance between two Tokens.
@@ -168,9 +124,6 @@ class TRUtils {
         return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
     }
 
-    static isDebugEnabled() {
-        return (game.settings.get("Tablerules", "logLevel") >= 3);
-    }
 
     static registerSettings() {
         game.settings.register('Tablerules', 'isEnabled', {
@@ -218,38 +171,6 @@ class TRUtils {
             type: Boolean,
         });
 
-        game.settings.register("Tablerules", "measureLoadingTime", {
-            name: "Measure Loading Times (MLT)",
-            hint: "Measures the times it takes to load scenes on the client side.",
-            scope: "world",
-            config: true,
-            default: false,
-            type: Boolean
-        });
-
-        game.settings.register("Tablerules", "mltAlarmThreshold", {
-            name: "MLT Threshhold",
-            hint: "Threshold for alerting if if loading a scene takes longer than set in ms.",
-            scope: "world",
-            config: true,
-            default: 30000,
-            type: Number
-        });
-
-        game.settings.register("Tablerules", "mltReporting", {
-            name: "MLT Reporting",
-            hint: "Way to report threshold being violated.",
-            scope: "world",
-            config: true,
-            default: "disabled",
-            type: Number,
-            choices: {
-                0: "disabled",
-                1: "console",
-                2: "blind whisper"
-            }
-        });
-
         game.settings.register("Tablerules", "logLevel", {
             name: "Log Level",
             hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
@@ -275,12 +196,6 @@ class TRUtils {
             type: Boolean,
             onChange: () => window.location.reload()
         });
-    }
-
-    static registerWrappers() {
-        console.log("Tablerules registering wrappers");
-
-        libWrapper.register(Tablerules.SCOPE, "dnd5e.documents.Actor5e.prototype.rollDeathSave", Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, libWrapper.WRAPPER);
     }
 
 }
@@ -481,159 +396,15 @@ class Tablerules {
         }
     }
 
-    /**
-     * 
-     * @param {*} wrapped dnd5e.documents.Actor5e.rollDeathSave()
-     * @param  {...any} args arguments provided to dnd5e.documents.Actor5e.rollDeathSave()
-     * @returns  modified return of dnd5e.documents.Actor5e.rollDeathSave()
-     */
-    static async dnd5e_documents_Actor5e_prototype__rollDeathSave(wrapped, ...args) {
+    /*
+        dnd5e.preRestCompleted
 
-        if (!game.settings.get(Tablerules.SCOPE, "isEnabled")) {
-
-            if (TRUtils.isDebugEnabled()) {
-                Tablerules.debug({
-                    message: "Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, !isEnabled, returning wrapped.",
-                    wrapped: wrapped,
-                    args: args,
-                    isEnabled: game.settings.get(Tablerules.SCOPE, "isEnabled")
-                });
-            }
-
-            return wrapped(...args);
-        }
-
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({
-                message: "Tablerules.dnd5e_documents_Actor5e_prototype__rollDeathSave, executing own code.",
-                wrapped: wrapped,
-                args: args,
-                this: this
-            });
-        }
-
-        // modified clone code start
-        const death = this.system.attributes.death;
-
-        // Display a warning if we are not at zero HP or if we already have reached 3
-        if (this.system.attributes.hp.value > 0) {
-            ui.notifications.warn(game.i18n.localize("DND5E.DeathSaveUnnecessary"));
-            return null;
-        }
-
-        // Evaluate a global saving throw bonus
-        const speaker = ChatMessage.getSpeaker({ actor: this });
-        const globalBonuses = this.system.bonuses?.abilities ?? {};
-        const parts = [];
-        const data = this.getRollData();
-
-        // Diamond Soul adds proficiency
-        if (this.getFlag("dnd5e", "diamondSoul")) {
-            parts.push("@prof");
-            data.prof = new Proficiency(this.system.attributes.prof, 1).term;
-        }
-
-        // Include a global actor ability save bonus
-        if (globalBonuses.save) {
-            parts.push("@saveBonus");
-            data.saveBonus = Roll.replaceFormulaData(globalBonuses.save, data);
-        }
-
-        // Evaluate the roll
-        const flavor = game.i18n.localize("DND5E.DeathSavingThrow");
-        const rollData = {
-            parts,
-            data,
-            title: `${flavor}: ${this.name}`,
-            flavor,
-            halflingLucky: this.getFlag("dnd5e", "halflingLucky"),
-            targetValue: 10,
-            messageData: {
-                speaker: speaker,
-                "flags.dnd5e.roll": { type: "death" }
-            }
-        };
-
-        /**
-         * A hook event that fires before a death saving throw is rolled for an Actor.
-         * @function dnd5e.preRollDeathSave
-         * @memberof hookEvents
-         * @param {Actor5e} actor                Actor for which the death saving throw is being rolled.
-         * @param {D20RollConfiguration} config  Configuration data for the pending roll.
-         * @returns {boolean}                    Explicitly return `false` to prevent death saving throw from being rolled.
-         */
-        if (Hooks.call("dnd5e.preRollDeathSave", this, rollData) === false) return;
-
-        const roll = await this.d20Roll(rollData);
-        if (!roll) return null;
-
-        // Take action depending on the result
-        const details = {};
-
-        // Save success
-        if (roll.total >= (game.settings.get("Tablerules", "deathSaveDC") ?? 10)) {
-            let successes = (death.success || 0) + 1;
-
-            // Critical Success = revive with 1hp
-            if (roll.isCritical) {
-                details.updates = {
-                    "system.attributes.death.success": 0,
-                    "system.attributes.death.failure": 0,
-                    "system.attributes.hp.value": 1
-                };
-                details.chatString = "DND5E.DeathSaveCriticalSuccess";
-            }
-
-            // 3 Successes = survive and reset checks
-            else if (successes === 3) {
-                details.updates = {
-                    "system.attributes.death.success": 0,
-                    "system.attributes.death.failure": 0
-                };
-                details.chatString = "DND5E.DeathSaveSuccess";
-            }
-
-            // Increment successes
-            else details.updates = { "system.attributes.death.success": Math.clamped(successes, 0, 3) };
-        }
-
-        // Save failure
-        else {
-            let failures = (death.failure || 0) + (roll.isFumble ? 2 : 1);
-            details.updates = { "system.attributes.death.failure": Math.clamped(failures, 0, 3) };
-            if (failures >= 3) {  // 3 Failures = death
-                details.chatString = "DND5E.DeathSaveFailure";
-            }
-        }
-
-        /**
-         * A hook event that fires after a death saving throw has been rolled for an Actor, but before
-         * updates have been performed.
-         * @function dnd5e.rollDeathSave
-         * @memberof hookEvents
-         * @param {Actor5e} actor              Actor for which the death saving throw has been rolled.
-         * @param {D20Roll} roll               The resulting roll.
-         * @param {object} details
-         * @param {object} details.updates     Updates that will be applied to the actor as a result of this save.
-         * @param {string} details.chatString  Localizable string displayed in the create chat message. If not set, then
-         *                                     no chat message will be displayed.
-         * @returns {boolean}                  Explicitly return `false` to prevent updates from being performed.
-         */
-        if (Hooks.call("dnd5e.rollDeathSave", this, roll, details) === false) return roll;
-
-        if (!foundry.utils.isEmpty(details.updates)) await this.update(details.updates);
-
-        // Display success/failure chat message
-        if (details.chatString) {
-            let chatData = { content: game.i18n.format(details.chatString, { name: this.name }), speaker };
-            ChatMessage.applyRollMode(chatData, roll.options.rollMode);
-            await ChatMessage.create(chatData);
-        }
-
-        // Return the rolled result
-        return roll;
-        // modified clone code end
-
+        Test if we can programm this way for nicer debugging/ if the expectation that this gives you prettier debugging is correct.
+    */
+    static dnd5ePreRestCompleted() {
+        console.log("Does this work?");
+        console.log(arguments);
+        console.log("If we got here without errors it probably does.");
     }
 
     static async dnd5ePreRollDeathSave() {
@@ -643,13 +414,7 @@ class Tablerules {
         const dead = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.dead.key) ?? false;
 
         if (dead) {
-
-            if (TRUtils.isDebugEnabled()) {
-                Tablerules.debug({
-                    message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.",
-                    arguments: arguments
-                });
-            }
+            Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave, is already dead, returning false to abort.", arguments: arguments });
 
             let chatData = {
                 content: `${actor.name} is ${dead ? "dead" : ""}${stabilized ? "stabilized" : ""}, faking roll.`,
@@ -663,25 +428,13 @@ class Tablerules {
         }
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
-
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({
-                message: "Tablerules.dnd5ePreRollDeathSave",
-                object: arguments
-            });
-        }
+        Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
 
     }
 
     static dnd5eRollDeathSave() {
 
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({
-                message: "Tablerules.dnd5eRollDeathSave, start",
-                object: arguments
-            });
-        }
-
+        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, start", object: arguments });
         const actor = arguments[0];
         const stabilized = actor.getFlag(Tablerules.SCOPE, Tablerules.dictionary.config.death.stabilized.key) ?? false;
 
@@ -690,13 +443,7 @@ class Tablerules {
         }
 
         if (stabilized) {
-            if (TRUtils.isDebugEnabled()) {
-                Tablerules.debug({
-                    message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.",
-                    arguments: arguments
-                });
-            }
-
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, was already stabilized, returning false to abort.", arguments: arguments });
             return false;
         }
 
@@ -705,14 +452,7 @@ class Tablerules {
             foundry.utils.setProperty(arguments[2].updates, `flags.${Tablerules.SCOPE}.${Tablerules.dictionary.config.death.stabilized.key}`, false);
 
             arguments[2].updates["system.attributes.death.failure"] = arguments[0].system.attributes.death.failure;
-
-            if (TRUtils.isDebugEnabled()) {
-                Tablerules.debug({
-                    message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized",
-                    object: arguments
-                });
-            }
-
+            Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave, roll === 20 and not stabalized", object: arguments });
             return;
         }
 
@@ -747,12 +487,7 @@ class Tablerules {
             Tablerules.debug("Tablerules.dnd5eRollDeathSave, stabilized.");
         }
 
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({
-                message: "Tablerules.dnd5eRollDeathSave end",
-                object: arguments
-            });
-        }
+        Tablerules.debug({ message: "Tablerules.dnd5eRollDeathSave end", object: arguments });
     }
 
 
@@ -761,9 +496,7 @@ class Tablerules {
      */
     static dnd5eUseItem() {
 
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "Tablerules.dnd5eUseItem", arguments: arguments });
-        }
+        Tablerules.debug(arguments);
 
         if (!Tablerules.isItem5e(arguments[0])) {
             console.log("Not a 5e item!!");
@@ -892,7 +625,6 @@ Hooks.on("dnd5e.useItem", function () {
 
 Hooks.on('init', () => {
     TRUtils.registerSettings();
-    TRUtils.registerWrappers();
 });
 
 Hooks.on("ready", function () {
@@ -915,4 +647,3 @@ Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character
 
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
-
