@@ -553,9 +553,9 @@ Hooks.on("preUpdateActor", function () {
     if (typeof arguments[1].system !== "undefined")
         if (typeof arguments[1].system.attributes !== "undefined")
             if (typeof arguments[1].system.attributes.death !== "undefined") {
-                if (arguments[2].dhp > 0) {
-                    arguments[1].system.attributes.death.success = 0;
-                    arguments[1].system.attributes.death.failure = arguments[0].system.attributes.death.failure;
+                //The 'and' protects agaisnt 'on healing'
+                if (arguments[1].system.attributes.death.success === 0 && arguments[1].system.attributes.death.failure === 0) {
+                    arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
                 }
             }
     if (TRUtils.isDebugEnabled()) {
