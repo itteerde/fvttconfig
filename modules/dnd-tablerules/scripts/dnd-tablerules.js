@@ -238,7 +238,8 @@ class TRUtils {
                 2: "info",
                 3: "debug"
             },
-            onChange: () => window.location.reload()
+            //onChange: () => window.location.reload()
+            requiresReload: true
         });
 
         game.settings.register('Tablerules', 'logOwn', {
@@ -248,7 +249,8 @@ class TRUtils {
             config: true,
             default: false,
             type: Boolean,
-            onChange: () => window.location.reload()
+            //onChange: () => window.location.reload()
+            requiresReload: true
         });
     }
 
