@@ -190,24 +190,6 @@ class TRUtils {
             type: Number,
         });
 
-        game.settings.register('Tablerules', 'stickyDeathSaves', {
-            name: "Sticky Death Saves",
-            hint: "Normally Death Saves reset when you regain consciousness (technically being updated to hp.value>0). This will set Death Saves to reset with a Short Rest.",
-            scope: 'world',
-            config: true,
-            default: true,
-            type: Boolean,
-        });
-
-        game.settings.register('Tablerules', 'truelyBlindDeathSaves', {
-            name: "Truely Blind Death Saves",
-            hint: "Enable to hide Death Save results from the Character Sheet while the character is unconscious. Currently without effect.",
-            scope: 'world',
-            config: true,
-            default: false,
-            type: Boolean
-        });
-
         game.settings.register('Tablerules', 'noHealOnLongRest', {
             name: "Long Rest does not reset HP",
             hint: "Typically, all HP are regained on a Long Rest. This will disable that feature.",
@@ -501,7 +483,7 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
 
     async getData() {
         const data = foundry.utils.mergeObject(await super.getData(), {
-            "Tablerules.truelyBlindDeathSaves": game.settings.get("Tablerules", "truelyBlindDeathSaves")
+            //"Tablerules.truelyBlindDeathSaves": game.settings.get("Tablerules", "truelyBlindDeathSaves")
         });
 
         if (TRUtils.isDebugEnabled()) {
@@ -534,47 +516,13 @@ Hooks.on("dnd5e.preRestCompleted", function () {
 
     }
 
-    if (TRUtils.isDebugEnabled()) {
-        Tablerules.debug({ message: "resetting death saves on Rest (SR/LR).", arguments: arguments });
-    }
     arguments[1].updateData["system.attributes.death.success"] = 0;
-    //foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.success", 0);
     arguments[1].updateData["system.attributes.death.failure"] = 0;
-    //foundry.utils.setProperty(arguments[1].updateData, "system.attributes.death.failure", 0);
-
 });
-
-/**
- * make death saves sticky (don't reset on healing)
- */
-Hooks.on("preUpdateActor", function () {
-
-    if (TRUtils.isDebugEnabled()) {
-        Tablerules.debug({ message: "before keeping sticky death saves.", arguments: arguments });
-    }
-    if (typeof arguments[1].system !== "undefined")
-        if (typeof arguments[1].system.attributes !== "undefined")
-            if (typeof arguments[1].system.attributes.death !== "undefined") {
-                //The 'and' protects agaisnt 'on healing'
-                if (arguments[2].dhp !== undefined) {
-
-                    if (arguments[2].dph > 0) {
-                        arguments[1].system.attributes["death"] = arguments[0].system.attributes.death;
-                        arguments[1].system.attributes.death.success = 0;
-                    }
-
-                }
-            }
-    if (TRUtils.isDebugEnabled()) {
-        Tablerules.debug({ message: "after modifying arguments to make sticky death saves.", arguments: arguments });
-    }
-});
-
 
 Hooks.on("dnd5e.preRollDeathSave", function () {
     return Tablerules.dnd5ePreRollDeathSave(...arguments);
 });
-
 
 /**
  * 
@@ -582,7 +530,6 @@ Hooks.on("dnd5e.preRollDeathSave", function () {
 Hooks.on("dnd5e.useItem", function () {
     Tablerules.dnd5eUseItem(...arguments);
 });
-
 
 Hooks.on('init', () => {
     TRUtils.registerSettings();
@@ -595,16 +542,8 @@ Hooks.on("ready", function () {
     Tablerules.config.logOwn = game.settings.get("Tablerules", "logOwn");
 });
 
-
-
-
-
-
-
-
-
 console.log("Tablerules registering sheets.");
-Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: false, label: "Tablerules Character" });
+Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
 
 
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
