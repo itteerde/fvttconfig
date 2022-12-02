@@ -34,9 +34,27 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
         tokensInRange = tokensInRange.filter(t => TRUtils.distancePlacables(template, t) <= 30);
     }
 
-
     console.log(tokensInRange);
-    //let dataToBeModifiedInDialog = tokensInRange.map(t => ({ name: t.actor.name, value: t.actor.system.attributes.hp.value, max: t.actor.system.attributes.hp.max, half: Math.floor(t.actor.system.attributes.hp.max / 2), id: t.actor._id }));
+
+    //const hpHealed = actor._classes.druid.system.levels;
+
+    await Requestor.request({
+        description: "Spirit Totem (Unicorn Spirit Healing)",
+        buttonData: [{
+            label: "(Unicorn Spirit Healing)",
+            action: async (param = { Name: "String Test" }) => {
+                console.log({ message: "request.action", arguments: arguments });
+                let hpHealed = actor._classes.druid.system.levels;
+                await actor.applyDamage(hpHealed);
+            }
+        }]
+    });
+
+
+
+
+
+
 
     return;
 }
