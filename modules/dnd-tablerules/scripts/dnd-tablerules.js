@@ -170,6 +170,24 @@ class TRUtils {
         return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
     }
 
+    /**
+       * Distance between two placeables.
+       * 
+       * @param {Placable} source One of the two placables.
+       * @param {Placable} target The other placables.
+       * @param {boolean} [in3D=false] false if to ignore elevation difference. By default true meassuring 3-dimensional.
+       * @returns {number} the distance.
+       */
+    static distancePlacables(source, target, in3D = false) {
+        const distance = Math.round(canvas.grid.measureDistance(source, target, { gridSpaces: true }));
+        if (!in3D)
+            return distance;
+
+        return Math.round(Math.sqrt(distance * distance + (source.document.elevation - target.document.elevation) * (source.document.elevation - target.document.elevation)));
+    }
+
+
+
 
     static registerSettings() {
         game.settings.register('Tablerules', 'isEnabled', {
