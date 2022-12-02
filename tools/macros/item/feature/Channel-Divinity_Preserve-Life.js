@@ -3,6 +3,15 @@
  */
 
 const macroLabel = Tablerules.dictionary.class.cleric.life.features.preserveLife.label;
+
+if (await item.use() === null) {
+  if (TRUtils.isDebugEnabled()) {
+    Tablerules.debug({ message: `${macroLabel}, item.use() returned null, returning.`, arguments: arguments });
+  }
+  return;
+}
+
+
 const useDistance3D = true;
 
 let tokensInRange = canvas.tokens.placeables.filter(
@@ -20,11 +29,47 @@ if (useDistance3D) {
 
 let dataToBeModifiedInDialog = tokensInRange.map(t => ({ name: t.actor.name, value: t.actor.system.attributes.hp.value, max: t.actor.system.attributes.hp.max, half: Math.floor(t.actor.system.attributes.hp.max / 2), id: t.actor._id }));
 
-console.log(dataToBeModifiedInDialog);
+if (TRUtils.isDebugEnabled()) {
+  Tablerules.debug({ message: `${macroLabel}, collected data for GUI.`, arguments: arguments, dataToBeModifiedInDialog: dataToBeModifiedInDialog });
+}
+
 
 //create Dialog, change values, update values returned (via Actor.applyDamage() for visuals)
 //create ChatMessage
 
+// https://discord.com/channels/170995199584108546/699750150674972743/1048270276368015472
+
+/*
+const content = tokensInRange.reduce((acc, token) => {
+  return acc + `
+  <div class="form-group">
+    <label>${token.actor.name}</label>
+    <div class="form-fields">
+      <input data-token-id="${token.document.id}" value="${token.actor.system.attributes.hp.value}">
+    </div>
+  </div>`;
+}, "<form>") + "</form>";
+const map_of_ids_and_values = await Dialog.prompt({
+  title: macroLabel,
+  content,
+  callback: (html) => {
+    return = [...html[0].querySelector("input")].map(i => {
+      return {id: i.dataset.tokenId, hp: i.value};
+    });
+  },
+  rejectClose: false
+});
+*/
+
+/*
+
+  on GUI validation
+
+  https://github.com/krbz999/zhell-macros/blob/main/classes/wizard/arcane_recovery.js , line 73
+
+*/
+
+//
 
 const { a, b } = await Dialog.prompt({
   title: macroLabel,
