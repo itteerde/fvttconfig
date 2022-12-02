@@ -36,22 +36,19 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
 
     console.log(tokensInRange);
 
-    //const hpHealed = actor._classes.druid.system.levels;
+    const hpHealed = actor._classes.druid.system.levels;
 
-    const params = { actorId: "8ugKnRSqQzxSxrZO", hpHealed: 6 };
+    const params = { actorId: actor._id, hpHealed: hpHealed };
     await Requestor.request({
         description: "Spirit Totem (Unicorn Spirit Healing)",
         buttonData: [{
             label: "(Unicorn Spirit Healing)",
             action: async () => {
-                await game.actors.get(this.actorId).applyDamage(this.hpHealed);
+                await game.actors.get(this.actorId).applyDamage(-this.hpHealed);
             },
-            actorId: "8ugKnRSqQzxSxrZO",
-            hpHealed: 6
+            ...params
         }]
     });
-
-
 
 
 
