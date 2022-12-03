@@ -34,8 +34,9 @@ if (TRUtils.isDebugEnabled()) {
 }
 
 
-//create Dialog, change values, update values returned (via Actor.applyDamage() for visuals)
-//create ChatMessage
+//create Dialog, change values
+//put values returned to GM with Requestor
+//updates (via Actor.applyDamage() for visuals)
 
 // https://discord.com/channels/170995199584108546/699750150674972743/1048270276368015472
 
