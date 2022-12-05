@@ -37,6 +37,7 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
         title: "Unicorn Spirit",
         description: `Spirit Totem (Unicorn Spirit Healing) healing ${tokensInRange.map(t => ` ${t.actor.name}`)} for ${hpHealed} each.`,
         img: "icons/commodities/treasure/trinket-totem-bone-green.webp",
+        whisper: [game.users.getName("Gamemaster").id],
         buttonData: [{
             label: "Approve Healing",
             limit: Requestor.LIMIT.ONCE,
