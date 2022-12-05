@@ -7,6 +7,7 @@
 
 const useDistance3D = true;
 const macroLabel = "Spirit Totem: Unicorn";
+
 console.log({ message: `${macroLabel}`, arguments: arguments });
 const actor = arguments[2];
 const item = arguments[0];
@@ -15,16 +16,7 @@ let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).
 
 let template = templates[0];
 
-console.log({ message: `${macroLabel}`, actor: actor, item: item, template: template, templates: templates });
-
-/*
-
-This is the path we are healing
-
-*/
-
 if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Template").length === 1) {
-    console.log("Spirit Totem (Unicorn Spirit) is Present");
 
     let tokensInRange = canvas.tokens.placeables.filter(t => t.document.disposition === 1);
 
@@ -33,8 +25,6 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
     } else {
         tokensInRange = tokensInRange.filter(t => TRUtils.distancePlacables(template, t) <= 30);
     }
-
-    console.log(tokensInRange);
 
     const hpHealed = actor._classes.druid.system.levels;
     const actors = [];
@@ -48,7 +38,6 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
         buttonData: [{
             label: "(Unicorn Spirit Healing)",
             action: async () => {
-                console.log({ message: "Trying to heal the group", arguments: arguments });
                 for (let i = 0; i < arguments[5].actorId.length; i++) {
                     await game.actors.get(arguments[5].actorId[i]).applyDamage(-this.hpHealed);
                 }
@@ -62,17 +51,10 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
 }
 
 if (await item.use() === null) {
-    console.log("Did Godot arive?");
     return;
 }
 
-console.log({ message: "Actor and Item", actor: actor, item: item });
 
-/*
-
-No totem is present, create the totem
-
-*/
 templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
 console.log({ message: "templates", templates: templates });
 if (templates.length > 1) {
@@ -80,10 +62,11 @@ if (templates.length > 1) {
     return;
 }
 
+template = templates[0];
 console.log({ message: "template", template: template });
 
 
-
-
-console.log(template);
-
+await template.update({
+    texture: 'modules/Tablerules/icons/magic/textures/unicornSpiritTotem03.webp',
+    "flags.tokenmagic.templateData.opacity": .25
+});
