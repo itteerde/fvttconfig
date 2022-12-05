@@ -34,9 +34,12 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
     }
     const params = { actorId: actors, hpHealed: hpHealed };
     await Requestor.request({
-        description: "Spirit Totem (Unicorn Spirit Healing)",
+        title: "Unicorn Spirit",
+        description: `Spirit Totem (Unicorn Spirit Healing) healing ${tokensInRange.map(t => ` ${t.actor.name}`)} for ${hpHealed} each.`,
+        img: "icons/commodities/treasure/trinket-totem-bone-green.webp",
         buttonData: [{
-            label: "(Unicorn Spirit Healing)",
+            label: "Approve Healing",
+            limit: Requestor.LIMIT.ONCE,
             action: async () => {
                 for (let i = 0; i < arguments[5].actorId.length; i++) {
                     await game.actors.get(arguments[5].actorId[i]).applyDamage(-this.hpHealed);
