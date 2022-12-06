@@ -1,5 +1,5 @@
 /**
- * Effect-Macro Macro onCreation for the Summon Beast Spell
+ * Item-Macro Macro onCreation for the Summon Beast Spell, until now only tested from Control Bar.
  * 
  * https://www.dndbeyond.com/spells/summon-beast
  */
