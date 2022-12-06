@@ -2,6 +2,8 @@
  * Item-Macro Macro onCreation for the Summon Beast Spell, until now only tested from Control Bar.
  * 
  * https://www.dndbeyond.com/spells/summon-beast
+ * 
+ * TODO: clean up logging (pretty much remove, or put all to Tablerules logging with .debug() )
  */
 
 const macroLabel = "Summon Beast";
@@ -12,16 +14,22 @@ const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater
 const addGlow = true;
 const addBlur = true;
 
-// TODO: get from context
-actor = game.actors.getName("Jorrick");
+//  from context (Item-Macro), drag Item in Control Bar for Control Bar use with selecting. Use next line for Control Bar without Selection providing the name (ID would be better)
+//actor = game.actors.getName("Jorrick");
 
 // TODO: get from context
 const item = actor.items.getName("Summon Beast");
+
+console.log({ message: macroLabel, actor: actor, item: item, arguments: arguments });
 
 
 const level = await warpgate.dnd5e.rollItem(item);
 
 console.log({ message: macroLabel, level: level, arguments: arguments });
+
+if (!level > 0) {
+    return;
+}
 
 const summonerDc = actor.data.data.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
