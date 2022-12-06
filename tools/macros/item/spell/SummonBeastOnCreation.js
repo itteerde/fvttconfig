@@ -75,15 +75,15 @@ console.log({ message: macroLabel, spirit: spirit });
 let updates = {
     token: { "displayName": CONST.TOKEN_DISPLAY_MODES.HOVER },
     actor: {
-        'data.attributes.ac.flat': 11 + level,
-        'data.attributes.hp': { value: 30 + 5 * (level - 2), max: 30 + 5 * (level - 2) },
+        'system.attributes.ac.flat': 11 + level,
+        'system.attributes.hp': { value: 30 + 5 * (level - 2), max: 30 + 5 * (level - 2) },
     },
     embedded: {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
             "Maul": {
-                'data.damage.parts': [[`1d4 + 4 + ${level}`, "piercing"]],
-                'data.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+                'system.damage.parts': [[`1d4 + 4 + ${level}`, "piercing"]],
+                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             }
         }
     }
@@ -91,9 +91,21 @@ let updates = {
 }
 
 /* update variants */
+if (spirit.actor.name === "Bestial Spirit Land") {
+    updates["actor.img"] = textureLand;
+    updates["token.texture.src"] = textureLand;
+}
+
 if (spirit.actor.name === "Bestial Spirit Air") {
     console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
-    updates['actor.data.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
+    updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
+    updates["actor.img"] = textureAir;
+    updates["token.texture.src"] = textureAir;
+}
+
+if (spirit.actor.name === "Bestial Spirit Water") {
+    updates["actor.img"] = textureWater;
+    updates["token.texture.src"] = textureWater;
 }
 
 /* Combine the general and specific updates */
@@ -101,7 +113,6 @@ updates = mergeObject(updates, spirit);
 
 const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
 
-// TODO: maybe make it more robust for multiple spawns right away?
 const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
 
 console.log({ message: macroLabel, spawn: spawn, spawnIds: spawnIds });
