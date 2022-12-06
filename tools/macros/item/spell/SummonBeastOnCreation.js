@@ -5,9 +5,15 @@
  */
 
 const macroLabel = "Summon Beast";
+const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
+const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritAir2.webp";
+const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
+
+const addGlow = true;
+const addBlur = true;
 
 // TODO: get from context
-const actor = game.actors.getName("Jorrick");
+actor = game.actors.getName("Jorrick");
 
 // TODO: get from context
 const item = actor.items.getName("Summon Beast");
@@ -20,7 +26,7 @@ console.log({ message: macroLabel, level: level, arguments: arguments });
 const summonerDc = actor.data.data.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
-/* Prompt the user for which type of badger to summon */
+/* Prompt the user for which type of spirit to summon */
 const buttonData = {
     buttons: [{
         label: "Bestial Spirit Land",
@@ -29,8 +35,8 @@ const buttonData = {
             actor: { name: "Bestial Spirit Land" },
             embedded: {
                 Item: {
-                    "Thick Hide": warpgate.CONST.DELETE,
-                    "Regeneration": warpgate.CONST.DELETE
+                    "Flyby": warpgate.CONST.DELETE,
+                    "Water breathing": warpgate.CONST.DELETE
                 }
             }
         }
@@ -41,11 +47,8 @@ const buttonData = {
             token: { name: "Bestial Spirit Air" },
             embedded: {
                 Item: {
-                    "Hide": warpgate.CONST.DELETE,
-                    "Flatten": warpgate.CONST.DELETE,
-                    "Thick Hide": {
-                        'data.uses': { value: level, max: level, per: 'charges' }
-                    }
+                    "Pack Tactics": warpgate.CONST.DELETE,
+                    "Water Breathing": warpgate.CONST.DELETE
                 }
             }
         }
@@ -56,11 +59,8 @@ const buttonData = {
             token: { name: "Bestial Spirit Water" },
             embedded: {
                 Item: {
-                    "Hide": warpgate.CONST.DELETE,
-                    "Flatten": warpgate.CONST.DELETE,
-                    "Thick Hide": {
-                        'data.uses': { value: level, max: level, per: 'charges' }
-                    }
+                    "Flyby": warpgate.CONST.DELETE,
+                    "Pack Tactics": warpgate.CONST.DELETE
                 }
             }
         }
@@ -68,31 +68,44 @@ const buttonData = {
     ], title: "Which version?"
 };
 
-let badger = await warpgate.buttonDialog(buttonData);
+let spirit = await warpgate.buttonDialog(buttonData);
+console.log({ message: macroLabel, spirit: spirit });
 
-/* Craft the updates that are common to all spiritual badgers */
+/* Craft the updates that are common to all spirits */
 let updates = {
     token: { "displayName": CONST.TOKEN_DISPLAY_MODES.HOVER },
     actor: {
         'data.attributes.ac.flat': 11 + level,
-        'data.attributes.hp': { value: 40 + 10 * (level - 4), max: 40 + 10 * (level - 4) },
+        'data.attributes.hp': { value: 30 + 5 * (level - 2), max: 30 + 5 * (level - 2) },
     },
     embedded: {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
-            "Claws": {
-                'data.damage.parts': [[`1d8 + 2 + ${level}`]],
+            "Maul": {
+                'data.damage.parts': [[`1d4 + 4 + ${level}`, "piercing"]],
                 'data.attackBonus': `- @mod - @prof + ${summonerAttack}`,
-            },
-            "Intimidate": {
-                'data.save': { ability: "wis", dc: summonerDc, scaling: "flat" }
             }
         }
     }
 
 }
 
-/* Combine the general and specific updates */
-updates = mergeObject(updates, badger);
+/* update variants */
+if (spirit.actor.name === "Bestial Spirit Air") {
+    console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
+    updates['actor.data.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
+}
 
-await warpgate.spawn("Spiritual Badger", updates);
+/* Combine the general and specific updates */
+updates = mergeObject(updates, spirit);
+
+const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
+
+// TODO: maybe make it more robust for multiple spawns right away?
+const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
+
+console.log({ message: macroLabel, spawn: spawn, spawnIds: spawnIds });
+
+for (let i = 0; i < spawnIds.length; i++) {
+    s = canvas.tokens.get(spawnIds[i]);
+}
