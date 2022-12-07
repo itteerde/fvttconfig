@@ -7,9 +7,9 @@
  */
 
 const macroLabel = "Summon Beast";
-const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
-const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritAir2.webp";
-const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
+const textureLand = "modules/Tablerules/icons/magic/summons/Einhornchen_Medium_Spirit_01.webp";
+const textureAir = "modules/Tablerules/icons/magic/summons/Quipper_Tiny_Spirit_01.webp";
+const textureWater = "modules/Tablerules/icons/magic/summons/Giant_Octopus_Large_Spirit_01.webp";
 
 const addGlow = true;
 const addBlur = true;
@@ -44,7 +44,7 @@ const buttonData = {
             embedded: {
                 Item: {
                     "Flyby": warpgate.CONST.DELETE,
-                    "Water breathing": warpgate.CONST.DELETE
+                    "Water Breathing": warpgate.CONST.DELETE
                 }
             }
         }
@@ -90,7 +90,7 @@ let updates = {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
             "Maul": {
-                'system.damage.parts': [[`1d4 + 4 + ${level}`, "piercing"]],
+                'system.damage.parts': [[`1d8 + 4 + ${level}`, "piercing"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             }
         }
