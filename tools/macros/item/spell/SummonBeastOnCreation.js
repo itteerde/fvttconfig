@@ -44,7 +44,7 @@ const buttonData = {
             embedded: {
                 Item: {
                     "Flyby": warpgate.CONST.DELETE,
-                    "Water breathing": warpgate.CONST.DELETE
+                    "Water Breathing": warpgate.CONST.DELETE
                 }
             }
         }
@@ -90,7 +90,7 @@ let updates = {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
             "Maul": {
-                'system.damage.parts': [[`1d4 + 4 + ${level}`, "piercing"]],
+                'system.damage.parts': [[`1d8 + 4 + ${level}`, "piercing"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             }
         }

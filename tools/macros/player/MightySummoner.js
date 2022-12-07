@@ -24,6 +24,7 @@ if (canvas.tokens.hover.document.disposition !== 1) {// guess your own summons s
 }
 
 const rollFormula = game.actors.find(a => a._id === canvas.tokens.hover.document.actorId).system.attributes.hp.formula;
+console.log({ message: macroLabel, rollFormula: rollFormula });
 if (rollFormula === undefined) {
     ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target.`);
     return;
