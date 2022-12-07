@@ -81,7 +81,10 @@ console.log({ message: macroLabel, spirit: spirit });
 
 /* Craft the updates that are common to all spirits */
 let updates = {
-    token: { "displayName": CONST.TOKEN_DISPLAY_MODES.HOVER },
+    token: {
+        "displayName": CONST.TOKEN_DISPLAY_MODES.HOVER,
+        "flags.Tablerules.spellLevel": level
+    },
     actor: {
         'system.attributes.ac.flat': 11 + level,
         'system.attributes.hp': { value: 30 + 5 * (level - 2), max: 30 + 5 * (level - 2) },
@@ -96,8 +99,6 @@ let updates = {
         }
     }
 }
-
-updates["flags.Tablerules.spellLevel"] = level;
 
 /* update variants */
 if (spirit.actor.name === "Bestial Spirit Land") {
