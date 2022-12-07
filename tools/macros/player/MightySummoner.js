@@ -12,6 +12,8 @@ const label = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner
 const macroLabel = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label;
 
 actor = canvas.tokens.hover?.actor;
+//const token = canvas.tokens.hover;
+
 
 if (canvas.tokens.hover === null) {
     ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target.`);
@@ -30,7 +32,6 @@ if (rollFormula === undefined) {
     return;
 }
 
-const hitDice = new Roll(rollFormula).evaluate({ async: false }).dice.map(d => d.number).reduce((previousValue, currentValue) => previousValue + currentValue);
 
 const effectData = { icon, label };
 const effect = actor.effects.find(e => e.getFlag("world", Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.key));
@@ -44,7 +45,24 @@ else {
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 }
 
-await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.value + 2 * hitDice, "system.attributes.hp.max": actor.system.attributes.hp.max + 2 * hitDice });
+let hpBonus = 0;
+
+if (rollFormula === "") { // Summon Beast, Fey
+
+    //    const spellLevel = token.document.flags.Tablerules.spellLevel;
+
+    hpBonus = actor.system.attributes.hp.value * 2 / 5;
+
+
+} else { // Conjure Animals, Woodland Beast, etc...
+
+    const hitDice = new Roll(rollFormula).evaluate({ async: false }).dice.map(d => d.number).reduce((previousValue, currentValue) => previousValue + currentValue);
+
+    hpBonus = 2 * hitDice;
+
+};
+
+await actor.update({ "system.attributes.hp.value": actor.system.attributes.hp.value + hpBonus, "system.attributes.hp.max": actor.system.attributes.hp.max + hpBonus });
 
 const items = actor.items.filter(i => i.type === "weapon");
 
