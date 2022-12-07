@@ -97,7 +97,7 @@ let updates = {
     }
 }
 
-foundry.utils.setProperty(updates, "flags.Tablerules.spellLevel", level);
+updates["flags.Tablerules.spellLevel"] = level;
 
 /* update variants */
 if (spirit.actor.name === "Bestial Spirit Land") {
