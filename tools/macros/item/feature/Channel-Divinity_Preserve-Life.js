@@ -80,7 +80,7 @@ const dialogResult = await Dialog.prompt({
 
 let requestorDescription = "";
 for (let i = 0; i < dialogResult.length - 1; i++) {
-  requestorDescription += ` ${canvas.scene.tokens.find(t => t.id === dialogResult[i].id).actor.name} +${dialogResult[i].healing}`
+  requestorDescription += ` ${canvas.scene.tokens.find(t => t.id === dialogResult[i].id).actor.name} +${dialogResult[i].healing}; `
 }
 
 await Requestor.request({
