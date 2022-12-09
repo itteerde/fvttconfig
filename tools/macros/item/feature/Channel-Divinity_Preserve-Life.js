@@ -7,6 +7,7 @@
 
 const macroLabel = "Channel Divinity: Preserve Life";
 const useDistance3D = true;
+const image = "icons/magic/light/orb-beams-green.webp";
 
 if (await item.use() === null) {
   if (TRUtils.isDebugEnabled()) {
@@ -28,24 +29,38 @@ if (useDistance3D) {
 const maxHpHealed = actor._classes.cleric.system.levels * 5;
 let healingPool = maxHpHealed;
 
-const description = `As an action, you present your holy symbol and evoke healing energy that can restore a number of hit points equal to five times your cleric level (${maxHpHealed}). Choose any creatures within 30 feet of you, and divide those hit points among them. This feature can restore a creature to no more than half of its hit point maximum. You can’t use this feature on an undead or a construct.`;
-
-const footer = `
-<div class="form-group">
-  <label>Healing Pool</label>
-  <input type="number" value="${healingPool}" disabled>
-</div>`;
-
-const content = description + tokensInRange.reduce((acc, token) => {
+const tokens = tokensInRange.reduce((acc, token) => {
   return acc + `
-  <div class="form-group">
-    <label>${token.actor.name}</label>
-    <label>${token.actor.system.attributes.hp.value}/${token.actor.system.attributes.hp.max}</label>
-    <div class="form-fields">
-      <input data-token-id="${token.document.id}" type="number" style="width: 3em;" value="0" min="0"></input>
-    </div>
-  </div>`;
-}, "<form>") + footer + "</form>";
+   <div class="form-group">
+       <label style="min-width: 300px;">${token.actor.name}</label>
+       <label style="flex:1;">${token.actor.system.attributes.hp.value}/${token.actor.system.attributes.hp.max}</label>
+       <div name="${token.document.id}" class="form-fields" style="justify-content: left;">
+           <button type="button" class="add">+</button>
+           <input class="heal-value" data-token-id="${token.document.id}" type="number" style="flex: 0; min-width: 30px" value="0" min="0" max="${Math.floor(token.actor.system.attributes.hp.max / 2) - token.actor.system.attributes.hp.value}" step="1"></input>
+           <button type="button" class="minus">-</button>
+       </div>
+   </div>
+   `;
+}, ``);
+
+const content = `
+<form style="margin-bottom: 10px">
+   <div style="display: flex; margin-bottom: 10px;">
+       <img src="${image}" title="Channel Divinity: Preserve Life" style="flex: 0; width: 100px; height: 100px; margin-right: 10px" >
+       <div style="flex: 1">As an action, you present your holy symbol and evoke healing energy that can restore a number of hit points equal to five times your cleric level (${maxHpHealed}). Choose any creatures within 30 feet of you, and divide those hit points among them. This feature can restore a creature to no more than half of its hit point maximum. You can’t use this feature on an undead or a construct.</div>
+   </div>
+
+   <div>
+       ${tokens}
+   </div>
+
+   <div class="form-group">
+       <label style="flex: 1">Healing Pool</label>
+       <input name="total" totalstyle="flex: 1" type="number" value="${healingPool}" disabled>
+   </div>
+</form>
+`;
+
 const dialogResult = await Dialog.prompt({
   title: macroLabel,
   content,
@@ -54,21 +69,48 @@ const dialogResult = await Dialog.prompt({
       return { id: i.dataset.tokenId, healing: i.value };
     });
   },
-  render: (html) => html[0].addEventListener("change", (event) => { _changeEvent(event, html) }),
-  rejectClose: false
+  render: html => {
+    html[0].addEventListener("click", (event) => clickEvent(event, html));
+    html[0].addEventListener("change", (event) => changeEvent(event, html));
+  },
+  rejectClose: false,
+  label: 'Heal',
+  options: { width: 600 }
 });
 
 console.log({ message: `${macroLabel}, returned from Dialog`, dialogResult: dialogResult });
 
 
-function _changeEvent(event, html) {
-  console.log({ message: `${macroLabel}, _changeEvent()`, arguments: arguments });
-  const input = event.target;
-  if (input.name === "Steve") {
-    /* do something specific for the input named 'Steve' */
-  } else if (input.name === "Not-so-Steve") {
-    /* do something specific for the input named 'Not-so-Steve' */
+function clickEvent(event, html) {
+  console.log({ message: `${macroLabel}, clickEvent()`, arguments: arguments });
+  const trg = event.target;
+  if (trg.type !== 'button') return;
+
+  let input;
+  if (trg.classList.contains('add')) {
+    input = trg.nextElementSibling;
+    input.oldValue = input.value;
+    input.value = parseInt(input.value) + 1;
+  } else if (trg.classList.contains('minus')) {
+    input = trg.previousElementSibling;
+    input.oldValue = input.value;
+    input.value = Math.max(parseInt(input.value) - 1, 0);
   }
+
+  changeEvent(input, html);
+}
+
+function changeEvent(input, html) {
+  if (input instanceof Event) input = input.target;
+  const total = html[0].querySelector('input[name="total"]').value;
+  let runningTotal = 0;
+  html[0].querySelectorAll('input.heal-value').forEach(n => runningTotal += parseInt(n.value));
+
+  const oldValue = input.oldValue || 0;
+  const newValue = input.value;
+
+  if (runningTotal > total || newValue > parseInt(input.max)) input.value = oldValue;
+  else input.oldValue = newValue;
 }
 
 //create Dialog, change values
@@ -76,7 +118,7 @@ function _changeEvent(event, html) {
 //updates (via Actor.applyDamage() for visuals)
 
 /*
-  on GUI validation
-  https://github.com/krbz999/zhell-macros/blob/main/classes/wizard/arcane_recovery.js , line 73
+ on GUI validation
+ https://github.com/krbz999/zhell-macros/blob/main/classes/wizard/arcane_recovery.js , line 73
 
 */
