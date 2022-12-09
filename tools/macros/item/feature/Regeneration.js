@@ -1,5 +1,5 @@
 /**
- * Effect-Macro Macro for regeneraion
+ * Effect-Macro Macro for regeneraion for the Item-Feature.
  * 
  * https://github.com/itteerde/fvttconfig/issues/74
  */
