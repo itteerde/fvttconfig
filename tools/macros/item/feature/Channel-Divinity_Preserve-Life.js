@@ -78,8 +78,6 @@ const dialogResult = await Dialog.prompt({
   options: { width: 600 }
 });
 
-console.log({ message: `${macroLabel}, returned from Dialog`, dialogResult: dialogResult });
-
 let requestorDescription = "";
 for (let i = 0; i < dialogResult.length - 1; i++) {
   requestorDescription += ` ${canvas.scene.tokens.find(t => t.id === dialogResult[i].id).actor.name} +${dialogResult[i].healing}`
@@ -104,7 +102,6 @@ await Requestor.request({
 
 
 function clickEvent(event, html) {
-  console.log({ message: `${macroLabel}, clickEvent()`, arguments: arguments });
   const trg = event.target;
   if (trg.type !== 'button') return;
 
