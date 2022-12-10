@@ -50,6 +50,7 @@ console.log({ message: `${macroLabel}`, effect: effect, originMaybe: effect.orig
 //await created.update({lightData});
 
 lightCreated.setFlag("world", "origin", effect.origin);
+lightCreated.setFlag("world", "effect", effect.id);
 
 console.log({ message: `${macroLabel}.`, lightCreated: lightCreated, lightCreatedAsObject: lightCreated.toObject() });
 

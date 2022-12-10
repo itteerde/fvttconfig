@@ -9,7 +9,9 @@ const macroLabel = "Faerie Fire";
 const icon = "icons/magic/fire/projectile-meteor-salvo-strong-teal.webp";
 const flagKey = "flags.world.faerieFire";
 
-const lightsCreatedByThisEffect = canvas.scene.lights.filter(l => l.flags?.world?.origin === "Actor.ZtcZ8OdyJl1byKkr.Item.KLoFoT7n9cTUCdTT");
+console.log({ message: `${macroLabel}, onDeletion`, arguments: arguments, actor: actor, token: token, effect: effect });
+
+const lightsCreatedByThisEffect = canvas.scene.lights.filter(l => l.flags?.world?.origin === effect.origin && l.flags?.world?.effect === effect.id);
 await canvas.scene.deleteEmbeddedDocuments("AmbientLight", lightsCreatedByThisEffect.map(l => l.id));
 
 await TokenMagic.deleteFilters(token, macroLabel);
