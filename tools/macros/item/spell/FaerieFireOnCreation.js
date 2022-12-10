@@ -15,10 +15,10 @@ const lightData = {
     config: {
         alpha: 0.5,
         angle: 360,
-        bright: 11,
+        bright: 0,
         color: "#37b800",
         coloration: 1,
-        dim: 22,
+        dim: 10,
         attenuation: 0.5,
         luminosity: 0.5,
         saturation: 0,
@@ -35,8 +35,8 @@ const lightData = {
             max: 1
         }
     },
-    x: token.x,
-    y: token.y
+    x: token.center.x,
+    y: token.center.y
 };
 
 const created = await canvas.scene.createEmbeddedDocuments("AmbientLight", [lightData]);
@@ -52,3 +52,29 @@ console.log({ message: `${macroLabel}`, effect: effect, originMaybe: effect.orig
 lightCreated.setFlag("world", "origin", effect.origin);
 
 console.log({ message: `${macroLabel}.`, lightCreated: lightCreated, lightCreatedAsObject: lightCreated.toObject() });
+
+tokenAttacher.attachElementsToToken([lightCreated], token);
+
+let params =
+    [{
+        filterType: "glow",
+        filterId: macroLabel,
+        outerStrength: 4,
+        innerStrength: 0,
+        color: 0x003300,
+        quality: 0.5,
+        padding: 10,
+        animated:
+        {
+            color:
+            {
+                active: true,
+                loopDuration: 3000,
+                animType: "colorOscillation",
+                val1: 0x006600,
+                val2: 0x00FF00
+            }
+        }
+    }];
+
+await TokenMagic.addUpdateFilters(token, params);
