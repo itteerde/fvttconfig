@@ -8,7 +8,7 @@ const dim_range = 40;
 const bright_range = 20;
 const tokensToBeModified = canvas.tokens.controlled;
 for (let i = 0; i < tokensToBeModified.length; i++) {
-    if (tokensToBeModified[i].data.light.dim === 0) {
+    if (tokensToBeModified[i].document.light.dim === 0) {
         await tokensToBeModified[i].document.update({
             light: {
                 alpha: 0.5,
