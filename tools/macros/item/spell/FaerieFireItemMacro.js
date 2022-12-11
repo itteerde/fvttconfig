@@ -22,7 +22,13 @@ const template = templates[0];
 
 console.log({ message: macroLabel, template: template });
 
+const tokensAffected = canvas.scene.tokens.filter(t => isTokenInTemplate(t, template));
+
+console.log({ message: macrolabel, tokensAffected: tokensAffected });
+
 function isTokenInTemplate(token, template) {
+
+    console.log({ macroLabel: macroLabel, arguments: arguments, TokenCenter: token.center });
 
     let templateCenterX = template.x + template.width / 2;
     let templateCenterY = template.y + template.width / 2;
