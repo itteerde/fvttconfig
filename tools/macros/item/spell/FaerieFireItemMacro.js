@@ -24,12 +24,17 @@ console.log({ message: macroLabel, template: template });
 
 function isTokenInTemplate(token, template) {
 
-    if () {
+    let templateCenterX = template.x + template.width / 2;
+    let templateCenterY = template.y + template.width / 2;
 
+    console.log({ message: `${macroLabel}`, templateCenter: { x: templateCenterX, y: templateCenterY } });
 
-
-
+    if (Math.abs(token.center.x - templateCenterX) > template.width) {
+        return false;
+    }
+    if (Math.abs(token.center.y - templateCenterY) > template.width) {
+        return false;
     }
 
-
+    return true;
 };
