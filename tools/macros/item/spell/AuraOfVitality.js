@@ -45,8 +45,19 @@ if (typeof template !== "undefined") {
         return;
     }
 
-    const hpHealed = 12;//need to roll
-    // new Roll("4d6kh2 + 2 * @abilities.str.mod", actor.getRollData()).toMessage();
+    const effect = actor.effects.find(e => e.origin === `Actor.${actor.id}.Item.${item.id}`);
+    const spellLevel = effect.flags.world.spellLevel;
+
+    const isDiscipleOfLife = actor.classes?.cleric?.system?.subclass?.identifier === "life-domain";
+    let bonusHealing = 0;
+    if (isDiscipleOfLife) {
+        bonusHealing += spellLevel + 2;
+    }
+    const bonusHealingString = bonusHealing !== 0 ? `+${bonusHealing}` : "";
+    console.log({ message: `${macroLabel}, preparing roll data.`, bonusHealing: bonusHealing, bonusHealingString: bonusHealingString });
+    const chatMessage = await new Roll(`2d6${bonusHealing !== 0 ? bonusHealingString : ""}`, actor.getRollData()).toMessage();
+    console.log({ message: `${macroLabel}, rolling.`, chatMessage: chatMessage });
+    const hpHealed = chatMessage.rolls[0]._total;
     const requestorData = [{ id: target.actor.id, healing: hpHealed }];
 
     // request healing
@@ -68,7 +79,6 @@ if (typeof template !== "undefined") {
         }]
     });
 
-    const effect = actor.effects.find(e => e.origin === `Actor.${actor.id}.Item.${item.id}`);
     effectData = {};
     const newCharges = foundry.utils.getProperty(effect, flagKey) - 1;
     if (newCharges < 1) {
