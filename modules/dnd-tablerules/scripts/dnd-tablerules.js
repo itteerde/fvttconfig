@@ -188,7 +188,6 @@ class TRUtils {
 
 
 
-
     static registerSettings() {
         game.settings.register('Tablerules', 'isEnabled', {
             name: "Enable Tablerules",

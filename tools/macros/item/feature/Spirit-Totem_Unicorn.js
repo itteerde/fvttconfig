@@ -60,15 +60,12 @@ if (await item.use() === null) {
 
 
 templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
-console.log({ message: "templates", templates: templates });
 if (templates.length > 1) {
     ui.notifications.error(`${macroLabel}, ${templates.length} Measuring Templates (effects on map) found. Please delete them.`, { permanent: true });
     return;
 }
 
 template = templates[0];
-console.log({ message: "template", template: template });
-
 
 await template.update({
     texture: 'modules/Tablerules/icons/magic/textures/unicornSpiritTotem03.webp',
