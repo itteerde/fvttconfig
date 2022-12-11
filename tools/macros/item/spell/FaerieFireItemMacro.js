@@ -28,10 +28,10 @@ const templateCenterY = template.y + template.width * canvas.scene.grid.size / 5
 
 console.log({ message: macroLabel, templateCenterX: templateCenterX, templateCenterY: templateCenterY });
 
-const tokensAffected = canvas.tokens.placeables.filter(p => (Math.abs(p.center.x - templateCenterX) / canvas.scene.grid.size * 5 < template.width && Math.abs(p.center.y - templateCenterY) / canvas.scene.grid.size * 5 < template.width));
+const tokensAffected = canvas.tokens.placeables.filter(p => (Math.abs(p.center.x - templateCenterX) / canvas.scene.grid.size * 5 <= template.width / 2 && Math.abs(p.center.y - templateCenterY) / canvas.scene.grid.size * 5 <= template.width / 2));
 
 console.log({ message: macroLabel, tokensAffected: tokensAffected });
-
+/*
 const response = await Requestor.request({
     title: `${macroLabel}`,
     description: `Some Faerie Fire, please?`,
@@ -54,3 +54,4 @@ const response = await Requestor.request({
 });
 
 // if response is more or less positive (assuming it gives something useful back) modify ActiveEffect (from Template PLacement) on origin Actor for deletion of all if Concentration is broken.
+*/
