@@ -5,3 +5,6 @@
  */
 
 // how are double preparations handled (Enona)?
+
+//warlock
+canvas.tokens.controlled[0].actor.items.filter(i => i.type === "spell" && i.system.preparation.mode === "pact")
