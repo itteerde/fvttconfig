@@ -11,7 +11,7 @@ const icon = "icons/magic/air/air-burst-spiral-pink.webp";
 const flagKey = "flags.world.auraOfVitality";
 const useDistance3D = true;
 
-let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`);
+let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid);
 let template = templates[0];
 console.log({ message: `${macroLabel}, selecting template present`, template: template });
 
@@ -45,7 +45,7 @@ if (typeof template !== "undefined") {
         return;
     }
 
-    const effect = actor.effects.find(e => e.origin === `Actor.${actor.id}.Item.${item.id}`);
+    const effect = actor.effects.find(e => e.flags?.world?.origin === item.uuid);
     const spellLevel = effect.flags.world.spellLevel;
 
     const isDiscipleOfLife = actor.classes?.cleric?.system?.subclass?.identifier === "life-domain";
@@ -63,12 +63,13 @@ if (typeof template !== "undefined") {
     // request healing
     await Requestor.request({
         title: `${macroLabel}`,
-        description: `healing some amount tbd`,
+        description: `healing ${target.name} for ${hpHealed}, ${effect.flags.world.charges} charges left.`,
         img: icon,
         whisper: [game.users.getName("Gamemaster").id],
         buttonData: [{
-            label: "Approve Healing",
+            label: `Approve Healing, charges: ${effect.flags.world.charges}`,
             limit: Requestor.LIMIT.ONCE,
+            permission: Requestor.PERMISSION.GM,
             action: async () => {
                 for (let i = 0; i < this.requestorData.length; i++) {
                     console.log({ message: `Requestor.request(action)`, requestorData: this.requestorData, arguments: arguments });
@@ -79,15 +80,17 @@ if (typeof template !== "undefined") {
         }]
     });
 
-    effectData = {};
-    const newCharges = foundry.utils.getProperty(effect, flagKey) - 1;
-    if (newCharges < 1) {
-        await actor.deleteEmbeddedDocuments("ActiveEffect", [effect.id]);
-        return;
-    }
 
-    foundry.utils.setProperty(effect, flagKey, newCharges);
-    await effect.update(effectData);
+    const charges = 10;
+    const effectData = { icon, label: `${macroLabel} (${charges})` };
+    foundry.utils.setProperty(effectData, "flags.world.spellLevel", spellLevel);
+    foundry.utils.setProperty(effectData, "flags.world.charges", 10);
+    foundry.utils.setProperty(effectData, "flags.world.origin", item.uuid);
+
+    await effect.update({
+        label: `${macroLabel} (${effect.flags.world.charges - 1})`,
+        "flags.world.charges": effect.flags.world.charges - 1
+    });
 
     return;
 }
@@ -106,7 +109,7 @@ const spellLevel = Number(DIV.firstChild.dataset.spellLevel);
 
 
 // select the MeasuringTemplate created by the Item.Spell use() and modify
-template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === `Actor.${actor._id}.Item.${item._id}`)[0];
+template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid)[0];
 console.log({ message: `${macroLabel}, selecting template created`, template: template });
 
 const templateData = {
@@ -115,11 +118,13 @@ const templateData = {
     x: token.center.x,
     y: token.center.y
 };
+//console.log({ message: `${macroLabel}, line 118` });
 await template.update(templateData);
 await tokenAttacher.attachElementsToToken([template], token);
 
-const effect = actor.effects.find(e => e.origin === `Actor.${actor.id}.Item.${item.id}`);
-effectData = {};
-foundry.utils.setProperty(effect, "flags.world.spellLevel", spellLevel);
-foundry.utils.setProperty(effect, flagKey, 10);
-await effect.update(effectData);
+const charges = 10;
+const effectData = { icon, label: `${macroLabel} (${charges})` };
+foundry.utils.setProperty(effectData, "flags.world.spellLevel", spellLevel);
+foundry.utils.setProperty(effectData, "flags.world.charges", 10);
+foundry.utils.setProperty(effectData, "flags.world.origin", item.uuid);
+await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
