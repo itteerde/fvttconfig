@@ -63,7 +63,7 @@ if (typeof template !== "undefined") {
     // request healing
     await Requestor.request({
         title: `${macroLabel}`,
-        description: `healing ${target.name} for ${hpHealed}, ${effect.flags.world.charges} charges left.`,
+        description: `healing ${target.name} for ${hpHealed}hp, ${effect.flags.world.charges} charges left.`,
         img: icon,
         whisper: [game.users.getName("Gamemaster").id],
         buttonData: [{
