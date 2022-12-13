@@ -55,10 +55,11 @@ if (typeof template !== "undefined") {
     }
     const bonusHealingString = bonusHealing !== 0 ? `+${bonusHealing}` : "";
     console.log({ message: `${macroLabel}, preparing roll data.`, bonusHealing: bonusHealing, bonusHealingString: bonusHealingString });
-    const chatMessage = await new Roll(`2d6${bonusHealing !== 0 ? bonusHealingString : ""}`, actor.getRollData()).toMessage();
+    const dice = target.actor.items.filter(i => i.name === ("Eldritch Invocations: Gift of the Ever-Living Ones")).length > 0 ? "12" : "2d6";
+    const chatMessage = await new Roll(`${dice}${bonusHealing !== 0 ? bonusHealingString : ""}`, actor.getRollData()).toMessage();
     console.log({ message: `${macroLabel}, rolling.`, chatMessage: chatMessage });
     const hpHealed = chatMessage.rolls[0]._total;
-    const requestorData = [{ id: target.actor.id, healing: hpHealed }];
+    const requestorData = [{ uuid: target.document.uuid, healing: hpHealed }];
 
     // request healing
     await Requestor.request({
@@ -67,13 +68,14 @@ if (typeof template !== "undefined") {
         img: icon,
         whisper: [game.users.getName("Gamemaster").id],
         buttonData: [{
-            label: `Approve Healing, charges: ${effect.flags.world.charges}`,
+            label: `${target.name.substr(0, 6)} +${hpHealed}[heal], ${effect.flags.world.charges} charges`,
             limit: Requestor.LIMIT.ONCE,
             permission: Requestor.PERMISSION.GM,
             action: async () => {
                 for (let i = 0; i < this.requestorData.length; i++) {
                     console.log({ message: `Requestor.request(action)`, requestorData: this.requestorData, arguments: arguments });
-                    await game.actors.get(this.requestorData[i].id).applyDamage(-this.requestorData[i].healing);
+                    //await game.actors.get(this.requestorData[i].id).applyDamage(-this.requestorData[i].healing);
+                    await canvas.tokens.placeables.find(t => t.document.uuid === this.requestorData[i].uuid).actor.applyDamage(-this.requestorData[i].healing)
                 }
             },
             requestorData: requestorData // what is here gets into this.<something>
