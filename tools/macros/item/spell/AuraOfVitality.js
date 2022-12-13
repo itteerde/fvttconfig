@@ -13,12 +13,9 @@ const useDistance3D = true;
 
 let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid);
 let template = templates[0];
-console.log({ message: `${macroLabel}, selecting template present`, template: template });
-
 
 // check if the "aura" is up (if there is the MeasuringTemplate with our flag)
 if (typeof template !== "undefined") {
-    console.log({ message: `${macroLabel}, template found, taking healing path`, template: template });
 
     // check for hovered and try to heal if valid
     const target = canvas.tokens.hover;
@@ -26,15 +23,12 @@ if (typeof template !== "undefined") {
         ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target (no Actor found).`);
         return;
     }
-    console.log({ message: `${macroLabel}, hover-targeting.`, target: target, targetName: target.name });
 
     // check range and abort if to far, for corner-cases roll in dice tray or temporarily move one of the tokens.
     const tokenSource = token;
     const tokenTarget = target;
-    console.log({ message: `${macroLabel}`, tokenSource: tokenSource, tokenTarget: tokenTarget });
     const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
     const distance3D = Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
-    console.log({ message: "distance", distance: distance, distance3D: distance3D });
 
     if ((useDistance3D ? distance3D : distance) > 30) {
         ui.notifications.warn(
@@ -54,11 +48,14 @@ if (typeof template !== "undefined") {
         bonusHealing += spellLevel + 2;
     }
     const bonusHealingString = bonusHealing !== 0 ? `+${bonusHealing}` : "";
-    console.log({ message: `${macroLabel}, preparing roll data.`, bonusHealing: bonusHealing, bonusHealingString: bonusHealingString });
+
     const dice = target.actor.items.filter(i => i.name === ("Eldritch Invocations: Gift of the Ever-Living Ones")).length > 0 ? "12" : "2d6";
-    const chatMessage = await new Roll(`${dice}${bonusHealing !== 0 ? bonusHealingString : ""}`, actor.getRollData()).toMessage();
-    console.log({ message: `${macroLabel}, rolling.`, chatMessage: chatMessage });
-    const hpHealed = chatMessage.rolls[0]._total;
+    const roll = await new Roll(`${dice}${bonusHealing !== 0 ? bonusHealingString : ""}`, actor.getRollData()).evaluate({ async: true });
+    const hpHealed = roll.total;
+    roll.toMessage({
+        speaker: ChatMessage.getSpeaker({ actor: token.actor }),
+        flavor: `${macroLabel}, healing ${target.name} for ${hpHealed}hp.`
+    });
     const requestorData = [{ uuid: target.document.uuid, healing: hpHealed }];
 
     // request healing
@@ -73,7 +70,6 @@ if (typeof template !== "undefined") {
             permission: Requestor.PERMISSION.GM,
             action: async () => {
                 for (let i = 0; i < this.requestorData.length; i++) {
-                    console.log({ message: `Requestor.request(action)`, requestorData: this.requestorData, arguments: arguments });
                     //await game.actors.get(this.requestorData[i].id).applyDamage(-this.requestorData[i].healing);
                     await canvas.tokens.placeables.find(t => t.document.uuid === this.requestorData[i].uuid).actor.applyDamage(-this.requestorData[i].healing)
                 }
@@ -97,9 +93,6 @@ if (typeof template !== "undefined") {
     return;
 }
 
-
-console.log({ message: `${macroLabel}, no template found, taking template setup and intitialization path` });
-
 // use the item (takes care of resources, ChatMessage), if returning null (i believe) return
 const use = await item.use();
 if (!use) {
@@ -112,7 +105,6 @@ const spellLevel = Number(DIV.firstChild.dataset.spellLevel);
 
 // select the MeasuringTemplate created by the Item.Spell use() and modify
 template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid)[0];
-console.log({ message: `${macroLabel}, selecting template created`, template: template });
 
 const templateData = {
     borderColor: "#00800f",
@@ -120,7 +112,6 @@ const templateData = {
     x: token.center.x,
     y: token.center.y
 };
-//console.log({ message: `${macroLabel}, line 118` });
 await template.update(templateData);
 await tokenAttacher.attachElementsToToken([template], token);
 
