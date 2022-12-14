@@ -1,7 +1,7 @@
 /**
  * Report stuff for quick overview of the state of game
  * 
- * 
+ * https://github.com/itteerde/fvttconfig/issues/52
 */
 
 const macroLabel = "Party State Report";
@@ -16,9 +16,11 @@ const party = partyIds.map(i => game.actors.get(i));
 let dialogContent = `
     <div>
         <h1>Summary</h1>
+        <div>Why is there a ',' somewhere here?</div>
         ${summary(party)}
-    </di>
+    </div>
 `;
+console.log({ message: macroLabel, summary: summary(party) });
 
 let d = new Dialog({
     title: macroLabel,
