@@ -1,10 +1,14 @@
 /**
  * Item-Macro Macro for Holding Breath (Suffocating)
  * 
+ * Functionality: toggle on of Holding Breath.
+ * 
  * https://www.dndbeyond.com/sources/basic-rules/adventuring#Suffocating
  * https://github.com/itteerde/fvttconfig/issues/81
  * 
- * requires Item-Macro, Effect-Macro, Requestor
+ * requires: Item-Macro, Effect-Macro, Requestor
+ * limitation: does not work if Item is renamed to different names within one world (being dragged into Control Bar
+ * by GM is part of the process).
  */
 
 // this should make the macro work even if our module is disabled, despite debug logging support
@@ -82,3 +86,9 @@ let params =
     }];
 
 await TokenMagic.addUpdateFilters(token, params);
+
+
+async function generateButtons(macroActor, item, flags, macroLabel, icon) {
+
+
+}
