@@ -16,7 +16,12 @@ const oldTempHP = actor.system.attributes.hp.temp;
 
 await actor.update({ "system.attributes.hp.temp": actor.system.attributes.hp.temp - damage });
 
+// https://pixijs.io/pixi-text-style/
+canvas.interface.createScrollingText(token.center, oldTempHP - damage, { anchor: CONST.TEXT_ANCHOR_POINTS.CENTER, fill: "#45c7f2" });
+
+/*
 ChatMessage.create({
     content: `${macroLabel}: modifying hp.temp on ${actor.name} (${actor._id}), from ${oldTempHP} to ${actor.system.attributes.hp.temp}.`,
     whisper: [game.users.getName("GM")]
 });
+*/
