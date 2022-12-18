@@ -23,3 +23,9 @@ const flags = {
     suffocating: { key: "suffocating" }
 };
 
+let spkr = ChatMessage.getSpeaker({ actor: actor });
+ChatMessage.create({
+    speaker: spkr,
+    whisper: ChatMessage.getWhisperRecipients('GM'),
+    content: `${macroLabel}, effect removed.`
+});

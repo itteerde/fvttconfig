@@ -14,6 +14,15 @@ CONFIG["Tablerules"] = {
 class TRMath {
 
     /**
+     * 
+     * @param {number} range 
+     * @returns the radius of the circle/disc projected by a cone of that range orthogonally onto a plane (e.g. flying straight above) 
+     */
+    static radiusConeProjectionCircle(range) {
+        return (range * Math.cos(Math.PI / 2 - Math.atan(0.5)));
+    }
+
+    /**
         Radius of the disc being a sphere of radius r cut in the distance/ height h from its center. Especially radius of the disc projected onto the floor by a source of a spherical effect flying at height/ elevation h over ground/ projection surface.
 
         @param {number} r radius of the sphere, especially range of a spherical zone spell.

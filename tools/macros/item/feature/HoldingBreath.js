@@ -45,8 +45,6 @@ if (tokens.length < 1) {// ideally this should not matter. Holding Breath and su
 
 const token = tokens[0];
 
-let myButtons = await generateButtons(actor, item, flags, macroLabel, icon);
-
 let d = new Dialog({
     title: `${macroLabel}`,
     content: `some instructions/ rules`,
@@ -89,6 +87,17 @@ const effectsCreated = await actor.createEmbeddedDocuments("ActiveEffect", [effe
 
 const effect = effectsCreated[0];
 await effect.setFlag(flags.scope, flags.key, true);
+
+/**
+ * setting Effect-Macro, see HoldingBreathOnDeletion.js for modifying it in a maintainable way (write, paste into 
+ * game, copy object from console)
+ * 
+ * https://github.com/itteerde/fvttconfig/blob/main/tools/macros/item/feature/HoldingBreathOnDeletion.js
+ */
+await effect.setFlag("effectmacro", "onDelete", {
+    "script": "/**\n * Effect-Macro Macro onDeletion for Holding Breath (Suffocating)\n * \n * https://www.dndbeyond.com/sources/basic-rules/adventuring#Suffocating\n * https://github.com/itteerde/fvttconfig/issues/81\n * \n * requires Item-Macro, Effect-Macro, Requestor\n */\n\n// this should make the macro work even if our module is disabled, despite debug logging support\nconst isDebugEnabled = TRUtils === undefined ? false : TRUtils.isDebugEnabled();\n\nconst macroLabel = \"Holding Breath (EM onDeletion)\";\n\nif (isDebugEnabled) {\n    Tablerules.debug({ message: `${macroLabel}`, arguments: arguments });\n}\n\nconst icon = \"icons/magic/time/clock-stopwatch-white-blue.webp\";\nconst flags = {\n    scope: \"world\",\n    holdingBreath: { key: \"holdingBreath\" },\n    suffocating: { key: \"suffocating\" }\n};\n\nlet spkr = ChatMessage.getSpeaker({ actor: actor });\nChatMessage.create({\n    speaker: spkr,\n    whisper: ChatMessage.getWhisperRecipients('GM'),\n    content: `${macroLabel}, effect removed.`\n});"
+});
+
 if (isDebugEnabled) {
     Tablerules.debug({ message: `${macroLabel}, effect created`, effect: effect });
 }
