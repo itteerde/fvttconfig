@@ -6,7 +6,7 @@
  * https://www.dndbeyond.com/sources/basic-rules/adventuring#Suffocating
  * https://github.com/itteerde/fvttconfig/issues/81
  * 
- * requires: Item-Macro, Effect-Macro, Requestor
+ * requires: Item-Macro, Effect-Macro, Token-Magic-FX (could be made optional)
  * limitation: does not work if Item is renamed to different names within one world (being dragged into Control Bar
  * by GM is part of the process).
  */
@@ -24,7 +24,13 @@ const icon = "icons/magic/time/clock-stopwatch-white-blue.webp";
 const flags = {
     scope: "world",
     holdingBreath: { key: "holdingBreath" },
-    suffocating: { key: "suffocating" }
+    suffocating: { key: "suffocating" },
+    suffocatingState: {
+        key: "suffocating.state",
+        none: "none", // rule not in effect
+        holdingBreath: "holdingBreath", // holding breath, not yet out of air
+        suffocating: "suffocating" // out of air, seconds to unconscious and death saves
+    }
 };
 
 
@@ -38,6 +44,30 @@ if (tokens.length < 1) {// ideally this should not matter. Holding Breath and su
 }
 
 const token = tokens[0];
+
+let myButtons = await generateButtons(actor, item, flags, macroLabel, icon);
+
+let d = new Dialog({
+    title: `${macroLabel}`,
+    content: `some instructions/ rules`,
+    buttons: {
+        one: {
+            icon: '<i class="fas fa-check"></i>',
+            label: "Option One",
+            callback: () => console.log("Chose One")
+        },
+        two: {
+            icon: '<i class="fas fa-times"></i>',
+            label: "Option Two",
+            callback: () => console.log("Chose Two")
+        }
+    },
+    default: "two",
+    render: html => console.log("Register interactivity in the rendered dialog"),
+    close: html => console.log("This always is logged no matter which option is chosen")
+});
+d.render(true);
+
 
 // if token's actor is affected by Hold Breath already
 if (actor.effects.find(e => e.getFlag(flags.scope, flags.key))) {
@@ -63,32 +93,64 @@ if (isDebugEnabled) {
     Tablerules.debug({ message: `${macroLabel}, effect created`, effect: effect });
 }
 
-let params =
-    [{
-        filterType: "flood",
-        filterId: macroLabel,
-        time: 0,
-        color: 0x0020BB,
-        billowy: 0.43,
-        tintIntensity: 0.72,
-        glint: 0.31,
-        scale: 70,
-        padding: 10,
-        animated:
-        {
-            time:
+await toggleVisualEffect(token, macroLabel);
+
+
+/**
+ * 
+ * @param {Actor5e} actor 
+ * @param {string} macroLabel 
+ * @param {object} flags 
+ */
+function toggleEffectHoldingBreath(actor, macroLabel, flags) {
+}
+
+function toggleEffectSuffocating(actor, macroLabel, flags) {
+}
+
+/**
+ * Character loses a minute of air. Probably want to display something as ChatMessage.
+ * 
+ * @param {Actor5e} actor 
+ * @param {string} macroLabel 
+ * @param {object} flags 
+ */
+function looseAir(actor, macroLabel, flags) {
+
+}
+
+/**
+ * 
+ * @param {Token5e} token 
+ * @param {string} macroLabel 
+ */
+async function toggleVisualEffect(token, macroLabel) {
+
+    let params =
+        [{
+            filterType: "flood",
+            filterId: macroLabel,
+            time: 0,
+            color: 0x0020BB,
+            billowy: 0.43,
+            tintIntensity: 0.72,
+            glint: 0.31,
+            scale: 70,
+            padding: 10,
+            animated:
             {
-                active: true,
-                speed: 0.0006,
-                animType: "move"
+                time:
+                {
+                    active: true,
+                    speed: 0.0006,
+                    animType: "move"
+                }
             }
-        }
-    }];
+        }];
 
-await TokenMagic.addUpdateFilters(token, params);
+    if (TokenMagic.hasFilterId(token, macroLabel)) {
+        await TokenMagic.deleteFilters(token, macroLabel);
+    }
 
-
-async function generateButtons(macroActor, item, flags, macroLabel, icon) {
-
-
+    await TokenMagic.addUpdateFilters(token, params);
 }
