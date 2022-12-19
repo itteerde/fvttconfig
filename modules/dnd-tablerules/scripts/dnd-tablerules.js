@@ -568,6 +568,28 @@ Hooks.on("ready", function () {
     Tablerules.config.logOwn = game.settings.get("Tablerules", "logOwn");
 });
 
+Hooks.on("getChatLogEntryContext", (html, options) => {
+    const condition = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
+    }
+
+    const callback = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        const roll = message.rolls[0];
+        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(roll.total, 0.25));
+    }
+
+    options.push({
+        name: "Apply Quarter Damage",
+        icon: `<i class="fas fa-user-clock"></i>`,
+        condition,
+        callback,
+    });
+});
+
+
+
 console.log("Tablerules registering sheets.");
 Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
 
