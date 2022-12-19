@@ -1,7 +1,13 @@
 /**
- * Item-Macro for the Spirit Shroud Spell Item
+ * Item-Macro for the Spell Items with Order of Scribes
  * 
- * https://www.dndbeyond.com/spells/spirit-shroud
+ * Plan: before Item.use() open a Dialog asking which Spell Slot to use, lookup what spells at that level are on 
+ * the Actor and collect all their damage types. Select one of those types and Item.use() the spell, maybe even
+ * only after having changed the spell's damage type. Maybe also not using the Resource for Scorching Ray (or even
+ * count its uses after first use [in that case extra uses would have to be fired of to reset the item or there
+ * needts to be a resetting macro]).
+ * 
+ * proof of concept with Spirit Shroud.
  */
 
 const macroLabel = "Spirit Shroud";
@@ -40,41 +46,23 @@ const changes = {};
 const effectData = { label: macroLabel, icon, changes, duration: { seconds: 60 } };
 
 
-function possibleDamageTypes(spellLevel, spell) {
+function possibleDamageTypes(spellLevel, actor) {
 
-    const spells = {
-        level_1: {
-            "Absorb Elements": ["acid", "cold", "fire", "lightning", "thunder"]
-        },
-        level_2: {
-            "Dragon's Breath": ["acid", "cold", "fire", "lightning", "poison"],
-            "Scorching Ray": ["fire"]
-        },
-        level_3: {
-            "Spirit Shroud": ["radiant", "necrotic", "cold"]
-        },
-        level_4: {
-            "Sickening Radiance": ["radiant"]
-        },
-        level_5: {
-            "Bigby's Hand": ["force", "bludgeoning"]
-        },
-        level_6: {
-            "Sunbeam": ["radiant"]
-        },
-        level_7: {
-            "Crown of Stars": ["radiant"]
-        },
-        level_8: {
-            "Maddening Darkness": ["psychic"]
-        },
-        level_9: {
-            "Prismatic Wall": ["fire", "acid", "lightning", "poison", "cold"],
-            "Psychic Scream": ["psychic"]
-        }
-    };
+    const spells = [
+        { level: 1, name: "Absorb Elements", damageTypes: ["acid", "cold", "fire", "lightning", "thunder"] },
+        { level: 2, name: "Dragon's Breath", damageTypes: ["acid", "cold", "fire", "lightning", "poison"] },
+        { level: 2, name: "Scorching Ray", damageTypes: ["fire"] },
+        { level: 3, name: "Spirit Shroud", damageTypes: ["radiant", "necrotic", "cold"] },
+        { level: 4, name: "Sickening Radiance", damageTypes: ["radiant"] },
+        { level: 5, name: "Bigby's Hand", damageTypes: ["force", "bludgeoning"] },
+        { level: 6, name: "Sunbeam", damageTypes: ["radiant"] },
+        { level: 7, name: "Crown of Stars", damageTypes: ["radiant"] },
+        { level: 8, name: "Maddening Darkness", damageTypes: ["psychic"] },
+        { level: 9, name: "Prismatic Wall", damageTypes: ["fire", "acid", "lightning", "poison", "cold"] },
+        { level: 9, name: "Psychic Scream", damageTypes: ["psychic"] }
+    ]
 
+    damageTypes = [];
     // if spell known add spell to array "sum" and do return [...new Set([...arrA, ...arrB)];
-
-    return null;
-}
+    return damageTypes;
+};
