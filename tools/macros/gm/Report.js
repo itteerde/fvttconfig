@@ -8,19 +8,15 @@ const macroLabel = "Party State Report";
 
 const partyIds = [
     "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
-    "FC2ZItcPqgCuvkhW" //Enona Jadrcej 10
+    "FC2ZItcPqgCuvkhW", //Enona Jadrcej 10
+    "oNbN0RJqlNH2pfSQ"
 ];
 
 const party = partyIds.map(i => game.actors.get(i));
 
-let dialogContent = `
-    <div>
-        <h1>Summary</h1>
-        <div>Why is there a ',' somewhere here?</div>
-        ${summary(party)}
-    </div>
-`;
-console.log({ message: macroLabel, summary: summary(party) });
+let dialogContent = `<div class="dnd5e chat-card"><h1>Summary</h1>Basic party state overview for making signaling decisions, asking critical questions and stuff.\n${summary(party)}</div>`;
+
+//console.log({ message: macroLabel, summary: summary(party), dialogContent: dialogContent });
 
 let d = new Dialog({
     title: macroLabel,
@@ -28,25 +24,55 @@ let d = new Dialog({
     buttons: {
         one: {
             icon: '<i class="fas fa-check"></i>',
-            label: "Option One",
-            callback: () => console.log("Chose One")
+            label: "",
         },
-        two: {
-            icon: '<i class="fas fa-times"></i>',
-            label: "Option Two",
-            callback: () => console.log("Chose Two")
-        }
     },
-    default: "two",
+    default: "one",
     render: html => console.log("Register interactivity in the rendered dialog"),
     close: html => console.log("This always is logged no matter which option is chosen")
 });
-d.render(true);
+d.render(true, { width: 750 });
 
 function summary(party) {
-    let html = "";
-    html += "<table><tr><th align=\"left\">Name</th><th>HP/max</th></tr>";
-    html += party.map(a => `<tr><td>${a.name}</td><td>${a.system.attributes.hp.value}/${a.system.attributes.hp.max}</td></tr>`);
+    let html = "<table><tr><th align=\"left\">Name</th><th align=\"left\">HP/max</th><th align=\"left\">Spell Slots</th></tr>";
+    html += party.map(a => `<tr><td>${a.name}</td><td>${a.system.attributes.hp.value}/${a.system.attributes.hp.max}</td><td>${spellSlots(a)}</td></tr>`);
     html += "</table>";
     return html;
+}
+
+function spellSlots(actor) {
+    let spellSlots = "";
+    if (actor.system.spells.spell1.max > 0) {
+        spellSlots += actor.system.spells.spell1.value;
+    }
+    if (actor.system.spells.spell2.max > 0) {
+        spellSlots += `,${actor.system.spells.spell2.value}`;
+    }
+    if (actor.system.spells.spell3.max > 0) {
+        spellSlots += `,${actor.system.spells.spell3.value}`;
+    }
+    if (actor.system.spells.spell4.max > 0) {
+        spellSlots += `,${actor.system.spells.spell4.value}`;
+    }
+    if (actor.system.spells.spell5.max > 0) {
+        spellSlots += `,${actor.system.spells.spell5.value}`;
+    }
+    if (actor.system.spells.spell6.max > 0) {
+        spellSlots += `,${actor.system.spells.spell6.value}`;
+    }
+    if (actor.system.spells.spell7.max > 0) {
+        spellSlots += `,${actor.system.spells.spell7.value}`;
+    }
+    if (actor.system.spells.spell8.max > 0) {
+        spellSlots += `,${actor.system.spells.spell8.value}`;
+    }
+    if (actor.system.spells.spell9.max > 0) {
+        spellSlots += `,${actor.system.spells.spell9.value}`;
+    }
+
+    if (actor.system.spells.pact.max > 0) {
+        spellSlots += `,${actor.system.spells.pact.value}p`;
+    }
+
+    return spellSlots;
 }

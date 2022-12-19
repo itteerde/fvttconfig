@@ -13,7 +13,7 @@
 
 const itemName = "Portent"                                                    // set this string to what the Portent feature item is called in your game.
 const wizardActor = game.user.character || token.actor; //second option is for the GM.
-const portentItem = wizardActor.items.find(i => i.name.includes(itemName)); // finds that item name.
+const portentItem = item;
 
 if (!portentItem) return ui.notifications.warn("Your actor does not have the Portent feature");
 let myButtons = await generateButtons(wizardActor, portentItem, itemName); // creates the buttons, see function below.
@@ -42,7 +42,7 @@ async function generateButtons(macroActor, item, itemName) {
                     });
                     portentRolled.splice(portentRolled.indexOf(roll), 1); // removes the used value from the array.
                     await macroActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
-                    await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
+                    //await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
                 }
             };
             return buttons;
@@ -61,7 +61,7 @@ async function generateButtons(macroActor, item, itemName) {
                 i++;
             }
             await macroActor.setFlag("world", "portent", portentRolls); // sets a fresh array of 2 or 3 d20s 
-            await item.update({ name: `${itemName} [${portentRolls}]` })
+            //await item.update({ name: `${itemName} [${portentRolls}]` })
             ChatMessage.create({
                 content: `<div class="dnd5e chat-card">
                                             <header class="card-header flexrow">
@@ -75,4 +75,3 @@ async function generateButtons(macroActor, item, itemName) {
     };
     return myButtons;
 }
-
