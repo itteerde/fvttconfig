@@ -1,5 +1,5 @@
 /**
- * not tested, don't use
+ * seemed to work on DEV. ONLY USE AFTER BACKUP!
  * 
  * https://discord.com/channels/170995199584108546/699750150674972743/1055752969754263683
  */
