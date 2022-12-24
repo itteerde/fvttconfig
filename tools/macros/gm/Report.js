@@ -5,6 +5,7 @@
 */
 
 const macroLabel = "Party State Report";
+const passivesIncluded = ["insight", "perception", "investigation"];
 
 const partyIds = [
     "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
@@ -23,7 +24,7 @@ let dialogContent = `
             <h2>HP and Spellslots</h2>
             ${summary(party)}
             <h2>Passives</h2>
-            ${passives(party)}
+            ${passives(party, passivesIncluded)}
     </div>`;
 
 //console.log({ message: macroLabel, summary: summary(party), dialogContent: dialogContent });
@@ -45,7 +46,7 @@ d.render(true, { width: 750 });
 
 function summary(party) {
     let html = "<table><tr><th align=\"left\">Name</th><th align=\"left\">HP/max</th><th align=\"left\">Spell Slots</th></tr>";
-    const rows = party.map(a => `<tr><td>${a.name}</td><td>${a.system.attributes.hp.value}/${a.system.attributes.hp.max}</td><td>${spellSlots(a)}</td></tr>`);
+    const rows = party.map(a => `<tr><td>${a.name}</td><td>${a.system.attributes.hp.value}/${a.system.attributes.hp.max} (${Math.round(100 * a.system.attributes.hp.value / a.system.attributes.hp.max)}%)</td><td>${spellSlots(a)}</td></tr>`);
     for (let i = 0; i < rows.length; i++) {
         html += rows[i];
     }
@@ -87,10 +88,15 @@ function spellSlots(actor) {
         spellSlots += `,${actor.system.spells.pact.value}p`;
     }
 
+    const numberPrepared = actor.items.filter(i => i.system?.preparation?.prepared && i.system?.preparation?.mode === "prepared" && i.system?.level > 0).length;
+    if (numberPrepared > 0) {
+        spellSlots += `, (${numberPrepared} prepared)`;
+    }
+
     return spellSlots;
 }
 
-function passives(party) {
+function passives(party, passivesIncluded) {
     let acrobatics = { names: [], max: 0 };
     let animalHandling = { names: [], max: 0 };
     let arcana = { names: [], max: 0 };
@@ -110,246 +116,266 @@ function passives(party) {
     let stealth = { names: [], max: 0 };
     let survival = { names: [], max: 0 };
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.acr.passive === acrobatics.max) {
-            acrobatics.names.push(party[i].name);
+
+    let passives = `
+    <table>
+        <tr>
+            <th align=\"left\">Skill</th><th align=\"left\">Max</th><th align=\"left\">Characters</th>
+        </tr>`;
+
+    if (passivesIncluded.includes("acrobatics")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.acr.passive === acrobatics.max) {
+                acrobatics.names.push(party[i].name);
+            }
+            if (party[i].system.skills.acr.passive > acrobatics.max) {
+                acrobatics.names = [party[i].name];
+                acrobatics.max = party[i].system.skills.acr.passive;
+            }
         }
-        if (party[i].system.skills.acr.passive > acrobatics.max) {
-            acrobatics.names = [party[i].name];
-            acrobatics.max = party[i].system.skills.acr.passive;
-        }
+
+        passives += `<tr><td>Acrobatics</td><td>${acrobatics.max}</td><td>${acrobatics.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.ani.passive === animalHandling.max) {
-            animalHandling.names.push(party[i].name);
+    if (passivesIncluded.includes("animalHandling")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.ani.passive === animalHandling.max) {
+                animalHandling.names.push(party[i].name);
+            }
+            if (party[i].system.skills.ani.passive > animalHandling.max) {
+                animalHandling.names = [party[i].name];
+                animalHandling.max = party[i].system.skills.ani.passive;
+            }
         }
-        if (party[i].system.skills.ani.passive > animalHandling.max) {
-            animalHandling.names = [party[i].name];
-            animalHandling.max = party[i].system.skills.ani.passive;
-        }
+
+        passives += `<tr><td>Animal Handling</td><td>${animalHandling.max}</td><td>${animalHandling.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.arc.passive === arcana.max) {
-            arcana.names.push(party[i].name);
+    if (passivesIncluded.includes("arcana")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.arc.passive === arcana.max) {
+                arcana.names.push(party[i].name);
+            }
+            if (party[i].system.skills.arc.passive > arcana.max) {
+                arcana.names = [party[i].name];
+                arcana.max = party[i].system.skills.arc.passive;
+            }
         }
-        if (party[i].system.skills.arc.passive > arcana.max) {
-            arcana.names = [party[i].name];
-            arcana.max = party[i].system.skills.arc.passive;
-        }
+
+        passives += `<tr><td>Arcana</td><td>${arcana.max}</td><td>${arcana.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.ath.passive === athletics.max) {
-            athletics.names.push(party[i].name);
+    if (passivesIncluded.includes("athletics")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.ath.passive === athletics.max) {
+                athletics.names.push(party[i].name);
+            }
+            if (party[i].system.skills.ath.passive > athletics.max) {
+                athletics.names = [party[i].name];
+                athletics.max = party[i].system.skills.ath.passive;
+            }
         }
-        if (party[i].system.skills.ath.passive > athletics.max) {
-            athletics.names = [party[i].name];
-            athletics.max = party[i].system.skills.ath.passive;
-        }
+
+        passives += `<tr><td>Athletics</td><td>${athletics.max}</td><td>${athletics.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.dec.passive === deception.max) {
-            deception.names.push(party[i].name);
+    if (passivesIncluded.includes("deception")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.dec.passive === deception.max) {
+                deception.names.push(party[i].name);
+            }
+            if (party[i].system.skills.dec.passive > deception.max) {
+                deception.names = [party[i].name];
+                deception.max = party[i].system.skills.dec.passive;
+            }
         }
-        if (party[i].system.skills.dec.passive > deception.max) {
-            deception.names = [party[i].name];
-            deception.max = party[i].system.skills.dec.passive;
-        }
+
+        passives += `<tr><td>Deception</td><td>${deception.max}</td><td>${deception.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.his.passive === history.max) {
-            history.names.push(party[i].name);
+    if (passivesIncluded.includes("history")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.his.passive === history.max) {
+                history.names.push(party[i].name);
+            }
+            if (party[i].system.skills.his.passive > history.max) {
+                history.names = [party[i].name];
+                history.max = party[i].system.skills.his.passive;
+            }
         }
-        if (party[i].system.skills.his.passive > history.max) {
-            history.names = [party[i].name];
-            history.max = party[i].system.skills.his.passive;
-        }
+
+        passives += `<tr><td>History</td><td>${history.max}</td><td>${history.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.ins.passive === insight.max) {
-            insight.names.push(party[i].name);
+    if (passivesIncluded.includes("insight")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.ins.passive === insight.max) {
+                insight.names.push(party[i].name);
+            }
+            if (party[i].system.skills.ins.passive > insight.max) {
+                insight.names = [party[i].name];
+                insight.max = party[i].system.skills.ins.passive;
+            }
         }
-        if (party[i].system.skills.ins.passive > insight.max) {
-            insight.names = [party[i].name];
-            insight.max = party[i].system.skills.ins.passive;
-        }
+
+        passives += `<tr><td>Insight</td><td>${insight.max}</td><td>${insight.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.inv.passive === investigation.max) {
-            investigation.names.push(party[i].name);
+    if (passivesIncluded.includes("investigation")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.inv.passive === investigation.max) {
+                investigation.names.push(party[i].name);
+            }
+            if (party[i].system.skills.inv.passive > investigation.max) {
+                investigation.names = [party[i].name];
+                investigation.max = party[i].system.skills.inv.passive;
+            }
         }
-        if (party[i].system.skills.inv.passive > investigation.max) {
-            investigation.names = [party[i].name];
-            investigation.max = party[i].system.skills.inv.passive;
-        }
+
+        passives += `<tr><td>Investigation</td><td>${investigation.max}</td><td>${investigation.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.itm.passive === intimidation.max) {
-            intimidation.names.push(party[i].name);
+    if (passivesIncluded.includes("intimidation")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.itm.passive === intimidation.max) {
+                intimidation.names.push(party[i].name);
+            }
+            if (party[i].system.skills.itm.passive > intimidation.max) {
+                intimidation.names = [party[i].name];
+                intimidation.max = party[i].system.skills.itm.passive;
+            }
         }
-        if (party[i].system.skills.itm.passive > intimidation.max) {
-            intimidation.names = [party[i].name];
-            intimidation.max = party[i].system.skills.itm.passive;
-        }
+
+        passives += `<tr><td>Intimidation</td><td>${intimidation.max}</td><td>${intimidation.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.med.passive === medicine.max) {
-            medicine.names.push(party[i].name);
+    if (passivesIncluded.includes("medicine")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.med.passive === medicine.max) {
+                medicine.names.push(party[i].name);
+            }
+            if (party[i].system.skills.med.passive > medicine.max) {
+                medicine.names = [party[i].name];
+                medicine.max = party[i].system.skills.med.passive;
+            }
         }
-        if (party[i].system.skills.med.passive > medicine.max) {
-            medicine.names = [party[i].name];
-            medicine.max = party[i].system.skills.med.passive;
-        }
+
+        passives += `<tr><td>Medicine</td><td>${medicine.max}</td><td>${medicine.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.nat.passive === nature.max) {
-            nature.names.push(party[i].name);
+    if (passivesIncluded.includes("nature")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.nat.passive === nature.max) {
+                nature.names.push(party[i].name);
+            }
+            if (party[i].system.skills.nat.passive > nature.max) {
+                nature.names = [party[i].name];
+                nature.max = party[i].system.skills.nat.passive;
+            }
         }
-        if (party[i].system.skills.nat.passive > nature.max) {
-            nature.names = [party[i].name];
-            nature.max = party[i].system.skills.nat.passive;
-        }
+
+        passives += `<tr><td>Nature</td><td>${nature.max}</td><td>${nature.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.prc.passive === perception.max) {
-            perception.names.push(party[i].name);
+    if (passivesIncluded.includes("perception")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.prc.passive === perception.max) {
+                perception.names.push(party[i].name);
+            }
+            if (party[i].system.skills.prc.passive > perception.max) {
+                perception.names = [party[i].name];
+                perception.max = party[i].system.skills.prc.passive;
+            }
         }
-        if (party[i].system.skills.prc.passive > perception.max) {
-            perception.names = [party[i].name];
-            perception.max = party[i].system.skills.prc.passive;
-        }
+
+        passives += `<tr><td>Perception</td><td>${perception.max}</td><td>${perception.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.per.passive === persuasion.max) {
-            persuasion.names.push(party[i].name);
+    if (passivesIncluded.includes("persuasion")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.per.passive === persuasion.max) {
+                persuasion.names.push(party[i].name);
+            }
+            if (party[i].system.skills.per.passive > persuasion.max) {
+                persuasion.names = [party[i].name];
+                persuasion.max = party[i].system.skills.per.passive;
+            }
         }
-        if (party[i].system.skills.per.passive > persuasion.max) {
-            persuasion.names = [party[i].name];
-            persuasion.max = party[i].system.skills.per.passive;
-        }
+
+        passives += `<tr><td>Persuasion</td><td>${persuasion.max}</td><td>${persuasion.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.prf.passive === performance.max) {
-            performance.names.push(party[i].name);
+    if (passivesIncluded.includes("performance")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.prf.passive === performance.max) {
+                performance.names.push(party[i].name);
+            }
+            if (party[i].system.skills.prf.passive > performance.max) {
+                performance.names = [party[i].name];
+                performance.max = party[i].system.skills.prf.passive;
+            }
         }
-        if (party[i].system.skills.prf.passive > performance.max) {
-            performance.names = [party[i].name];
-            performance.max = party[i].system.skills.prf.passive;
-        }
+
+        passives += `<tr><td>Performance</td><td>${performance.max}</td><td>${performance.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.rel.passive === religion.max) {
-            religion.names.push(party[i].name);
+    if (passivesIncluded.includes("religion")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.rel.passive === religion.max) {
+                religion.names.push(party[i].name);
+            }
+            if (party[i].system.skills.rel.passive > religion.max) {
+                religion.names = [party[i].name];
+                religion.max = party[i].system.skills.rel.passive;
+            }
         }
-        if (party[i].system.skills.rel.passive > religion.max) {
-            religion.names = [party[i].name];
-            religion.max = party[i].system.skills.rel.passive;
-        }
+
+        passives += `<tr><td>Religion</td><td>${religion.max}</td><td>${religion.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.slt.passive === sleightOfHand.max) {
-            sleightOfHand.names.push(party[i].name);
+    if (passivesIncluded.includes("sleightOfHand")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.slt.passive === sleightOfHand.max) {
+                sleightOfHand.names.push(party[i].name);
+            }
+            if (party[i].system.skills.slt.passive > sleightOfHand.max) {
+                sleightOfHand.names = [party[i].name];
+                sleightOfHand.max = party[i].system.skills.slt.passive;
+            }
         }
-        if (party[i].system.skills.slt.passive > sleightOfHand.max) {
-            sleightOfHand.names = [party[i].name];
-            sleightOfHand.max = party[i].system.skills.slt.passive;
-        }
+
+        passives += `<tr><td>Sleight of Hand</td><td>${sleightOfHand.max}</td><td>${sleightOfHand.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.ste.passive === stealth.max) {
-            stealth.names.push(party[i].name);
+    if (passivesIncluded.includes("stealth")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.ste.passive === stealth.max) {
+                stealth.names.push(party[i].name);
+            }
+            if (party[i].system.skills.ste.passive > stealth.max) {
+                stealth.names = [party[i].name];
+                stealth.max = party[i].system.skills.ste.passive;
+            }
         }
-        if (party[i].system.skills.ste.passive > stealth.max) {
-            stealth.names = [party[i].name];
-            stealth.max = party[i].system.skills.ste.passive;
-        }
+
+        passives += `<tr><td>Stealth</td><td>${stealth.max}</td><td>${stealth.names}</td></tr>`;
     }
 
-    for (let i = 0; i < party.length; i++) {
-        if (party[i].system.skills.sur.passive === survival.max) {
-            survival.names.push(party[i].name);
+    if (passivesIncluded.includes("survival")) {
+        for (let i = 0; i < party.length; i++) {
+            if (party[i].system.skills.sur.passive === survival.max) {
+                survival.names.push(party[i].name);
+            }
+            if (party[i].system.skills.sur.passive > survival.max) {
+                survival.names = [party[i].name];
+                survival.max = party[i].system.skills.sur.passive;
+            }
         }
-        if (party[i].system.skills.sur.passive > survival.max) {
-            survival.names = [party[i].name];
-            survival.max = party[i].system.skills.sur.passive;
-        }
+
+        passives += `<tr><td>Survival</td><td>${survival.max}</td><td>${survival.names}</td></tr>`;
     }
 
+    passives += `</table>`;
 
-    return `
-        <table>
-            <tr>
-                <th align=\"left\">Skill</th><th align=\"left\">Max</th><th align=\"left\">Characters</th>
-            </tr>
-            <tr>
-                <td>Acrobatics</td><td>${acrobatics.max}</td><td>${acrobatics.names}</td>
-            </tr>
-            <tr>
-                <td>Animal Handling</td><td>${animalHandling.max}</td><td>${animalHandling.names}</td>
-            </tr>
-            <tr>
-                <td>Arcana</td><td>${arcana.max}</td><td>${arcana.names}</td>
-            </tr>
-            <tr>
-                <td>Athletics</td><td>${athletics.max}</td><td>${athletics.names}</td>
-            </tr>
-            <tr>
-                <td>Deception</td><td>${deception.max}</td><td>${deception.names}</td>
-            </tr>
-            <tr>
-                <td>History</td><td>${history.max}</td><td>${history.names}</td>
-            </tr>
-            <tr>
-                <td>Insight</td><td>${insight.max}</td><td>${insight.names}</td>
-            </tr>
-            <tr>
-                <td>Investigation</td><td>${investigation.max}</td><td>${investigation.names}</td>
-            </tr>
-            <tr>
-                <td>Intimidation</td><td>${intimidation.max}</td><td>${intimidation.names}</td>
-            </tr>
-            <tr>
-                <td>Medicine</td><td>${medicine.max}</td><td>${medicine.names}</td>
-            </tr>
-            <tr>
-                <td>Nature</td><td>${nature.max}</td><td>${nature.names}</td>
-            </tr>
-            <tr>
-                <td>Perception</td><td>${perception.max}</td><td>${perception.names}</td>
-            </tr>
-            <tr>
-                <td>Persuasion</td><td>${persuasion.max}</td><td>${persuasion.names}</td>
-            </tr>
-            <tr>
-                <td>Performance</td><td>${performance.max}</td><td>${performance.names}</td>
-            </tr>
-            <tr>
-                <td>Religion</td><td>${religion.max}</td><td>${religion.names}</td>
-            </tr>
-            <tr>
-                <td>Sleight of Hand</td><td>${sleightOfHand.max}</td><td>${sleightOfHand.names}</td>
-            </tr>
-            <tr>
-                <td>Stealth</td><td>${stealth.max}</td><td>${stealth.names}</td>
-            </tr>
-            <tr>
-                <td>Survival</td><td>${survival.max}</td><td>${survival.names}</td>
-            </tr>
-        </table>
-    `;
+    return passives;
 }
