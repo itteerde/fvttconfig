@@ -46,12 +46,18 @@ d.render(true, { width: 750 });
 
 function summary(party) {
     let html = "<table><tr><th align=\"left\">Name</th><th align=\"left\">HP/max</th><th align=\"left\">Spell Slots</th></tr>";
-    const rows = party.map(a => `<tr><td>${a.name}</td><td>${a.system.attributes.hp.value}/${a.system.attributes.hp.max} (${Math.round(100 * a.system.attributes.hp.value / a.system.attributes.hp.max)}%)</td><td>${spellSlots(a)}</td></tr>`);
+    const rows = party.map(a => `<tr><td>${a.name}</td><td>${renderMeter(a)} ${a.system.attributes.hp.value}/${a.system.attributes.hp.max} ${a.system.attributes.hp.value < a.system.attributes.hp.max ? " (" + (a.system.attributes.hp.value - a.system.attributes.hp.max) + ")" : ""}</td><td>${spellSlots(a)}</td></tr>`);
     for (let i = 0; i < rows.length; i++) {
         html += rows[i];
     }
     html += "</table>";
     return html;
+}
+
+function renderMeter(actor) {
+    const fraction = actor.system.attributes.hp.value / actor.system.attributes.hp.max;
+
+    return `<meter value="${fraction}" style="width: 160px; height:25px;"></meter>`;
 }
 
 function spellSlots(actor) {
