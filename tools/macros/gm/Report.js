@@ -57,7 +57,7 @@ function summary(party) {
 function renderMeter(actor) {
     const fraction = actor.system.attributes.hp.value / actor.system.attributes.hp.max;
 
-    return `<meter value="${fraction}" style="width: 160px; height:25px;"></meter>`;
+    return `<meter value="${fraction}" min="0" max="1" low="0.33" high="0.66" optimum="0.99" style="width: 160px; height:25px;"></meter>`;
 }
 
 function spellSlots(actor) {
