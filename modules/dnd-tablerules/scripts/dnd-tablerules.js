@@ -245,6 +245,26 @@ class TRUtils {
             type: Boolean,
         });
 
+        game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
+            name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
+            hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
+            scope: "world",
+            config: true,
+            default: false,
+            type: Boolean,
+            requiresReload: true
+        });
+
+        game.settings.register("Tablerules", "chatLogEntryContext_ApplyHalfDamageMinusThree", {
+            name: "ChatLogEntryContext, add option to apply half damage minus three (Heavy Armor Master Feat)",
+            hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total/2) - 3, 0)));",
+            scope: "world",
+            config: true,
+            default: false,
+            type: Boolean,
+            requiresReload: true
+        });
+
         game.settings.register("Tablerules", "logLevel", {
             name: "Log Level",
             hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
@@ -579,6 +599,49 @@ Hooks.on("dnd5e.useItem", function () {
 
 Hooks.on('init', () => {
     TRUtils.registerSettings();
+
+    if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
+        Hooks.on("getChatLogEntryContext", (html, options) => {
+            const condition = (li) => {
+                const message = game.messages.get(li.data("messageId"));
+                return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
+            }
+
+            const callback = (li) => {
+                const message = game.messages.get(li.data("messageId"));
+                const roll = message.rolls[0];
+                canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));
+            }
+
+            options.push({
+                name: "Apply Damage -3",
+                icon: `<i class="fas fa-user-clock"></i>`,
+                condition,
+                callback,
+            });
+        });
+    }
+    if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
+        Hooks.on("getChatLogEntryContext", (html, options) => {
+            const condition = (li) => {
+                const message = game.messages.get(li.data("messageId"));
+                return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
+            }
+
+            const callback = (li) => {
+                const message = game.messages.get(li.data("messageId"));
+                const roll = message.rolls[0];
+                canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total / 2) - 3, 0)));
+            }
+
+            options.push({
+                name: "Apply Half Damage -3",
+                icon: `<i class="fas fa-user-clock"></i>`,
+                condition,
+                callback,
+            });
+        });
+    }
 });
 
 Hooks.on("ready", function () {
@@ -607,48 +670,6 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
         callback,
     });
 });
-
-Hooks.on("getChatLogEntryContext", (html, options) => {
-    const condition = (li) => {
-        const message = game.messages.get(li.data("messageId"));
-        return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
-    }
-
-    const callback = (li) => {
-        const message = game.messages.get(li.data("messageId"));
-        const roll = message.rolls[0];
-        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));
-    }
-
-    options.push({
-        name: "Apply Damage -3",
-        icon: `<i class="fas fa-user-clock"></i>`,
-        condition,
-        callback,
-    });
-});
-
-Hooks.on("getChatLogEntryContext", (html, options) => {
-    const condition = (li) => {
-        const message = game.messages.get(li.data("messageId"));
-        return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
-    }
-
-    const callback = (li) => {
-        const message = game.messages.get(li.data("messageId"));
-        const roll = message.rolls[0];
-        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total / 2) - 3, 0)));
-    }
-
-    options.push({
-        name: "Apply Half Damage -3",
-        icon: `<i class="fas fa-user-clock"></i>`,
-        condition,
-        callback,
-    });
-});
-
-
 
 console.log("Tablerules registering sheets.");
 Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
