@@ -608,6 +608,46 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
     });
 });
 
+Hooks.on("getChatLogEntryContext", (html, options) => {
+    const condition = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
+    }
+
+    const callback = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        const roll = message.rolls[0];
+        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));
+    }
+
+    options.push({
+        name: "Apply Damage -3",
+        icon: `<i class="fas fa-user-clock"></i>`,
+        condition,
+        callback,
+    });
+});
+
+Hooks.on("getChatLogEntryContext", (html, options) => {
+    const condition = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
+    }
+
+    const callback = (li) => {
+        const message = game.messages.get(li.data("messageId"));
+        const roll = message.rolls[0];
+        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total / 2) - 3, 0)));
+    }
+
+    options.push({
+        name: "Apply Half Damage -3",
+        icon: `<i class="fas fa-user-clock"></i>`,
+        condition,
+        callback,
+    });
+});
+
 
 
 console.log("Tablerules registering sheets.");
