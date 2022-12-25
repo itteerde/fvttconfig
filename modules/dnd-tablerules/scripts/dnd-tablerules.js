@@ -107,6 +107,26 @@ class TRMath {
     }
 }
 
+/**
+ * Is this a good idea?
+ */
+class TRDB {
+    static spells = [
+        {
+            name: "Acid Splash",
+            level: 0,
+            castingTime: "1 Action",
+            range: "60 ft",
+            attack: null,
+            save: "dex",
+            damageTypes: ["acid"],
+            components: ["V", "S"],
+            duration: "Instantaneous",
+            school: "Conjuration"
+        }
+    ];
+}
+
 class TRPerformance {
 
     /**
