@@ -600,6 +600,9 @@ Hooks.on("dnd5e.useItem", function () {
 Hooks.on('init', () => {
     TRUtils.registerSettings();
 
+    /**
+     * Add ChatLog context menu option to apply damage minus three (Heavy Armor Master)
+     */
     if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
         Hooks.on("getChatLogEntryContext", (html, options) => {
             const condition = (li) => {
@@ -621,6 +624,10 @@ Hooks.on('init', () => {
             });
         });
     }
+
+    /**
+     * Add ChatLog context menu option to apply half damage minus three (Heavy Armor Master)
+     */
     if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
         Hooks.on("getChatLogEntryContext", (html, options) => {
             const condition = (li) => {
