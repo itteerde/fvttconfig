@@ -663,12 +663,29 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
         canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(roll.total, 0.25));
     }
 
+    /**
+     * remove ChatLog context menu option to delete ChatMessage
+     */
     options.push({
         name: "Apply Quarter Damage",
         icon: `<i class="fas fa-user-clock"></i>`,
         condition,
         callback,
     });
+
+    let idx = -1;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].name === "SIDEBAR.Delete") {
+            idx = i;
+            break;
+        }
+    }
+    if (idx > -1) {
+        options.splice(idx, 1);
+    } else {
+        console.warning("Tablerules: no ChatLog context menu delete ChatMessage option to be removed found.");
+    }
+
 });
 
 console.log("Tablerules registering sheets.");
