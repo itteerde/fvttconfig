@@ -6,6 +6,7 @@
 
 const macroLabel = "Party State Report";
 const passivesIncluded = ["insight", "perception", "investigation"];
+const displayEffects = true;
 
 const partyIds = [
     "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
@@ -45,13 +46,21 @@ let d = new Dialog({
 d.render(true, { width: 750 });
 
 function summary(party) {
-    let html = "<table><tr><th align=\"left\">Name</th><th align=\"left\">HP/max</th><th align=\"left\">Spell Slots</th></tr>";
-    const rows = party.map(a => `<tr><td>${a.name}</td><td>${renderMeter(a)} ${a.system.attributes.hp.value}/${a.system.attributes.hp.max} ${a.system.attributes.hp.value < a.system.attributes.hp.max ? " (" + (a.system.attributes.hp.value - a.system.attributes.hp.max) + ")" : ""}</td><td>${spellSlots(a)}</td></tr>`);
+    let html = `<table><tr><th align="left">Name</th><th align="left">Indicators</th><th align="left">HP/max</th><th align="left">Spell Slots</th></tr>`;
+    const rows = party.map(a => `<tr><td>${a.name}</td><td>${renderStatusIcons(a)}</td><td>${renderMeter(a)} ${a.system.attributes.hp.value}/${a.system.attributes.hp.max} ${a.system.attributes.hp.value < a.system.attributes.hp.max ? " (" + (a.system.attributes.hp.value - a.system.attributes.hp.max) + ")" : ""}</td><td>${spellSlots(a)}</td></tr>`);
     for (let i = 0; i < rows.length; i++) {
         html += rows[i];
     }
     html += "</table>";
     return html;
+}
+
+function renderStatusIcons(actor) {
+    const inspiration = actor.system.attributes.inspiration ? `<img src="icons/magic/perception/eye-ringed-green.webp" alt="Inspiration" width="20" height="20">` : "";
+
+    let effects = displayEffects ? Array.from(new Set(actor.effects.map(e => e.icon)).map(i => `<img src="${i}" height="20", width="20">`)).join("") : "";
+
+    return `${inspiration}${effects}`;
 }
 
 function renderMeter(actor) {
