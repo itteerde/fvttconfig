@@ -245,6 +245,24 @@ class TRUtils {
             type: Boolean,
         });
 
+        game.settings.register("Tablerules", "woundedCondition", {
+            name: "Wounded Condition",
+            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean
+        });
+
+        game.settings.register("Tablerules", "woundedConditionThreshold", {
+            name: "Wounded Condition Threshold",
+            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value if Wounded Condition is enabled.",
+            scope: "world",
+            config: true,
+            default: 0.5,
+            type: Number
+        });
+
         game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
@@ -526,6 +544,49 @@ class Tablerules {
         }
     }
 
+    static preUpdateActor() {
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.preUpdateActor", arguments: arguments });
+        }
+
+        /**
+         * Wounded Condition Active Effect
+         */
+        if (game.settings.get("Tablerules", "woundedCondition")) {
+            Tablerules.handleWounded(...arguments);
+        }
+    }
+
+    static async handleWounded() {
+
+        if (!arguments[2].diff || arguments[2].dhp === undefined) {
+            return;
+        }
+
+        const actor = arguments[0];
+        const diff = arguments[2].diff ? arguments[2].dhp : 0;
+        let effects = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
+
+        if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff < game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
+            if (effects.length > 0) {
+                if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was wounded, now dead, so no longer just wounded
+                    await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                    return;
+                }
+                return;// was wounded, still wounded, nothing to do
+            }
+            // was not yet wounded, but is now
+            const effectData = { icon: "modules/Tablerules/icons/conditions/wounded.svg", label: "Wounded", flags: { core: { statusId: "Wounded" } } };
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            return;
+        }
+
+        //not below threshold
+        if (effects.length > 0) {
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+            return;
+        }
+    }
 }
 
 /**
@@ -649,6 +710,11 @@ Hooks.on('init', () => {
             });
         });
     }
+
+    Hooks.on("preUpdateActor", function () {
+        Tablerules.preUpdateActor(...arguments);
+    });
+
 });
 
 Hooks.on("ready", function () {
