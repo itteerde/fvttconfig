@@ -86,6 +86,40 @@ class TRMath {
         return (Math.floor((score - 10) / 2));
     }
 
+    static carryCapacity(actor = null, variant = true, size = "medium", str = null) {
+        if (actor !== null) {
+            size = actor.system.traits.size;
+            str = actor.system.abilities.str.value;
+        }
+
+        let multiplier = 0;
+        switch (size) {
+            case "tiny":
+                multiplier = 0.5;
+                break;
+            case "sm":
+                multiplier = 1;
+                break;
+            case "med":
+                multiplier = 1;
+                break;
+            case "lg":
+                multiplier = 2;
+                break;
+            case "huge":
+                multiplier = 4;
+                break;
+            case "grg":
+                multiplier = 8;
+                break;
+        }
+
+        if (variant) {
+            return { encumbered: str * 5 * multiplier, heavilyEncumbered: str * 10 * multiplier, limit: str * 15 * multiplier, };
+        }
+        return str * 15 * multiplier;
+    }
+
     /**
      *  
      * @param {number} level Character level.
@@ -266,6 +300,15 @@ class TRUtils {
         game.settings.register("Tablerules", "incapacitatedCondition", {
             name: "Incapacitated Condition",
             hint: "Displays a Incapacitated Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean
+        });
+
+        game.settings.register("Tablerules", "encumbrance", {
+            name: "Encumbrance AE",
+            hint: "Add Active Effects for Encumbrance according to the Variant Encumbrance rules",
             scope: "world",
             config: true,
             default: true,
@@ -571,6 +614,19 @@ class Tablerules {
         if (game.settings.get("Tablerules", "incapacitatedCondition")) {
             Tablerules.handleIncapacitated(...arguments);
         }
+
+        /**
+         * Encumbrance Active Effects
+         */
+        if (game.settings.get("Tablerules", "encumbrance")) {
+            Tablerules.handleEncumbrance(...arguments);
+        }
+    }
+
+    static async handleEncumbrance() {
+        const actor = arguments[0];
+
+        let effects = actor.effects.filter(e => e.label === "Encumbrance").map(e => e.id);// change to flag, as there need to be multiple labels for the levels and implement
     }
 
     static async handleWounded() {
