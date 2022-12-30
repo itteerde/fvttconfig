@@ -623,13 +623,26 @@ class Tablerules {
         }
 
         const percentage = actor.system.attributes.encumbrance.pct;
+        let effects = actor.effects.filter(e => e.flags?.world === "Encumbrance");
 
         if (percentage < 33.333) {// below carry capacity
+
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
 
             return;
         }
 
+        const icon = "icons/creatures/webs/webthin-blue.webp";
+
         if (percentage < 66.667) {// encumbered
+
+            if (effects.filter(e => e.label === "Encumbered").length === 1) {
+                return;
+            }
+
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
+
+            await actor.createEmbeddedDocuments("ActiveEffect", [{ icon: icon, label: "Encumbered", flags: { world: "Encumbrance", core: { statusId: "Encumbered" } } }]); // create the appropriate level of Encumbrance
 
             return;
         }
@@ -646,7 +659,6 @@ class Tablerules {
 
         // overburdened to immobility
 
-        let effects = actor.effects.filter(e => e.label === "Encumbrance").map(e => e.id);// change to flag, as there need to be multiple labels for the levels and implement
     }
 
     static async handleWounded() {
