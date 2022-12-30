@@ -265,7 +265,7 @@ class TRUtils {
 
         game.settings.register("Tablerules", "incapacitatedCondition", {
             name: "Incapacitated Condition",
-            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
+            hint: "Displays a Incapacitated Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
             scope: "world",
             config: true,
             default: true,
