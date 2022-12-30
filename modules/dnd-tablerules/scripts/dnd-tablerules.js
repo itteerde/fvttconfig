@@ -530,13 +530,6 @@ class Tablerules {
         return Tablerules.isOfClass(o, "Item5e");
     }
 
-    /*
-        call from appropriate hook to check for Variant: Encumbrance and maintain Effects implementing those rules https://www.dndbeyond.com/sources/phb/using-ability-scores#VariantEncumbrance.
-    */
-    static checkVariantEncumbrance() {
-
-    }
-
     /**
      * We are setting the lighting for all Tokens of the Actor upon the Item being used, this is doing that for one of the items only for better debugging.
      * 
@@ -625,6 +618,33 @@ class Tablerules {
 
     static async handleEncumbrance() {
         const actor = arguments[0];
+        if (!actor.type === "character") {
+            return;
+        }
+
+        const percentage = actor.system.attributes.encumbrance.pct;
+
+        if (percentage < 33.333) {// below carry capacity
+
+            return;
+        }
+
+        if (percentage < 66.667) {// encumbered
+
+            return;
+        }
+
+        if (percentage <= 1) {// heavily encumbered
+
+            return;
+        }
+
+        if (percentage <= 2) {// overburdened but below lift capacity
+
+            return;
+        }
+
+        // overburdened to immobility
 
         let effects = actor.effects.filter(e => e.label === "Encumbrance").map(e => e.id);// change to flag, as there need to be multiple labels for the levels and implement
     }
