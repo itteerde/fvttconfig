@@ -263,6 +263,15 @@ class TRUtils {
             type: Number
         });
 
+        game.settings.register("Tablerules", "incapacitatedCondition", {
+            name: "Incapacitated Condition",
+            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean
+        });
+
         game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
@@ -555,6 +564,13 @@ class Tablerules {
         if (game.settings.get("Tablerules", "woundedCondition")) {
             Tablerules.handleWounded(...arguments);
         }
+
+        /**
+         * Incapacitated Condition Active Effect
+         */
+        if (game.settings.get("Tablerules", "incapacitatedCondition")) {
+            Tablerules.handleIncapacitated(...arguments);
+        }
     }
 
     static async handleWounded() {
@@ -584,6 +600,34 @@ class Tablerules {
         //not below threshold
         if (effects.length > 0) {
             await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+            return;
+        }
+    }
+
+    static async handleIncapacitated() {
+
+        const actor = arguments[0];
+        if (actor.type !== "character") {
+            return;
+        }
+
+        if (!arguments[2].diff || arguments[2].dhp === undefined) {
+            return;
+        }
+
+        const diff = arguments[2].diff ? arguments[2].dhp : 0;
+        let effects = actor.effects.filter(e => e.label === "Incapacitated").map(e => e.id);
+
+        if (effects.length > 0) {
+            if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff > 0) {// was incapacitated, not anymore
+                await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                return;
+            }
+        }
+
+        if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was not incapacitated, is now
+            const effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
             return;
         }
     }
