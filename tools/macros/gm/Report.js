@@ -7,6 +7,8 @@
 const macroLabel = "Party State Report";
 const passivesIncluded = ["insight", "perception", "investigation"];
 const displayEffects = true;
+const width = 1000;
+const ignoreEffects = ["Crossbow Expert", "War Caster"];
 
 const partyIds = [
     "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
@@ -43,7 +45,7 @@ let d = new Dialog({
     render: html => console.log("Register interactivity in the rendered dialog"),
     close: html => console.log("This always is logged no matter which option is chosen")
 });
-d.render(true, { width: 750 });
+d.render(true, { width: width });
 
 function summary(party) {
     let html = `<table><tr><th align="left">Name</th><th align="left">Indicators</th><th align="left">HP/max</th><th align="left">Spell Slots</th></tr>`;
@@ -56,9 +58,9 @@ function summary(party) {
 }
 
 function renderStatusIcons(actor) {
-    const inspiration = actor.system.attributes.inspiration ? `<img src="icons/magic/perception/eye-ringed-green.webp" alt="Inspiration" width="20" height="20">` : "";
+    const inspiration = actor.system.attributes.inspiration ? `<img src="icons/magic/perception/eye-ringed-green.webp" title="Inspiration" width="20" height="20">` : "";
 
-    let effects = displayEffects ? Array.from(new Set(actor.effects.map(e => e.icon)).map(i => `<img src="${i}" height="20", width="20">`)).join("") : "";
+    let effects = displayEffects ? Array.from(new Set(actor.effects.map(e => ignoreEffects.includes(e.label) ? "" : `<img src="${e.icon}" title="${e.label}" height="20", width="20">`))).join("") : "";
 
     return `${inspiration}${effects}`;
 }
