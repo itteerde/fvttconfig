@@ -4,12 +4,6 @@
  * https://github.com/itteerde/fvttconfig/issues/52
 */
 
-const macroLabel = "Party State Report";
-const passivesIncluded = ["insight", "perception", "investigation"];
-const displayEffects = true;
-const width = 1000;
-const ignoreEffects = ["Crossbow Expert", "War Caster"];
-
 const partyIds = [
     "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
     "FC2ZItcPqgCuvkhW", //Enona Jadrcej 10
@@ -18,6 +12,12 @@ const partyIds = [
     "SjsjOTHTLfnugGtm",
     "xsI2KBbkRJlauxB7"
 ];
+
+const macroLabel = "Party State Report";
+const passivesIncluded = ["insight", "perception", "investigation"];
+const displayEffects = true;
+const width = 1000;
+const ignoreEffects = ["Crossbow Expert", "War Caster"];
 
 const party = partyIds.map(i => game.actors.get(i));
 
