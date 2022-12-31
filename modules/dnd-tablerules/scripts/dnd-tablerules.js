@@ -622,10 +622,10 @@ class Tablerules {
             return;
         }
 
-        const percentage = actor.system.attributes.encumbrance.pct;
+        const percentage = actor.system.attributes.encumbrance.value / actor.system.attributes.encumbrance.max;
         let effects = actor.effects.filter(e => e.flags?.world === "Encumbrance");
 
-        if (percentage < 33.333) {// below carry capacity
+        if (percentage < 0.33333) {// below carry capacity
 
             await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
 
@@ -634,7 +634,7 @@ class Tablerules {
 
         const icon = "icons/creatures/webs/webthin-blue.webp";
 
-        if (percentage < 66.667) {// encumbered
+        if (percentage < 0.66667) {// encumbered
 
             if (effects.filter(e => e.label === "Encumbered").length === 1) {
                 return;
@@ -642,17 +642,135 @@ class Tablerules {
 
             await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
 
-            await actor.createEmbeddedDocuments("ActiveEffect", [{ icon: icon, label: "Encumbered", flags: { world: "Encumbrance", core: { statusId: "Encumbered" } } }]); // create the appropriate level of Encumbrance
+            await actor.createEmbeddedDocuments("ActiveEffect", [{
+                icon: icon,
+                label: "Encumbered",
+                flags: { world: "Encumbrance", core: { statusId: "Encumbered" } },
+                changes: [
+                    {
+                        "key": "system.attributes.movement.walk",
+                        "value": "-10",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.fly",
+                        "value": "-10",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.swim",
+                        "value": "-10",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.burrow",
+                        "value": "-10",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.climb",
+                        "value": "-10",
+                        "mode": 2,
+                        "priority": 20
+                    }
+                ]
+            }]); // create the appropriate level of Encumbrance
 
             return;
         }
 
         if (percentage <= 1) {// heavily encumbered
+            if (effects.filter(e => e.label === "Heavily Encumbered").length === 1) {
+                return;
+            }
+
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
+
+            await actor.createEmbeddedDocuments("ActiveEffect", [{
+                icon: icon, label: "Heavily Encumbered", flags: { world: "Encumbrance", core: { statusId: "Heavily Encumbered" } },
+                changes: [
+                    {
+                        "key": "system.attributes.movement.walk",
+                        "value": "-20",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.fly",
+                        "value": "-20",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.swim",
+                        "value": "-20",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.burrow",
+                        "value": "-20",
+                        "mode": 2,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.climb",
+                        "value": "-20",
+                        "mode": 2,
+                        "priority": 20
+                    }
+                ]
+            }]); // create the appropriate level of Encumbrance
 
             return;
         }
 
         if (percentage <= 2) {// overburdened but below lift capacity
+            if (effects.filter(e => e.label === "Overburdened").length === 1) {
+                return;
+            }
+
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
+
+            await actor.createEmbeddedDocuments("ActiveEffect", [{
+                icon: icon, label: "Overburdened", flags: { world: "Encumbrance", core: { statusId: "Overburdened" } },
+                changes: [
+                    {
+                        "key": "system.attributes.movement.walk",
+                        "value": "5",
+                        "mode": 3,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.fly",
+                        "value": "5",
+                        "mode": 3,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.swim",
+                        "value": "5",
+                        "mode": 3,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.burrow",
+                        "value": "5",
+                        "mode": 3,
+                        "priority": 20
+                    },
+                    {
+                        "key": "system.attributes.movement.climb",
+                        "value": "5",
+                        "mode": 3,
+                        "priority": 20
+                    }
+                ]
+            }]); // create the appropriate level of Encumbrance
 
             return;
         }
