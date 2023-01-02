@@ -781,7 +781,7 @@ class Tablerules {
 
     static async handleWounded() {
 
-        if (!arguments[2].diff || arguments[2].dhp === undefined) {
+        if (!arguments[2].diff || arguments[2].dhp === undefined) {// does not work for updates directly on the document
             return;
         }
 
