@@ -871,7 +871,9 @@ class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eChara
 
     /** @inheritdoc */
     async _updateObject(event, formData) {
-        console.log({ event: event, formData: formData });
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "TRActorSheet5eCharacter._updateObject", event: event, formData: formData });
+        }
 
         return super._updateObject(event, formData);
     }
