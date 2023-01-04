@@ -9,6 +9,7 @@
 const macroLabel = "Aura of Vitality";
 const icon = "icons/magic/air/air-burst-spiral-pink.webp";
 const flagKey = "flags.world.auraOfVitality";
+const checkRange = false;
 const useDistance3D = true;
 
 let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid);
@@ -30,7 +31,7 @@ if (typeof template !== "undefined") {
     const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
     const distance3D = Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
 
-    if ((useDistance3D ? distance3D : distance) > 30) {
+    if (checkRange && (useDistance3D ? distance3D : distance) > 30) {
         ui.notifications.warn(
             `Distance between ${token.actor.name} and ${target.actor.name} is ${(useDistance3D ? distance3D : distance)}. Expected distance<=30.`,
             { permanent: true }
@@ -70,7 +71,6 @@ if (typeof template !== "undefined") {
             permission: Requestor.PERMISSION.GM,
             action: async () => {
                 for (let i = 0; i < this.requestorData.length; i++) {
-                    //await game.actors.get(this.requestorData[i].id).applyDamage(-this.requestorData[i].healing);
                     await canvas.tokens.placeables.find(t => t.document.uuid === this.requestorData[i].uuid).actor.applyDamage(-this.requestorData[i].healing)
                 }
             },

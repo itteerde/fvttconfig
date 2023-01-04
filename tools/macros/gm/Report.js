@@ -14,8 +14,9 @@ const partyIds = [
 ];
 
 const macroLabel = "Party State Report";
-const passivesIncluded = ["insight", "perception", "investigation"];
-const displayEffects = true;
+const passivesIncludeAll = true; // overwrites passivesIncluded
+const passivesIncluded = ["insight", "perception", "investigation"]; // ignored if passivesIncludeAll = true, set to false if you want to create only a partial list.
+const displayEffects = true; // if true all ActiveEffects except those exactly matching by label to ignoreEffects are displayed as icons with mouseOver titles displaying the Labels. If false only Inspiration will be displayed. Inspiration is always the first icon displayed.
 const width = 1000;
 const ignoreEffects = ["Crossbow Expert", "War Caster"];
 
@@ -140,7 +141,7 @@ function passives(party, passivesIncluded) {
             <th align=\"left\">Skill</th><th align=\"left\">Max</th><th align=\"left\">Characters</th>
         </tr>`;
 
-    if (passivesIncluded.includes("acrobatics")) {
+    if (passivesIncludeAll || passivesIncluded.includes("acrobatics")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.acr.passive === acrobatics.max) {
                 acrobatics.names.push(party[i].name);
@@ -154,7 +155,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Acrobatics</td><td>${acrobatics.max}</td><td>${acrobatics.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("animalHandling")) {
+    if (passivesIncludeAll || passivesIncluded.includes("animalHandling")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.ani.passive === animalHandling.max) {
                 animalHandling.names.push(party[i].name);
@@ -168,7 +169,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Animal Handling</td><td>${animalHandling.max}</td><td>${animalHandling.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("arcana")) {
+    if (passivesIncludeAll || passivesIncluded.includes("arcana")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.arc.passive === arcana.max) {
                 arcana.names.push(party[i].name);
@@ -182,7 +183,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Arcana</td><td>${arcana.max}</td><td>${arcana.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("athletics")) {
+    if (passivesIncludeAll || passivesIncluded.includes("athletics")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.ath.passive === athletics.max) {
                 athletics.names.push(party[i].name);
@@ -196,7 +197,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Athletics</td><td>${athletics.max}</td><td>${athletics.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("deception")) {
+    if (passivesIncludeAll || passivesIncluded.includes("deception")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.dec.passive === deception.max) {
                 deception.names.push(party[i].name);
@@ -210,7 +211,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Deception</td><td>${deception.max}</td><td>${deception.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("history")) {
+    if (passivesIncludeAll || passivesIncluded.includes("history")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.his.passive === history.max) {
                 history.names.push(party[i].name);
@@ -224,7 +225,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>History</td><td>${history.max}</td><td>${history.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("insight")) {
+    if (passivesIncludeAll || passivesIncluded.includes("insight")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.ins.passive === insight.max) {
                 insight.names.push(party[i].name);
@@ -238,7 +239,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Insight</td><td>${insight.max}</td><td>${insight.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("investigation")) {
+    if (passivesIncludeAll || passivesIncluded.includes("investigation")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.inv.passive === investigation.max) {
                 investigation.names.push(party[i].name);
@@ -252,7 +253,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Investigation</td><td>${investigation.max}</td><td>${investigation.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("intimidation")) {
+    if (passivesIncludeAll || passivesIncluded.includes("intimidation")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.itm.passive === intimidation.max) {
                 intimidation.names.push(party[i].name);
@@ -266,7 +267,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Intimidation</td><td>${intimidation.max}</td><td>${intimidation.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("medicine")) {
+    if (passivesIncludeAll || passivesIncluded.includes("medicine")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.med.passive === medicine.max) {
                 medicine.names.push(party[i].name);
@@ -280,7 +281,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Medicine</td><td>${medicine.max}</td><td>${medicine.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("nature")) {
+    if (passivesIncludeAll || passivesIncluded.includes("nature")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.nat.passive === nature.max) {
                 nature.names.push(party[i].name);
@@ -294,7 +295,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Nature</td><td>${nature.max}</td><td>${nature.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("perception")) {
+    if (passivesIncludeAll || passivesIncluded.includes("perception")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.prc.passive === perception.max) {
                 perception.names.push(party[i].name);
@@ -308,7 +309,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Perception</td><td>${perception.max}</td><td>${perception.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("persuasion")) {
+    if (passivesIncludeAll || passivesIncluded.includes("persuasion")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.per.passive === persuasion.max) {
                 persuasion.names.push(party[i].name);
@@ -322,7 +323,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Persuasion</td><td>${persuasion.max}</td><td>${persuasion.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("performance")) {
+    if (passivesIncludeAll || passivesIncluded.includes("performance")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.prf.passive === performance.max) {
                 performance.names.push(party[i].name);
@@ -336,7 +337,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Performance</td><td>${performance.max}</td><td>${performance.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("religion")) {
+    if (passivesIncludeAll || passivesIncluded.includes("religion")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.rel.passive === religion.max) {
                 religion.names.push(party[i].name);
@@ -350,7 +351,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Religion</td><td>${religion.max}</td><td>${religion.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("sleightOfHand")) {
+    if (passivesIncludeAll || passivesIncluded.includes("sleightOfHand")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.slt.passive === sleightOfHand.max) {
                 sleightOfHand.names.push(party[i].name);
@@ -364,7 +365,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Sleight of Hand</td><td>${sleightOfHand.max}</td><td>${sleightOfHand.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("stealth")) {
+    if (passivesIncludeAll || passivesIncluded.includes("stealth")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.ste.passive === stealth.max) {
                 stealth.names.push(party[i].name);
@@ -378,7 +379,7 @@ function passives(party, passivesIncluded) {
         passives += `<tr><td>Stealth</td><td>${stealth.max}</td><td>${stealth.names}</td></tr>`;
     }
 
-    if (passivesIncluded.includes("survival")) {
+    if (passivesIncludeAll || passivesIncluded.includes("survival")) {
         for (let i = 0; i < party.length; i++) {
             if (party[i].system.skills.sur.passive === survival.max) {
                 survival.names.push(party[i].name);
