@@ -15,6 +15,27 @@ class TRMath {
 
     /**
      * 
+     * @param {number} a 
+     * @param {number} b 
+     * @param {number} [c] 
+     * @returns lenght of the diagonal between the three orthogonal lenghts a, b and c
+     */
+    static pythagorean(a, b, c = 0) {
+        return Math.sqrt(a * a + b * b + c * c);
+    }
+
+    /**
+     * How much change in height can one move with movement of m moving xy horizontally?
+     * 
+     * @param {number} dXY movement orthogonally to the elevation change
+     * @param {number} movement movement speed
+     */
+    static dZQ(dXY, movement) {
+        return Math.max(Math.sqrt(movement * movement - dXY * dXY), 0);
+    }
+
+    /**
+     * 
      * @param {number} range 
      * @returns the radius of the circle/disc projected by a cone of that range orthogonally onto a plane (e.g. flying straight above) 
      */
