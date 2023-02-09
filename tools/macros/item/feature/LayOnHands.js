@@ -9,6 +9,9 @@ if (value < 1) {
     ui.notifications.warn(`${item.name} has no uses left.`);
     return;
 }
+
+item.displayCard();
+
 const content = `
 <p>Lay on Hands has ${value} uses left.</p>
 <form>
