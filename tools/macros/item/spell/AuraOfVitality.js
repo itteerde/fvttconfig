@@ -11,18 +11,25 @@ const icon = "icons/magic/air/air-burst-spiral-pink.webp";
 const flagKey = "flags.world.auraOfVitality";
 const checkRange = false;
 const useDistance3D = true;
+const useMouseHover = false;
 
 let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid);
 let template = templates[0];
 
+let target = null;
+
 // check if the "aura" is up (if there is the MeasuringTemplate with our flag)
 if (typeof template !== "undefined") {
 
-    // check for hovered and try to heal if valid
-    const target = canvas.tokens.hover;
-    if (canvas.tokens.hover === null) {
-        ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target (no Actor found).`);
-        return;
+    if (useMouseHover) {
+        // check for hovered and try to heal if valid
+        target = canvas.tokens.hover;
+        if (canvas.tokens.hover === null) {
+            ui.notifications.warn(`${macroLabel}, Actor hovered ${actor?.name} invalid target (no Actor found).`);
+            return;
+        }
+    } else {
+        target = game.user.targets.first();
     }
 
     // check range and abort if to far, for corner-cases roll in dice tray or temporarily move one of the tokens.
