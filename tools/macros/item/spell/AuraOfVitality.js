@@ -12,8 +12,6 @@ const flagKey = "flags.world.auraOfVitality";
 const checkRange = false;
 const useDistance3D = true;
 const useMouseHover = false;
-const isDiscipleOfLife = false;
-const spellLevel = 3;
 
 let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid);
 let template = templates[0];
@@ -52,13 +50,12 @@ if (typeof template !== "undefined") {
     const effect = actor.effects.find(e => e.flags?.world?.origin === item.uuid);
     const spellLevel = effect.flags.world.spellLevel;
 
-    /* no longer working, don't know how we lost it.
-    const isDiscipleOfLife = actor.classes?.cleric?.system?.subclass?.identifier === "life-domain";
+    const isDiscipleOfLife = actor.classes?.cleric?.subclass?.identifier === "life-domain";
     let bonusHealing = 0;
     if (isDiscipleOfLife) {
         bonusHealing += spellLevel + 2;
     }
-    */
+
     const bonusHealingString = bonusHealing !== 0 ? `+${bonusHealing}` : "";
 
     const dice = target.actor.items.filter(i => i.name === ("Eldritch Invocations: Gift of the Ever-Living Ones")).length > 0 ? "12" : "2d6";
@@ -109,11 +106,10 @@ const use = await item.use();
 if (!use) {
     return;
 }
-/*
+
 const DIV = document.createElement("DIV");
 DIV.innerHTML = use.content;
 const spellLevel = Number(DIV.firstChild.dataset.spellLevel);
-*/
 
 
 // select the MeasuringTemplate created by the Item.Spell use() and modify
