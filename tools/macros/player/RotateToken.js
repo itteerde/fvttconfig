@@ -1,0 +1,1 @@
+await token.document.update({ rotation: token.document.rotation + (event.shiftKey ? -1 : 1) });
