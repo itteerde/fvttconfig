@@ -653,7 +653,7 @@ class Tablerules {
             return;
         }
 
-        const icon = "modules/dnd-tablerules/icons/mechanics/turtle.svg";
+        const icon = "modules/Tablerules/icons/mechanics/turtle.svg";
 
         if (percentage < 0.66667) {// encumbered
 
