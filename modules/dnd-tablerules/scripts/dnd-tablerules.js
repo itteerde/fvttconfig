@@ -356,6 +356,16 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register("Tablerules", "whispersIncludeGM", {
+            name: "Whispers, add GM",
+            hint: "adds the GM to all whispered chat messages",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: false
+        });
+
         game.settings.register("Tablerules", "logLevel", {
             name: "Log Level",
             hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
@@ -607,6 +617,22 @@ class Tablerules {
             }
             Tablerules.setLightingByActor(item.parent, item);
             return;
+        }
+    }
+
+    static preCreateChatMessage() {
+        if (TRUtils.isDebugEnabled()) {
+            Tablerules.debug({ message: "Tablerules.preCreateChatMessage", object: arguments });
+        }
+
+        if (arguments[1].whisper === undefined) {
+            return;
+        }
+
+        if (!arguments[1].whisper.includes(game.users.find(u => u.name === "Gamemaster").id)) {
+            arguments[0].whisper.push(game.users.find(u => u.name === "Gamemaster").id.toUpperCase());
+            arguments[1].whisper.push(game.users.find(u => u.name === "Gamemaster").id.toUpperCase());
+            Tablerules.debug({ message: "Tablerules.preCreateChatMessage(), added GM to whisper", object: arguments });
         }
     }
 
@@ -988,6 +1014,10 @@ Hooks.on('init', () => {
         Tablerules.preUpdateActor(...arguments);
     });
 
+});
+
+Hooks.on("preCreateChatMessage", function () {
+    return Tablerules.preCreateChatMessage(...arguments);
 });
 
 Hooks.on("ready", function () {
