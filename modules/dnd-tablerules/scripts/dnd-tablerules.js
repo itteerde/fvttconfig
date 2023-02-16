@@ -620,22 +620,6 @@ class Tablerules {
         }
     }
 
-    static preCreateChatMessage() {
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "Tablerules.preCreateChatMessage", object: arguments });
-        }
-
-        if (arguments[1].whisper === undefined) {
-            return;
-        }
-
-        if (!arguments[1].whisper.includes(game.users.find(u => u.name === "Gamemaster").id)) {
-            arguments[0].whisper.push(game.users.find(u => u.name === "Gamemaster").id.toUpperCase());
-            arguments[1].whisper.push(game.users.find(u => u.name === "Gamemaster").id.toUpperCase());
-            Tablerules.debug({ message: "Tablerules.preCreateChatMessage(), added GM to whisper", object: arguments });
-        }
-    }
-
     static preUpdateActor() {
         if (TRUtils.isDebugEnabled()) {
             Tablerules.debug({ message: "Tablerules.preUpdateActor", arguments: arguments });
@@ -1016,9 +1000,37 @@ Hooks.on('init', () => {
 
 });
 
-Hooks.on("preCreateChatMessage", function () {
-    return Tablerules.preCreateChatMessage(...arguments);
-});
+Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) => {
+
+    if (!game.settings.get("Tablerules", "whispersIncludeGM") || !game.settings.get("Tablerules", "isEnabled")) {
+        return;
+    }
+
+    const gmWhisperIds = ChatMessage.getWhisperRecipients("gm").map(i => i.id) // get all gm ids in the world
+    let whisperArray = duplicate(messageDoc.whisper) // Copy our array out
+    if (whisperArray.length === 0) return // Not a whisper if there's no whisper ids
+
+
+    for (let gmId of gmWhisperIds) {// Push each gm id into the array of whisper ids
+        if (gmId === game.user.id) continue // You never include yourself in the whisper so this would erronously add yourself causing the "we changed the array! trigger later on"
+        if (!whisperArray.includes(gmId)) {
+            whisperArray.push(gmId)
+        }
+    }
+
+    if (whisperArray.length !== messageDoc.whisper.length) { //only modify if needed
+        let userListString = ""
+        for (let userId of messageDoc.whisper) {
+            userListString = userListString + game.users.get(userId).name + ", "
+        }
+        userListString = userListString.slice(0, -2)
+
+        messageDoc.updateSource({
+            content: `${messageDoc.content}`,//<br>Original Whisper Recipients: ${userListString}`,
+            whisper: whisperArray
+        })
+    }
+})
 
 Hooks.on("ready", function () {
     console.log("Tablerules hooked onto ready.");
