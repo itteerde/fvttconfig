@@ -863,8 +863,17 @@ class Tablerules {
         }
 
         if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was not incapacitated, is now
-            const effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
+            let effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
             await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+
+            let effects = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
+            if (effects.length > 0) {
+                return;
+            }
+
+            effectData = { icon: "modules/Tablerules/icons/conditions/prone.svg", label: "Prone", flags: { core: { statusId: "Prone" } } };
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+
             return;
         }
     }
