@@ -7,10 +7,40 @@
 const macroLabel = "Fall Damage";
 const icon = "modules/Tablerules/icons/prototypes/falling01.webp";
 
-// make sure one and only one Token is selected and it is Token5e
 // query GM for RollFormula
-// Roll damage
-// Requestor Save
-// Apply Damage and report in ChatMessage
 
 console.log(`${macroLabel}: working on it.`);
+
+const content = `
+<p>Falling damage.</p>
+<form>
+    <div class="form-group">
+        <label for="num">Falling height (ft):</label>
+        <div class="form-fields">
+            <input id="num" type="number" value="11"></input>
+        </div>
+    </div>
+</form>`;
+
+const buttons = {
+    heal: {
+        icon: "<i class='fa-solid fa-person-falling-burst'></i>",
+        label: "Drop them!",
+        callback: async (html) => {
+            const number = Number(html[0].querySelector("#num").value);
+            if (number < 1 || number > value) {
+                ui.notifications.warn("Invalid number.");
+                return;
+            }
+            await new Roll(`${number}`).toMessage({
+                speaker: ChatMessage.getSpeaker({ actor }),
+                flavor: macroLabel
+            });
+            return; //item.update({ "system.uses.value": value - number });
+        }
+    }
+}
+
+// Roll damage
+// Requestor Save or Save from ChatMessage (prefer the latter)
+// Apply Damage and report in ChatMessage
