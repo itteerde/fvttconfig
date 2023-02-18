@@ -42,4 +42,4 @@ const buttons = {
     }
 }
 
-new Dialog({ title: "Copy Spell", content, buttons }).render(true);
+new Dialog({ title: item.name, content, buttons }).render(true);
