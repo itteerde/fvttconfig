@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.0.71",
+    "version": "0.0.72",
     "compatibility": {
         "minimum": "10",
         "verified": "10.291"
@@ -61,15 +61,15 @@
     ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json",
-    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.61/dnd-tablerules.zip",
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.0.72/dnd-tablerules.zip",
     "relationships":{
         "systems": [
             {
                 "id": "dnd5e",
                 "type": "system",
                 "compatibility": {
-                    "minimum": "2.0.3",
-                    "verified": "2.0.3"
+                    "minimum": "2.1.0",
+                    "verified": "2.1.4"
                 },
                 "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }
