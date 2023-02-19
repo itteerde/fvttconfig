@@ -4,6 +4,12 @@
  * https://raw.githubusercontent.com/krbz999/zhell-macros/main/classes/paladin/lay_on_hands.js
  */
 
+//check if the Item needs to be corrected to matach the Actor's Paladin Levels
+const paladinLevels = actor.classes.paladin.system.levels;
+if (item.system.uses.max != paladinLevels * 5) {
+    await item.update({ "system.uses.max": paladinLevels * 5 });
+}
+
 const { value } = item.system.uses;
 if (value < 1) {
     ui.notifications.warn(`${item.name} has no uses left.`);
