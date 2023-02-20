@@ -16,7 +16,7 @@ let templates = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).
 
 let template = templates[0];
 
-if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Template").length === 1) {
+if (templates.length === 1) {
 
     let tokensInRange = canvas.tokens.placeables.filter(t => t.document.disposition === 1);
 
@@ -26,7 +26,7 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
         tokensInRange = tokensInRange.filter(t => TRUtils.distancePlacables(template, t) <= 30);
     }
 
-    const hpHealed = actor._classes.druid.system.levels;
+    const hpHealed = actor.classes.druid.system.levels;
     const actors = [];
 
     for (let i = 0; i < tokensInRange.length; i++) {
@@ -41,6 +41,7 @@ if (actor.effects.filter(e => e.label === "Spirit Totem (Unicorn Spirit) Templat
         buttonData: [{
             label: "Approve Healing",
             limit: Requestor.LIMIT.ONCE,
+            permission: Requestor.PERMISSION.GM,
             action: async () => {
                 for (let i = 0; i < arguments[5].actorId.length; i++) {
                     await game.actors.get(arguments[5].actorId[i]).applyDamage(-this.hpHealed);
