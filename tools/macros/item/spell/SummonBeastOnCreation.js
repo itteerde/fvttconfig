@@ -7,9 +7,9 @@
  */
 
 const macroLabel = "Summon Beast";
-const textureLand = "modules/Tablerules/icons/magic/summons/Einhornchen_Medium_Spirit_01.webp";
-const textureAir = "modules/Tablerules/icons/magic/summons/Quipper_Tiny_Spirit_01.webp";
-const textureWater = "modules/Tablerules/icons/magic/summons/Giant_Octopus_Large_Spirit_01.webp";
+const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
+const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
+const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
 
 const addGlow = true;
 const addBlur = true;
