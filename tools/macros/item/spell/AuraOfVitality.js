@@ -7,7 +7,7 @@
  */
 
 const macroLabel = "Aura of Vitality";
-const icon = "icons/magic/air/air-burst-spiral-pink.webp";
+const icon = item.img; // "icons/magic/air/air-burst-spiral-pink.webp";
 const flagKey = "flags.world.auraOfVitality";
 const checkRange = false;
 const useDistance3D = true;
