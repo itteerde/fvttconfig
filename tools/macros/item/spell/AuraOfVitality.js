@@ -35,16 +35,19 @@ if (typeof template !== "undefined") {
     // check range and abort if to far, for corner-cases roll in dice tray or temporarily move one of the tokens.
     const tokenSource = token;
     const tokenTarget = target;
-    const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
-    const distance3D = Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
 
-    if (checkRange && (useDistance3D ? distance3D : distance) > 30) {
-        ui.notifications.warn(
-            `Distance between ${token.actor.name} and ${target.actor.name} is ${(useDistance3D ? distance3D : distance)}. Expected distance<=30.`,
-            { permanent: true }
-        );
+    if (checkRange) {
+        const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
+        const distance3D = Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
 
-        return;
+        if ((useDistance3D ? distance3D : distance) > 30) {
+            ui.notifications.warn(
+                `Distance between ${token.actor.name} and ${target.actor.name} is ${(useDistance3D ? distance3D : distance)}. Expected distance<=30.`,
+                { permanent: true }
+            );
+
+            return;
+        }
     }
 
     const effect = actor.effects.find(e => e.flags?.world?.origin === item.uuid);
