@@ -29,6 +29,10 @@ if (typeof template !== "undefined") {
             return;
         }
     } else {
+        if (game.user.targets.size !== 1) {
+            ui.notifications.warn(`${macroLabel}, target exactly one Actor to be healed (while selecting exctly the Actor casting).`);
+            return;
+        }
         target = game.user.targets.first();
     }
 
