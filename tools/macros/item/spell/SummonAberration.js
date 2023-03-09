@@ -107,7 +107,6 @@ if (spirit.actor.name === "Beholderkin") {
 }
 
 if (spirit.actor.name === "Slaad") {
-    console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
     updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
     updates["actor.img"] = textureSlaad;
     updates["token.texture.src"] = textureSlaad;
