@@ -76,8 +76,8 @@ let updates = {
     embedded: {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
-            "Maul": {
-                'system.damage.parts': [[`1d8 + 4 + ${level}`, "piercing"]],
+            "Claws": {
+                'system.damage.parts': [[`1d10 + 3 + ${level}`, "slashing"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             }
         }
@@ -85,35 +85,29 @@ let updates = {
 }
 
 /* update variants */
-if (spirit.actor.name === "Bestial Spirit Land") {
-    updates["actor.img"] = textureLand;
-    updates["token.texture.src"] = textureLand;
+if (spirit.actor.name === "Beholderkin") {
+    updates["actor.img"] = textureBeholderkin;
+    updates["token.texture.src"] = textureBeholderkin;
     updates["actor.system.attributes.movement.climb"] = 30;
 }
 
-if (spirit.actor.name === "Bestial Spirit Air") {
+if (spirit.actor.name === "Slaad") {
     console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
     updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
-    updates["actor.img"] = textureAir;
-    updates["token.texture.src"] = textureAir;
+    updates["actor.img"] = textureSlaad;
+    updates["token.texture.src"] = textureSlaad;
     updates["actor.system.attributes.movement.fly"] = 60;
 }
 
-if (spirit.actor.name === "Bestial Spirit Water") {
-    updates["actor.img"] = textureWater;
-    updates["token.texture.src"] = textureWater;
+if (spirit.actor.name === "Star Spawn") {
+    updates["actor.img"] = textureStarSpawn;
+    updates["token.texture.src"] = textureStarSpawn;
     updates["actor.system.attributes.movement.swim"] = 30;
 }
 
 /* Combine the general and specific updates */
 updates = mergeObject(updates, spirit);
 
-const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
+const spawnIds = await warpgate.spawn("Aberrant Spirit", updates);
 
-const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
-
-console.log({ message: macroLabel, spawn: spawn, spawnIds: spawnIds });
-
-for (let i = 0; i < spawnIds.length; i++) {
-    s = canvas.tokens.get(spawnIds[i]);
-}
+//const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately for further changes like animations.
