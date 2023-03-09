@@ -18,20 +18,14 @@ const addBlur = true;
 //actor = game.actors.getName("Jorrick");
 
 // TODO: get from context
-const item = actor.items.getName("Summon Beast");
-
-console.log({ message: macroLabel, actor: actor, item: item, arguments: arguments });
-
-
+const item = actor.items.getName("Summon Beast"); // why do we do it this way, is tha macro a the control bar instead of using an item with Item-Macro?
 const level = await warpgate.dnd5e.rollItem(item);
-
-console.log({ message: macroLabel, level: level, arguments: arguments });
 
 if (!level > 0) {
     return;
 }
 
-const summonerDc = actor.data.data.attributes.spelldc;
+const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
 /* Prompt the user for which type of spirit to summon */
@@ -108,7 +102,6 @@ if (spirit.actor.name === "Bestial Spirit Land") {
 }
 
 if (spirit.actor.name === "Bestial Spirit Air") {
-    console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
     updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
     updates["actor.img"] = textureAir;
     updates["token.texture.src"] = textureAir;
@@ -127,8 +120,6 @@ updates = mergeObject(updates, spirit);
 const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
 
 const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
-
-console.log({ message: macroLabel, spawn: spawn, spawnIds: spawnIds });
 
 for (let i = 0; i < spawnIds.length; i++) {
     s = canvas.tokens.get(spawnIds[i]);
