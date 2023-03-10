@@ -29,9 +29,7 @@ const buttonData = {
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
-                    "Psychic Slam": warpgate.CONST.DELETE,
-                    "Regeneration": warpgate.CONST.DELETE,
-                    "Whispering Aura": warpgate.CONST.DELETE
+                    "Hurl Flame": warpgate.CONST.DELETE
                 }
             }
         }
@@ -42,9 +40,8 @@ const buttonData = {
             token: { name: "Devil" },
             embedded: {
                 Item: {
-                    "Eye Ray": warpgate.CONST.DELETE,
-                    "Psychic Slam": warpgate.CONST.DELETE,
-                    "Whispering Aura": warpgate.CONST.DELETE
+                    "Claws": warpgate.CONST.DELETE,
+                    "Bite": warpgate.CONST.DELETE
                 }
             }
         }
@@ -55,9 +52,8 @@ const buttonData = {
             token: { name: "Yugoloth" },
             embedded: {
                 Item: {
-                    "Claws": warpgate.CONST.DELETE,
-                    "Eye Ray": warpgate.CONST.DELETE,
-                    "Regeneration": warpgate.CONST.DELETE
+                    "Bite": warpgate.CONST.DELETE,
+                    "Hurl Flame": warpgate.CONST.DELETE
                 }
             }
         }
@@ -75,7 +71,7 @@ let updates = {
     },
     actor: {
         'system.attributes.ac.flat': 11 + level,
-        'system.attributes.hp': { value: 40 + 10 * (level - 4), max: 40 + 10 * (level - 4) },
+        'system.attributes.hp': { value: 50 + 15 * (level - 6), max: 50 + 15 * (level - 6) },
         "system.details.cr": actor.system.attributes.prof,
         "system.attributes.prof": actor.system.attributes.prof
     },
@@ -103,27 +99,26 @@ let updates = {
 }
 
 /* update variants */
-if (spirit.actor.name === "Beholderkin") {
-    updates["actor.img"] = textureBeholderkin;
-    updates["token.texture.src"] = textureBeholderkin;
-    updates["actor.system.attributes.movement.fly"] = 30;
-    updates["actor.system.attributes.movement.hover"] = true;
+if (spirit.actor.name === "Demon") {
+    updates["actor.img"] = textureDemon;
+    updates["token.texture.src"] = textureDemon;
+    updates["actor.system.attributes.movement.climb"] = 40;
 }
 
-if (spirit.actor.name === "Slaad") {
-    updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
-    updates["actor.img"] = textureSlaad;
-    updates["token.texture.src"] = textureSlaad;
-    updates["actor.system.attributes.movement.fly"] = 0;
+if (spirit.actor.name === "Devil") {
+    updates["actor.img"] = textureDevil;
+    updates["token.texture.src"] = textureDevil;
+    updates["actor.system.attributes.movement.fly"] = 60;
+    updates['actor.system.attributes.hp'] = { value: 40 + 15 * (level - 6), max: 40 + 15 * (level - 6) };
 }
 
-if (spirit.actor.name === "Star Spawn") {
-    updates["actor.img"] = textureStarSpawn;
-    updates["token.texture.src"] = textureStarSpawn;
-    updates["actor.system.attributes.movement.fly"] = 0;
+if (spirit.actor.name === "Yugoloth") {
+    updates["actor.img"] = textureYugoloth;
+    updates["token.texture.src"] = textureYugoloth;
+    updates['actor.system.attributes.hp'] = { value: 60 + 15 * (level - 6), max: 60 + 15 * (level - 6) };
 }
 
 /* Combine the general and specific updates */
 updates = mergeObject(updates, spirit);
 
-const spawnIds = await warpgate.spawn("Aberrant Spirit", updates);
+const spawnIds = await warpgate.spawn("Fiendish Spirit", updates);
