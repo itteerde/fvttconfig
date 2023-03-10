@@ -7,7 +7,7 @@
 const macroLabel = item.name;
 const textureGhostly = "systems/dnd5e/tokens/undead/Ghost.webp";
 const texturePutrid = "systems/dnd5e/tokens/undead/Ghast.webp";
-const textureSkeletal = "systems/dnd5e/tokens/undead/Skeleton.webp";
+const textureSkeletal = "modules/Tablerules/icons/magic/summons/undeadSpiritSkeleton.png";
 
 // labels for easy customization and quick testing what works for unclear cases.
 const formGhostly = "Ghostly Spirit";
@@ -88,6 +88,7 @@ let updates = {
             "Deathly Touch": {
                 'system.damage.parts': [[`1d8 + 3 + ${level}`, "necrotic"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+                "system.save.dc": summonerDc
             },
             "Grave Bolt": {
                 'system.damage.parts': [[`2d4 + 3 + ${level}`, "necrotic"]],
