@@ -93,6 +93,9 @@ let updates = {
             "Psychic Slam": {
                 'system.damage.parts': [[`1d8 + 3 + ${level}`, "psychic"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+            },
+            "Whispering Aura": {
+                "system.save.dc": summonerDc
             }
         }
     }
@@ -125,3 +128,20 @@ updates = mergeObject(updates, spirit);
 const spawnIds = await warpgate.spawn("Aberrant Spirit", updates);
 
 //const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately for further changes like animations.
+
+if (spirit.actor.name === "Star Spawn") {
+    const token = canvas.tokens.get(spawnIds[0]);
+    // create and attach MeasuredTemplate
+    const data = {
+        distance: 7.5,
+        borderColor: "#52004b",
+        fillColor: "#940088",
+        x: token.center.x,
+        y: token.center.y
+    };
+    foundry.utils.setProperty(data, "flags.dnd5e.origin", item.uuid);
+    await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [data]);
+
+    const template = canvas.scene.templates.find(t => t.flags?.dnd5e?.origin === item.uuid);
+    await tokenAttacher.attachElementsToToken([template], token);
+}
