@@ -41,7 +41,8 @@ const buttonData = {
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
-                    "Bite": warpgate.CONST.DELETE
+                    "Bite": warpgate.CONST.DELETE,
+                    "Death Throes": warpgate.CONST.DELETE
                 }
             }
         }
@@ -53,7 +54,8 @@ const buttonData = {
             embedded: {
                 Item: {
                     "Bite": warpgate.CONST.DELETE,
-                    "Hurl Flame": warpgate.CONST.DELETE
+                    "Hurl Flame": warpgate.CONST.DELETE,
+                    "Death Throes": warpgate.CONST.DELETE
                 }
             }
         }
@@ -86,7 +88,7 @@ let updates = {
                 'system.damage.parts': [[`1d12 + 3 + ${level}`, "necrotic"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             },
-            "Hurl Fire": {
+            "Hurl Flame": {
                 'system.damage.parts': [[`2d6 + 3 + ${level}`, "fire"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             },
