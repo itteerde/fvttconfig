@@ -7,7 +7,7 @@
 const macroLabel = item.name;
 const textureBeholderkin = "modules/Tablerules/icons/magic/summons/aberrationSpiritBeholderkin.png";
 const textureSlaad = "modules/Tablerules/icons/magic/summons/aberrationSpiritSlaad.png";
-const textureStarSpawn = "modules/Tablerules/icons/magic/summons/aberrationSpiritStarSpawn.webp";
+const textureStarSpawn = "modules/Tablerules/icons/magic/summons/aberrationSpiritStarSpawn.png";
 
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
