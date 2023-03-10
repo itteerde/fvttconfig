@@ -6,33 +6,18 @@
  * TODO: clean up logging (pretty much remove, or put all to Tablerules logging with .debug() )
  */
 
-const macroLabel = "Summon Fey";
+const macroLabel = item.name;
 const textureFuming = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
 const textureMirthful = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
 const textureTricksy = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
 
-const addGlow = true;
-const addBlur = true;
-
-//  from context (Item-Macro), drag Item in Control Bar for Control Bar use with selecting. Use next line for Control Bar without Selection providing the name (ID would be better)
-//actor = game.actors.getName("Jorrick");
-
-// TODO: get from context
-const item = actor.items.getName("Summon Fey");
-
-console.log({ message: macroLabel, actor: actor, item: item, arguments: arguments });
-
-
+const summonerDc = actor.system.attributes.spelldc;
+const summonerAttack = summonerDc - 8;
 const level = await warpgate.dnd5e.rollItem(item);
-
-console.log({ message: macroLabel, level: level, arguments: arguments });
-
 if (!level > 0) {
     return;
 }
 
-const summonerDc = actor.data.data.attributes.spelldc;
-const summonerAttack = summonerDc - 8;
 
 /* Prompt the user for which type of spirit to summon */
 const buttonData = {
@@ -77,7 +62,6 @@ const buttonData = {
 };
 
 let spirit = await warpgate.buttonDialog(buttonData);
-console.log({ message: macroLabel, spirit: spirit });
 
 /* Craft the updates that are common to all spirits */
 let updates = {
@@ -108,7 +92,6 @@ if (spirit.actor.name === "Fuming Fey Spirit") {
 }
 
 if (spirit.actor.name === "Mirthful Fey Spirit") {
-    console.log({ message: `${macroLabel}, updating variants (${spirit.actor.name})` });
     updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
     updates["actor.img"] = textureMirthful;
     updates["token.texture.src"] = textureMirthful;
@@ -125,11 +108,4 @@ if (spirit.actor.name === "Tricksy Fey Spirit") {
 updates = mergeObject(updates, spirit);
 
 const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
-
-const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
-
-console.log({ message: macroLabel, spawn: spawn, spawnIds: spawnIds });
-
-for (let i = 0; i < spawnIds.length; i++) {
-    s = canvas.tokens.get(spawnIds[i]);
-}
+//const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
