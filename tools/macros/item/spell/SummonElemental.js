@@ -45,6 +45,7 @@ const buttonData = {
             token: { name: formEarth },
             embedded: {
                 Item: {
+                    "Amorphous Form": warpgate.CONST.DELETE
                 }
             }
         }
@@ -105,26 +106,27 @@ if (spirit.actor.name === formAir) {
     updates["token.texture.src"] = textureAir;
     updates["actor.system.attributes.movement.fly"] = 40;
     updates["actor.system.attributes.movement.hover"] = true;
-
-    const resistances = new Set(["lightning", "thunder"]);
-    updates["actor.system.traits.dr.value"] = resistances;
+    updates["actor.system.traits.dr.value"] = ["lightning", "thunder"];
 }
 
 if (spirit.actor.name === formEarth) {
     updates["actor.img"] = textureEarth;
     updates["token.texture.src"] = textureEarth;
     updates["actor.system.attributes.movement.burrow"] = 40;
+    updates["actor.system.traits.dr.value"] = ["piercing", "slashing"];
 }
 
 if (spirit.actor.name === formFire) {
     updates["actor.img"] = textureFire;
     updates["token.texture.src"] = textureFire;
+    updates["actor.system.traits.di.value"] = ["poison", "fire"];
 }
 
 if (spirit.actor.name === formWater) {
     updates["actor.img"] = textureWater;
     updates["token.texture.src"] = textureWater;
     updates["actor.system.attributes.movement.swim"] = 40;
+    updates["actor.system.traits.dr.value"] = ["acid"];
 }
 
 /* Combine the general and specific updates */
