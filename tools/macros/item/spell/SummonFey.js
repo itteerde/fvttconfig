@@ -7,9 +7,14 @@
  */
 
 const macroLabel = item.name;
-const textureFuming = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
-const textureMirthful = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
-const textureTricksy = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
+const textureFuming = "modules/Tablerules/icons/magic/summons/feySpiritFuming.png";
+const textureMirthful = "modules/Tablerules/icons/magic/summons/feySpiritMirthful.png";
+const textureTricksy = "modules/Tablerules/icons/magic/summons/feySpiritTricksy.png";
+
+const formFuming = "Fuming Fey Spirit";
+const formMirthful = "Mirthful Fey Spirit";
+const formTricksy = "Tricksy Fey Spirit";
+
 
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -22,38 +27,40 @@ if (!level > 0) {
 /* Prompt the user for which type of spirit to summon */
 const buttonData = {
     buttons: [{
-        label: "Fuming Fey Spirit",
+        label: formFuming,
         value: {
-            token: { name: "Fuming Fey Spirit" },
-            actor: { name: "Fuming Fey Spirit" },
+            token: { name: formFuming },
+            actor: { name: formFuming },
             embedded: {
                 Item: {
-                    "Flyby": warpgate.CONST.DELETE,
-                    "Water Breathing": warpgate.CONST.DELETE
+                    "Mirthful": warpgate.CONST.DELETE,
+                    "Tricksy": warpgate.CONST.DELETE,
+                    "Tricksy spell": warpgate.CONST.DELETE
                 }
             }
         }
     }, {
-        label: "Mirthful Fey Spirit",
+        label: formMirthful,
         value: {
-            actor: { name: "Mirthful Fey Spirit" },
-            token: { name: "Mirthful Fey Spirit" },
+            actor: { name: formMirthful },
+            token: { name: formMirthful },
             embedded: {
                 Item: {
-                    "Pack Tactics": warpgate.CONST.DELETE,
-                    "Water Breathing": warpgate.CONST.DELETE
+                    "Fuming": warpgate.CONST.DELETE,
+                    "Tricksy": warpgate.CONST.DELETE,
+                    "Tricksy spell": warpgate.CONST.DELETE
                 }
             }
         }
     }, {
-        label: "Tricksy Fey Spirit",
+        label: formTricksy,
         value: {
-            actor: { name: "Tricksy Fey Spirit" },
-            token: { name: "Tricksy Fey Spirit" },
+            actor: { name: formTricksy },
+            token: { name: formTricksy },
             embedded: {
                 Item: {
-                    "Flyby": warpgate.CONST.DELETE,
-                    "Pack Tactics": warpgate.CONST.DELETE
+                    "Fuming": warpgate.CONST.DELETE,
+                    "Mirthful": warpgate.CONST.DELETE
                 }
             }
         }
@@ -76,8 +83,8 @@ let updates = {
     embedded: {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
-            "Maul": {
-                'system.damage.parts': [[`1d6 + 3 + ${level}`, "piercing"]], //Need to add 1d6 Force damage to calc.
+            "Shortsword": {
+                'system.damage.parts': [[`1d6 + 3 + ${level}`, "piercing"], [`1d6`, "force"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
             }
         }
@@ -85,27 +92,23 @@ let updates = {
 }
 
 /* update variants */
-if (spirit.actor.name === "Fuming Fey Spirit") {
+if (spirit.actor.name === formFuming) {
     updates["actor.img"] = textureFuming;
     updates["token.texture.src"] = textureFuming;
-    updates["actor.system.attributes.movement.climb"] = 30; //All forms only have 40ft movement
 }
 
-if (spirit.actor.name === "Mirthful Fey Spirit") {
-    updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
+if (spirit.actor.name === formMirthful) {
     updates["actor.img"] = textureMirthful;
     updates["token.texture.src"] = textureMirthful;
-    updates["actor.system.attributes.movement.fly"] = 60;
 }
 
-if (spirit.actor.name === "Tricksy Fey Spirit") {
+if (spirit.actor.name === formTricksy) {
     updates["actor.img"] = textureTricksy;
     updates["token.texture.src"] = textureTricksy;
-    updates["actor.system.attributes.movement.swim"] = 30;
 }
 
 /* Combine the general and specific updates */
 updates = mergeObject(updates, spirit);
 
-const spawnIds = await warpgate.spawn("Bestial Spirit", updates);
+const spawnIds = await warpgate.spawn("Fey Spirit", updates);
 //const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
