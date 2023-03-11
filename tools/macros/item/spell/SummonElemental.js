@@ -106,12 +106,8 @@ if (spirit.actor.name === formAir) {
     updates["actor.system.attributes.movement.fly"] = 40;
     updates["actor.system.attributes.movement.hover"] = true;
 
-    const resistances = new Set();
-    resistances.add("lightning");
-    resistances.add("thunder");
-
-    updates["system.traits.dr.value"] = resistances;
-
+    const resistances = new Set(["lightning", "thunder"]);
+    updates["actor.system.traits.dr.value"] = resistances;
 }
 
 if (spirit.actor.name === formEarth) {
