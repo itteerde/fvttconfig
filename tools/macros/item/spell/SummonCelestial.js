@@ -8,6 +8,9 @@ const macroLabel = item.name;
 const textureAvenger = "modules/Tablerules/icons/magic/summons/celestialSpiritAvenger.webp";
 const textureDefender = "modules/Tablerules/icons/magic/summons/celestialSpiritDefender.webp";
 
+const formAvenger = "Avenger";
+const formDefender = "Defender";
+
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -21,29 +24,24 @@ if (!level > 0) {
 /* Prompt the user for which type of spirit to summon */
 const buttonData = {
     buttons: [{
-        label: "Avenger",
+        label: formAvenger,
         value: {
-            token: { name: "Avenger" },
-            actor: { name: "Avenger" },
+            token: { name: formAvenger },
+            actor: { name: formAvenger },
             embedded: {
                 Item: {
-                    "Claws": warpgate.CONST.DELETE,
-                    "Psychic Slam": warpgate.CONST.DELETE,
-                    "Regeneration": warpgate.CONST.DELETE,
-                    "Whispering Aura": warpgate.CONST.DELETE
+                    "Radiant Mace": warpgate.CONST.DELETE
                 }
             }
         }
     }, {
-        label: "Defender",
+        label: formDefender,
         value: {
-            actor: { name: "Defender" },
-            token: { name: "Defender" },
+            actor: { name: formDefender },
+            token: { name: formDefender },
             embedded: {
                 Item: {
-                    "Eye Ray": warpgate.CONST.DELETE,
-                    "Psychic Slam": warpgate.CONST.DELETE,
-                    "Whispering Aura": warpgate.CONST.DELETE
+                    "Radiant Bow": warpgate.CONST.DELETE
                 }
             }
         }
@@ -68,33 +66,28 @@ let updates = {
     embedded: {
         Item: {
             "Multiattack": { name: `Multiattack (${Math.floor(level / 2)} attacks)` },
-            "Claws": {
-                'system.damage.parts': [[`1d8 + 3 + ${level}`, "slashing"]],
-                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+            "Radiant Bow": {
+                'system.damage.parts': [[`2d6 + 2 + ${level}`, "radiant"]],
+                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`
             },
-            "Bite": {
-                'system.damage.parts': [[`1d12 + 3 + ${level}`, "necrotic"]],
-                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+            "Radiant Mace": {
+                'system.damage.parts': [[`1d10 + 3 + ${level}`, "necrotic"]],
+                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`
             },
-            "Hurl Fire": {
-                'system.damage.parts': [[`2d6 + 3 + ${level}`, "fire"]],
-                'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
-            },
-            "Death Throes": {
-                "system.save.dc": summonerDc,
-                'system.damage.parts': [[`2d10 + ${level}`, "fire"]],
+            "Healing Touch": {
+                "system.damage.parts": [[`2d8+ ${level}`, "healing"]]
             }
         }
     }
 }
 
 /* update variants */
-if (spirit.actor.name === "Avenger") {
+if (spirit.actor.name === formAvenger) {
     updates["actor.img"] = textureAvenger;
     updates["token.texture.src"] = textureAvenger;
 }
 
-if (spirit.actor.name === "Defender") {
+if (spirit.actor.name === formDefender) {
     updates["actor.img"] = textureDefender;
     updates["token.texture.src"] = textureDefender;
 }
@@ -102,4 +95,4 @@ if (spirit.actor.name === "Defender") {
 /* Combine the general and specific updates */
 updates = mergeObject(updates, spirit);
 
-const spawnIds = await warpgate.spawn("Aberrant Spirit", updates);
+const spawnIds = await warpgate.spawn("Celestial Spirit", updates);
