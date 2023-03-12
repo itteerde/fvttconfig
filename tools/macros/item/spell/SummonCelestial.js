@@ -74,7 +74,7 @@ let updates = {
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`
             },
             "Radiant Mace": {
-                'system.damage.parts': [[`1d10 + 3 + ${level}`, "necrotic"]],
+                'system.damage.parts': [[`1d10 + 3 + ${level}`, "radiant"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`
             },
             "Healing Touch": {
