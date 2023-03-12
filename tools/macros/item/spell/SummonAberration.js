@@ -110,7 +110,6 @@ if (spirit.actor.name === "Beholderkin") {
 }
 
 if (spirit.actor.name === "Slaad") {
-    updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
     updates["actor.img"] = textureSlaad;
     updates["token.texture.src"] = textureSlaad;
     updates["actor.system.attributes.movement.fly"] = 0;
