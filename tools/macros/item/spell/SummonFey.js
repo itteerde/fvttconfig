@@ -86,6 +86,9 @@ let updates = {
             "Shortsword": {
                 'system.damage.parts': [[`1d6 + 3 + ${level}`, "piercing"], [`1d6`, "force"]],
                 'system.attackBonus': `- @mod - @prof + ${summonerAttack}`,
+            },
+            "Mirthful": {
+                'system.save.dc': summonerDc
             }
         }
     }
