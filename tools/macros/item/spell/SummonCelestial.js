@@ -11,6 +11,9 @@ const textureDefender = "modules/Tablerules/icons/magic/summons/celestialSpiritD
 const formAvenger = "Avenger";
 const formDefender = "Defender";
 
+const scaleAvenger = 3;
+const scaleDefender = 1.0;
+
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -85,11 +88,15 @@ let updates = {
 if (spirit.actor.name === formAvenger) {
     updates["actor.img"] = textureAvenger;
     updates["token.texture.src"] = textureAvenger;
+    updates["token.texture.scaleX"] = scaleAvenger;
+    updates["token.texture.scaleY"] = scaleAvenger;
 }
 
 if (spirit.actor.name === formDefender) {
     updates["actor.img"] = textureDefender;
     updates["token.texture.src"] = textureDefender;
+    updates["token.texture.scaleX"] = scaleDefender;
+    updates["token.texture.scaleY"] = scaleDefender;
 }
 
 /* Combine the general and specific updates */
