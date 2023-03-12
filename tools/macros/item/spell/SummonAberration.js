@@ -9,6 +9,14 @@ const textureBeholderkin = "modules/Tablerules/icons/magic/summons/aberrationSpi
 const textureSlaad = "modules/Tablerules/icons/magic/summons/aberrationSpiritSlaad.png";
 const textureStarSpawn = "modules/Tablerules/icons/magic/summons/aberrationSpiritStarSpawn.png";
 
+const formBeholderkin = "Beholderkin";
+const formSlaad = "Slaad";
+const formStarSpawn = "Star Spawn";
+
+const scaleBeholderkin = 1;
+const scaleSlaad = 1;
+const scaleStarSpawn = 1;
+
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -22,10 +30,10 @@ if (!level > 0) {
 /* Prompt the user for which type of spirit to summon */
 const buttonData = {
     buttons: [{
-        label: "Beholderkin",
+        label: formBeholderkin,
         value: {
-            token: { name: "Beholderkin" },
-            actor: { name: "Beholderkin" },
+            token: { name: formBeholderkin },
+            actor: { name: formBeholderkin },
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
@@ -36,10 +44,10 @@ const buttonData = {
             }
         }
     }, {
-        label: "Slaad",
+        label: formSlaad,
         value: {
-            actor: { name: "Slaad" },
-            token: { name: "Slaad" },
+            actor: { name: formSlaad },
+            token: { name: formSlaad },
             embedded: {
                 Item: {
                     "Eye Ray": warpgate.CONST.DELETE,
@@ -49,10 +57,10 @@ const buttonData = {
             }
         }
     }, {
-        label: "Star Spawn",
+        label: formStarSpawn,
         value: {
-            actor: { name: "Star Spawn" },
-            token: { name: "Star Spawn" },
+            actor: { name: formStarSpawn },
+            token: { name: formStarSpawn },
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
@@ -105,6 +113,8 @@ let updates = {
 if (spirit.actor.name === "Beholderkin") {
     updates["actor.img"] = textureBeholderkin;
     updates["token.texture.src"] = textureBeholderkin;
+    updates["token.texture.scaleX"] = scaleBeholderkin;
+    updates["token.texture.scaleY"] = scaleBeholderkin;
     updates["actor.system.attributes.movement.fly"] = 30;
     updates["actor.system.attributes.movement.hover"] = true;
 }
@@ -112,12 +122,16 @@ if (spirit.actor.name === "Beholderkin") {
 if (spirit.actor.name === "Slaad") {
     updates["actor.img"] = textureSlaad;
     updates["token.texture.src"] = textureSlaad;
+    updates["token.texture.scaleX"] = scaleSlaad;
+    updates["token.texture.scaleY"] = scaleSlaad;
     updates["actor.system.attributes.movement.fly"] = 0;
 }
 
 if (spirit.actor.name === "Star Spawn") {
     updates["actor.img"] = textureStarSpawn;
     updates["token.texture.src"] = textureStarSpawn;
+    updates["token.texture.scaleX"] = scaleStarSpawn;
+    updates["token.texture.scaleY"] = scaleStarSpawn;
     updates["actor.system.attributes.movement.fly"] = 0;
 }
 
@@ -128,7 +142,7 @@ const spawnIds = await warpgate.spawn("Aberrant Spirit", updates);
 
 //const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately for further changes like animations.
 
-if (spirit.actor.name === "Star Spawn") {
+if (spirit.actor.name === formStarSpawn) {
     const token = canvas.tokens.get(spawnIds[0]);
     // create and attach MeasuredTemplate
     const data = {
