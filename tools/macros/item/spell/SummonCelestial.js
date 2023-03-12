@@ -11,8 +11,8 @@ const textureDefender = "modules/Tablerules/icons/magic/summons/celestialSpiritD
 const formAvenger = "Avenger";
 const formDefender = "Defender";
 
-const scaleAvenger = 3;
-const scaleDefender = 1.0;
+const scaleAvenger = 1;
+const scaleDefender = 1;
 
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
