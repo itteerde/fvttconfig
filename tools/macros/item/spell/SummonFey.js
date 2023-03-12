@@ -15,6 +15,10 @@ const formFuming = "Fuming Fey Spirit";
 const formMirthful = "Mirthful Fey Spirit";
 const formTricksy = "Tricksy Fey Spirit";
 
+const scaleFuming = 1;
+const scaleMirthful = 1.3;
+const scaleTricksy = 1.3;
+
 
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -98,16 +102,22 @@ let updates = {
 if (spirit.actor.name === formFuming) {
     updates["actor.img"] = textureFuming;
     updates["token.texture.src"] = textureFuming;
+    updates["token.texture.scaleX"] = scaleFuming;
+    updates["token.texture.scaleY"] = scaleFuming;
 }
 
 if (spirit.actor.name === formMirthful) {
     updates["actor.img"] = textureMirthful;
     updates["token.texture.src"] = textureMirthful;
+    updates["token.texture.scaleX"] = scaleMirthful;
+    updates["token.texture.scaleY"] = scaleMirthful;
 }
 
 if (spirit.actor.name === formTricksy) {
     updates["actor.img"] = textureTricksy;
     updates["token.texture.src"] = textureTricksy;
+    updates["token.texture.scaleX"] = scaleTricksy;
+    updates["token.texture.scaleY"] = scaleTricksy;
 }
 
 /* Combine the general and specific updates */
