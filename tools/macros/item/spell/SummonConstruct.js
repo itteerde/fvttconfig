@@ -1,9 +1,7 @@
 /**
- * Item-Macro Macro onCreation for the Summon Construct Spell, until now only tested from Control Bar.
+ * Item-Macro Macro Summon Construct
  * 
  * https://www.dndbeyond.com/spells/summon-construct
- * 
- * TODO: clean up logging (pretty much remove, or put all to Tablerules logging with .debug() )
  */
 
 const macroLabel = item.name;
