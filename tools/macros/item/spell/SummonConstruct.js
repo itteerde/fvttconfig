@@ -81,6 +81,7 @@ let updates = {
     actor: {
         'system.attributes.ac.flat': 13 + level,
         'system.attributes.hp': { value: 40 + 15 * (level - 4), max: 40 + 15 * (level - 4) },
+        "system.details.cr": actor.system.attributes.prof
     },
     embedded: {
         Item: {
