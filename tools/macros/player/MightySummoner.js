@@ -11,6 +11,7 @@ const icon = "icons/magic/control/debuff-energy-hold-levitate-green.webp";
 const label = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label;
 const macroLabel = Tablerules.dictionary.class.druid.shepherd.features.mightySummoner.label;
 
+
 actor = canvas.tokens.hover?.actor;
 //const token = canvas.tokens.hover;
 
