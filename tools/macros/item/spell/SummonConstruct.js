@@ -123,3 +123,20 @@ updates = mergeObject(updates, spirit);
 
 const spawnIds = await warpgate.spawn("Construct Spirit", updates);
 //const spawn = canvas.tokens.get(spawnIds[0]); // or canvas.scene.tokens.get(id) to get the document immediately
+
+if (spirit.actor.name === formStone) {
+    const token = canvas.tokens.get(spawnIds[0]);
+    // create and attach MeasuredTemplate
+    const data = {
+        distance: 12.5,
+        borderColor: "#52004b",
+        fillColor: "#940088",
+        x: token.center.x,
+        y: token.center.y
+    };
+    foundry.utils.setProperty(data, "flags.dnd5e.origin", item.uuid);
+    await canvas.scene.createEmbeddedDocuments("MeasuredTemplate", [data]);
+
+    const template = canvas.scene.templates.find(t => t.flags?.dnd5e?.origin === item.uuid);
+    await tokenAttacher.attachElementsToToken([template], token);
+}
