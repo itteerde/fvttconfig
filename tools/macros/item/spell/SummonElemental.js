@@ -31,11 +31,7 @@ const buttonData = {
         label: formAir,
         value: {
             token: { name: formAir },
-            actor: { name: formAir },
-            embedded: {
-                Item: {
-                }
-            }
+            actor: { name: formAir }
         }
     },
     {
@@ -54,22 +50,14 @@ const buttonData = {
         label: formFire,
         value: {
             actor: { name: formFire },
-            token: { name: formFire },
-            embedded: {
-                Item: {
-                }
-            }
+            token: { name: formFire }
         }
     },
     {
         label: formWater,
         value: {
             actor: { name: formWater },
-            token: { name: formWater },
-            embedded: {
-                Item: {
-                }
-            }
+            token: { name: formWater }
         }
     }
     ], title: "Which version?"
@@ -87,7 +75,9 @@ let updates = {
         'system.attributes.ac.flat': 11 + level,
         'system.attributes.hp': { value: 50 + 10 * (level - 4), max: 50 + 10 * (level - 4) },
         "system.details.cr": actor.system.attributes.prof,
-        "system.attributes.prof": actor.system.attributes.prof
+        "system.attributes.prof": actor.system.attributes.prof,
+        "flags.world.summoned.item": item.uuid,
+        "flags.world.summoned.actor": actor.uuid
     },
     embedded: {
         Item: {

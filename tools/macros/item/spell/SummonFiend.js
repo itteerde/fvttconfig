@@ -75,7 +75,9 @@ let updates = {
         'system.attributes.ac.flat': 11 + level,
         'system.attributes.hp': { value: 50 + 15 * (level - 6), max: 50 + 15 * (level - 6) },
         "system.details.cr": actor.system.attributes.prof,
-        "system.attributes.prof": actor.system.attributes.prof
+        "system.attributes.prof": actor.system.attributes.prof,
+        "flags.world.summoned.item": item.uuid,
+        "flags.world.summoned.actor": actor.uuid
     },
     embedded: {
         Item: {

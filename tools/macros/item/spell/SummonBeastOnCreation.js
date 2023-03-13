@@ -7,8 +7,8 @@
  */
 
 const macroLabel = "Summon Beast";
-const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
-const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
+const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.webp";
+const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
 const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
 
 const addGlow = true;
@@ -82,6 +82,10 @@ let updates = {
     actor: {
         'system.attributes.ac.flat': 11 + level,
         'system.attributes.hp': { value: 30 + 5 * (level - 2), max: 30 + 5 * (level - 2) },
+        "system.details.cr": actor.system.attributes.prof,
+        "system.attributes.prof": actor.system.attributes.prof,
+        "flags.world.summoned.item": item.uuid,
+        "flags.world.summoned.actor": actor.uuid
     },
     embedded: {
         Item: {
