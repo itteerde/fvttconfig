@@ -19,6 +19,7 @@ const passivesIncluded = ["insight", "perception", "investigation"]; // ignored 
 const displayEffects = true; // if true all ActiveEffects except those exactly matching by label to ignoreEffects are displayed as icons with mouseOver titles displaying the Labels. If false only Inspiration will be displayed. Inspiration is always the first icon displayed.
 const width = 1000;
 const ignoreEffects = ["Crossbow Expert", "War Caster"];
+const displayStealth = true;
 
 const party = partyIds.map(i => game.actors.get(i));
 
@@ -27,6 +28,8 @@ let dialogContent = `
         <h1>Summary</h1>
             <h2>HP and Spellslots</h2>
             ${summary(party)}
+            ${displayStealth ? "<h2>Stealth</h2>" : ""}
+            ${displayStealth ? stealthParty(party) : ""}
             <h2>Passives</h2>
             ${passives(party, passivesIncluded)}
     </div>`;
@@ -112,6 +115,34 @@ function spellSlots(actor) {
     }
 
     return spellSlots;
+}
+
+function stealthActor(a) {
+    let r = "<tr>";
+
+    r += `<td>${a.name}</td>`;
+
+    const effect = a.effects.find(e => e.label.startsWith("Stealth"));
+
+    if (effect !== undefined) {
+        r += `<td>${effect?.flags?.world.stealth}</td>`;
+    } else {
+        r += "<td>-</td>"
+    }
+
+    return r + "</tr>";
+}
+
+function stealthParty(party) {
+    let stealth = `
+    <table>
+        <tr>
+            <th align=\"left\">Name</th><th align=\"left\">Value</th>
+        </tr>`;
+    for (let i = 0; i < party.length; i++) {
+        stealth = stealth + stealthActor(party[i]);
+    }
+    return stealth = stealth + "</table>"
 }
 
 function passives(party, passivesIncluded) {
