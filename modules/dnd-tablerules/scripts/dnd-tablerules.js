@@ -300,6 +300,15 @@ class TRUtils {
             type: Boolean,
         });
 
+        game.settings.register('Tablerules', 'reduceExhaustionOnLongRest', {
+            name: "Long Rest does reduce Exhaustion",
+            hint: "Without this enabled Exhaustion is not automatically reduced by one per Long Rest.",
+            scope: 'world',
+            config: true,
+            default: false,
+            type: Boolean,
+        });
+
         game.settings.register("Tablerules", "woundedCondition", {
             name: "Wounded Condition",
             hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value",
@@ -933,6 +942,9 @@ Hooks.on("dnd5e.preRestCompleted", function () {
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
         arguments[1].dhp = 0;
 
+        if (game.settings.get("Tablerules", "reduceExhaustionOnLongRest")) {
+            arguments[1].updateData["system.attributes.exhaustion"] = Math.max(arguments[0].system.attributes.exhaustion - 1, 0);
+        }
     }
 
     arguments[1].updateData["system.attributes.death.success"] = 0;
