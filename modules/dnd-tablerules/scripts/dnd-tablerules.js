@@ -305,7 +305,7 @@ class TRUtils {
             hint: "Without this enabled Exhaustion is not automatically reduced by one per Long Rest.",
             scope: 'world',
             config: true,
-            default: false,
+            default: true,
             type: Boolean,
         });
 
