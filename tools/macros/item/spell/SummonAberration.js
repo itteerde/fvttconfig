@@ -112,7 +112,7 @@ let updates = {
 }
 
 /* update variants */
-if (spirit.actor.name === "Beholderkin") {
+if (spirit.actor.name === formBeholderkin) {
     updates["actor.img"] = textureBeholderkin;
     updates["token.texture.src"] = textureBeholderkin;
     updates["token.texture.scaleX"] = scaleBeholderkin;
@@ -121,7 +121,7 @@ if (spirit.actor.name === "Beholderkin") {
     updates["actor.system.attributes.movement.hover"] = true;
 }
 
-if (spirit.actor.name === "Slaad") {
+if (spirit.actor.name === formSlaad) {
     updates["actor.img"] = textureSlaad;
     updates["token.texture.src"] = textureSlaad;
     updates["token.texture.scaleX"] = scaleSlaad;
@@ -129,7 +129,7 @@ if (spirit.actor.name === "Slaad") {
     updates["actor.system.attributes.movement.fly"] = 0;
 }
 
-if (spirit.actor.name === "Star Spawn") {
+if (spirit.actor.name === formSlaad) {
     updates["actor.img"] = textureStarSpawn;
     updates["token.texture.src"] = textureStarSpawn;
     updates["token.texture.scaleX"] = scaleStarSpawn;
