@@ -9,6 +9,14 @@ const textureDemon = "modules/Tablerules/icons/magic/summons/fiendishSpiritDemon
 const textureDevil = "modules/Tablerules/icons/magic/summons/fiendishSpiritDevil.png";
 const textureYugoloth = "modules/Tablerules/icons/magic/summons/fiendishSpiritYugoloth.png";
 
+const formDemon = "Demon";
+const formDevil = "Devil";
+const formYugoloth = "Yugoloth";
+
+const scaleDemon = 1;
+const scaleDevil = 1;
+const scaleYugoloth = 1;
+
 const level = await warpgate.dnd5e.rollItem(item);
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
@@ -22,10 +30,10 @@ if (!level > 0) {
 /* Prompt the user for which type of spirit to summon */
 const buttonData = {
     buttons: [{
-        label: "Demon",
+        label: formDemon,
         value: {
-            token: { name: "Demon" },
-            actor: { name: "Demon" },
+            token: { name: formDemon },
+            actor: { name: formDemon },
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
@@ -34,10 +42,10 @@ const buttonData = {
             }
         }
     }, {
-        label: "Devil",
+        label: formDevil,
         value: {
-            actor: { name: "Devil" },
-            token: { name: "Devil" },
+            actor: { name: formDevil },
+            token: { name: formDevil },
             embedded: {
                 Item: {
                     "Claws": warpgate.CONST.DELETE,
@@ -47,10 +55,10 @@ const buttonData = {
             }
         }
     }, {
-        label: "Yugoloth",
+        label: formYugoloth,
         value: {
-            actor: { name: "Yugoloth" },
-            token: { name: "Yugoloth" },
+            actor: { name: formYugoloth },
+            token: { name: formYugoloth },
             embedded: {
                 Item: {
                     "Bite": warpgate.CONST.DELETE,
@@ -103,22 +111,28 @@ let updates = {
 }
 
 /* update variants */
-if (spirit.actor.name === "Demon") {
+if (spirit.actor.name === formDemon) {
     updates["actor.img"] = textureDemon;
     updates["token.texture.src"] = textureDemon;
+    updates["token.texture.scaleX"] = scaleDemon;
+    updates["token.texture.scaleY"] = scaleDemon;
     updates["actor.system.attributes.movement.climb"] = 40;
 }
 
-if (spirit.actor.name === "Devil") {
+if (spirit.actor.name === formDevil) {
     updates["actor.img"] = textureDevil;
     updates["token.texture.src"] = textureDevil;
+    updates["token.texture.scaleX"] = scaleDevil;
+    updates["token.texture.scaleY"] = scaleDevil;
     updates["actor.system.attributes.movement.fly"] = 60;
     updates['actor.system.attributes.hp'] = { value: 40 + 15 * (level - 6), max: 40 + 15 * (level - 6) };
 }
 
-if (spirit.actor.name === "Yugoloth") {
+if (spirit.actor.name === formYugoloth) {
     updates["actor.img"] = textureYugoloth;
     updates["token.texture.src"] = textureYugoloth;
+    updates["token.texture.scaleX"] = scaleYugoloth;
+    updates["token.texture.scaleY"] = scaleYugoloth;
     updates['actor.system.attributes.hp'] = { value: 60 + 15 * (level - 6), max: 60 + 15 * (level - 6) };
 }
 
