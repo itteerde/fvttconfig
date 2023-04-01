@@ -123,6 +123,7 @@ const spellLevel = Number(DIV.firstChild.dataset.spellLevel);
 template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).filter(t => t.flags.dnd5e.origin === item.uuid)[0];
 
 const templateData = {
+    distance: 32.5,
     borderColor: "#00800f",
     fillColor: "#022400",
     x: token.center.x,
