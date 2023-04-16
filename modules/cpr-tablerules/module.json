@@ -27,7 +27,7 @@
             "label": "Tablerules Items",
             "path": "packs/items.db",
             "type": "Item",
-            "system": "cpr",
+            "system": "cyberpunk-red-core",
             "private": "false",
             "flags": {}
         },
@@ -36,7 +36,7 @@
             "label": "Tablerules Macros",
             "path": "packs/macros.db",
             "type": "Macro",
-            "system": "cpr",
+            "system": "cyberpunk-red-core",
             "private": "false",
             "flags": {}
         }
