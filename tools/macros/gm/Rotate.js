@@ -1,0 +1,1 @@
+token.document.update({ rotation: token.document.rotation - 1 });
