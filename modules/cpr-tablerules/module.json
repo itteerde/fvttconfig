@@ -43,7 +43,7 @@
     ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/cpr-tablerules/module.json",
-    "download": "https://github.com/itteerde/fvttconfig/releases/download/0.0.1/cpr-tablerules.zip",
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/0.0.84/cpr-tablerules.zip",
     "relationships":{
         "systems": [
             {
