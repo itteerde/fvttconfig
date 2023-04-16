@@ -47,13 +47,13 @@
     "relationships":{
         "systems": [
             {
-                "id": "cpr",
+                "id": "cyberpunk-red-core",
                 "type": "system",
                 "compatibility": {
                     "minimum": "2.1.0",
                     "verified": "2.1.4"
                 },
-                "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
+                "manifest": "https://gitlab.com/api/v4/projects/22820629/packages/generic/fvtt-cyberpunk-red-core/latest/system.json"
             }
 
         ],
