@@ -19,3 +19,20 @@ game.actors.get("w0H5GHtw7ser0ntj").items.filter(
                 return a.name.localeCompare(b.name)
             }
         }).map(e => e.name)
+
+canvas.tokens.controlled[0].actor.items.filter(
+    s => s.type === "spell").map(
+        e => {
+            return {
+                name: e.name,
+                level: e.system.level
+            }
+        }).sort((a, b) => {
+            if (a.level !== b.level) {
+                return a.level - b.level
+            } else {
+                return a.name.localeCompare(b.name)
+            }
+        }).map(e => e.name)
+
+Object.getPrototypeOf(game.actors.get("qoF84nzjLIRH4NCg")).constructor.name

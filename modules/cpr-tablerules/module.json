@@ -1,0 +1,63 @@
+{
+    "id": "Tablerules",
+    "title": "Tablerules - CPR Module",
+    "description": "Simple module to add and configure table rules for our CPR games.",
+    "authors": [
+        {
+            "name": "Umbratica"
+        },
+        {
+            "name": "Tak"
+        },
+        {
+            "name": "PhDave"
+        }
+    ],
+    "version": "0.0.1",
+    "compatibility": {
+        "minimum": "10",
+        "verified": "10.291"
+    },
+    "scripts": [
+        "scripts/cpr-tablerules.js"
+    ],
+    "packs": [
+        {
+            "name": "tablerules-items",
+            "label": "Tablerules Items",
+            "path": "packs/items.db",
+            "type": "Item",
+            "system": "cpr",
+            "private": "false",
+            "flags": {}
+        },
+        {
+            "name": "tablerules-macros",
+            "label": "Tablerules Macros",
+            "path": "packs/macros.db",
+            "type": "Macro",
+            "system": "cpr",
+            "private": "false",
+            "flags": {}
+        }
+    ],
+    "url": "https://github.com/itteerde/fvttconfig/",
+    "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/cpr-tablerules/module.json",
+    "download": "https://github.com/itteerde/fvttconfig/releases/download/0.0.1/cpr-tablerules.zip",
+    "relationships":{
+        "systems": [
+            {
+                "id": "cpr",
+                "type": "system",
+                "compatibility": {
+                    "minimum": "2.1.0",
+                    "verified": "2.1.4"
+                },
+                "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
+            }
+
+        ],
+        "requires": [
+       ]
+    }
+}
