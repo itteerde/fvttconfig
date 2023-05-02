@@ -10,7 +10,7 @@ const content = `
 <p>${item.name} requires ${value} days until completion.</p>
 <form>
     <div class="form-group">
-        <label for="num">Hours to spend:</label>
+        <label for="num">Days to spend:</label>
         <div class="form-fields">
             <input id="num" type="number" value="1"></input>
         </div>
