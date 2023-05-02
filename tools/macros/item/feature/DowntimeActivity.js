@@ -28,7 +28,7 @@ const buttons = {
                 return;
             }
             await ChatMessage.create({
-                content: `${actor.name} works ${number} days.`,
+                content: `${actor.name} works ${number} days. ${value - number > 0 ? (value - number) + " days until completion left." : item.name + " completed."}`,
                 speaker: ChatMessage.getSpeaker({ actor })
             });
             return item.update({ "system.uses.value": value - number });
@@ -38,13 +38,13 @@ const buttons = {
 if (value >= 5) {
     buttons.cure = {
         icon: "<i class='fa-solid fa-virus'></i>",
-        label: "Study 1 Day!",
+        label: "Study 1 Week!",
         callback: async (html) => {
             await ChatMessage.create({
-                content: `${actor.name} works a day.`,
+                content: `${actor.name} works a Week. ${value - 5 > 0 ? (value - 5) + " days until completion left." : item.name + " completed."}`,
                 speaker: ChatMessage.getSpeaker({ actor })
             });
-            return item.update({ "system.uses.value": value - 1 });
+            return item.update({ "system.uses.value": value - 5 });
         }
     }
 }
