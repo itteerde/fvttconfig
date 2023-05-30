@@ -1,6 +1,7 @@
 # TODO
 
-1. Adopt Requestor Module.
+1. Popout seems to be core now, does it work, is it okay to not have the module?
+1. Tokenmagic currently does not work. Will there be anything or is Token-Animation really gone (hard to believe, though, spell effects are done without it, so maybe)?
 
 
 # Production Update Plan

@@ -175,3 +175,14 @@ if (true) {
 }
 
 item.use();
+
+
+
+await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.timestamp - b.timestamp })[game.messages.filter(m => m.isAuthor).length - 1].update({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/dJ-QLl5qjLg" title="Two Steps From Hell - Archangel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
+
+
+await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.timestamp - b.timestamp })[game.messages.filter(m => m.isAuthor).length - 1].update({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/O4irXQhgMqg" title="The Rolling Stones - Paint It, Black (Official Lyric Video)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
+
+await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.timestamp - b.timestamp })[game.messages.filter(m => m.isAuthor).length - 1].update({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/POdknqszMDY" title="King Théoden&#39;s Battle Speech" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
+
+ChatMessage.create({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/POdknqszMDY" title="King Théoden&#39;s Battle Speech" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` });
