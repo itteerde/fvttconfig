@@ -186,3 +186,17 @@ await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.time
 await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.timestamp - b.timestamp })[game.messages.filter(m => m.isAuthor).length - 1].update({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/POdknqszMDY" title="King Théoden&#39;s Battle Speech" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
 
 ChatMessage.create({ content: `<iframe width="260" height="200" src="https://www.youtube.com/embed/POdknqszMDY" title="King Théoden&#39;s Battle Speech" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` });
+
+game.actors.get("kf5lTiiNlXd1B9vq").items.filter(s => s.type === "spell").filter(s => s.system.preparation.prepared).map(
+    e => {
+        return {
+            name: e.name,
+            level: e.system.level
+        }
+    }).sort((a, b) => {
+        if (a.level !== b.level) {
+            return a.level - b.level
+        } else {
+            return a.name.localeCompare(b.name)
+        }
+    }).map(e => e.name)
