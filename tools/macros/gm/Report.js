@@ -53,7 +53,7 @@ d.render(true, { width: width });
 
 function summary(party) {
     let html = `<table><tr><th align="left">Name</th><th align="left">Indicators</th><th align="left">HP/max</th><th align="left">Spell Slots</th></tr>`;
-    const rows = party.map(a => `<tr><td>${a.name}</td><td>${renderStatusIcons(a)}</td><td>${renderMeter(a)} ${a.system.attributes.hp.value}/${a.system.attributes.hp.max + a.system.attributes.hp.tempmax} ${a.system.attributes.hp.value < a.system.attributes.hp.max ? " (" + (a.system.attributes.hp.value - (a.system.attributes.hp.max + a.system.attributes.hp.tempmax)) + ")" : ""}</td><td>${spellSlots(a)}</td></tr>`);
+    const rows = party.map(a => `<tr><td>${a.name}</td><td>${renderStatusIcons(a)}</td><td>${renderMeter(a)} ${a.system.attributes.hp.value}/${a.system.attributes.hp.max + a.system.attributes.hp.tempmax} ${a.system.attributes.hp.value < (a.system.attributes.hp.max + a.system.attributes.hp.tempmax) ? " (" + (a.system.attributes.hp.value - (a.system.attributes.hp.max + a.system.attributes.hp.tempmax)) + ")" : ""}</td><td>${spellSlots(a)}</td></tr>`);
     for (let i = 0; i < rows.length; i++) {
         html += rows[i];
     }
