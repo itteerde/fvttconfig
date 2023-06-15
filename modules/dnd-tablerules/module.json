@@ -77,42 +77,6 @@
         ],
         "requires": [
             {
-                "id": "autocomplete-whisper",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.0.4",
-                    "verified": "1.0.4"
-                },
-                "manifest": "https://raw.githubusercontent.com/orcnog/autocomplete-whisper/master/module.json"
-            },
-            {
-                "id": "dae",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "10.0.13",
-                    "verified": "10.0.13"
-                },
-                "manifest": "https://gitlab.com/tposney/dae/raw/v10/package/module.json"
-            },
-            {
-                "id": "dice-calculator",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.5.2",
-                    "verified": "1.5.2"
-                },
-                "manifest": "https://gitlab.com/asacolips-projects/foundry-mods/foundry-vtt-dice-calculator/raw/master/module.json"
-            },
-            {
-                "id": "effective-transferral",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.2.5",
-                    "verified": "1.2.5"
-                },
-                "manifest": "https://github.com/GamerFlix/effective-transferral/releases/latest/download/module.json"
-            },
-            {
                 "id": "effectmacro",
                 "type": "module",
                 "compatibility": {
@@ -129,15 +93,6 @@
                     "verified": "1.8.0"
                 },
                 "manifest": "https://github.com/Kekilla0/Item-Macro/releases/download/1.8.0/module.json"
-            },
-            {
-                "id": "lib-wrapper",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.12.11.0",
-                    "verified": "1.12.11.0"
-                },
-                "manifest": "https://github.com/ruipin/fvtt-lib-wrapper/releases/latest/download/module.json"
             },
             {
                 "id": "magicitems",
@@ -165,15 +120,6 @@
                     "verified": "0.6.1.2"
                 },
                 "manifest": "https://raw.githubusercontent.com/Feu-Secret/Tokenmagic/master/tokenmagic/module.json"
-            },
-            {
-                "id": "tr-summons",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "0.0.4",
-                    "verified": "0.0.4"
-                },
-                "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/tr-summons/module.json"
             },
             {
                 "id": "warpgate",
