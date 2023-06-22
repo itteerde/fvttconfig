@@ -33,4 +33,4 @@ const buttons = {
     }
 }
 
-new Dialog({ title: "Lay on Hands", content, buttons }).render(true);
+new Dialog({ title: item.name, content, buttons }).render(true);
