@@ -1,5 +1,8 @@
 # TODO
 
+1. Remember that every step of copying, let alone overwriting, files should only happen with no instance of FVTT running.
+
+
 # Setup
 
 1. Check Disk Space.
@@ -26,9 +29,20 @@
 
 1. Create the game folder within the proper version directory, such as creating a sj folder within the 11 folder.
 1. Copy the code and data folders and the run.bat into the game folder such as sj.
-1. Overwrite the games Data folder such as 11/sj/data/Data with the backup's Data folder.
+1. Overwrite the games Data folder such as fvtt/11/sj/data/Data with the backup's Data folder.
+
+
+# World Migration
+
+## ToA
+
+1. Overwrite the game's Data directory in the new v11 game directors such as fvtt/11/toa/data/Data with Data from backup.
+1. Start FVTT and open the chrome browser client (client).
+1. Under Game Systems Check For Update of the DnD5e - Fifth Edition System ( note that "checking" means updating if there is any ).
+1. Start the World. Begin Migration ( be patient, do not do anything before agreement that migration is complete has been confirmed ).
+1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
 
 
 # Running A Game
-1. Open the game's folder in Explorer such as 11/sj.
+1. Open the game's folder in Explorer such as fvtt/11/sj.
 1. Double-click run.bat.
