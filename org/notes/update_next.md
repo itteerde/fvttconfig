@@ -19,7 +19,7 @@
         1. Create data directory within 11 directory.
         1. Copy version 11 zip file contents into code directory (make sure to not nest top level from zip).
 1. Run FVTT ( node code/resources/app/main.js --port=30000 --dataPath=data ) ( needs to be done not just for seeing if it works and entering license, but also to setup the empty directory structure, so do it! ).
-1. Consider making a .bat file.
+1. Make run.bat file ( New textfile in Explorer, run.bat [check if it really is or if the extensions being hidden makes it run.bat.txt] node code/resources/app/main.js --port=30000 --dataPath=data ).
 
 
 # Running A Game
