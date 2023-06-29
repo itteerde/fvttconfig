@@ -32,6 +32,11 @@
 1. Overwrite the games Data folder such as fvtt/11/sj/data/Data with the backup's Data folder.
 
 
+# V10 Worlds
+
+1. Do Setting Up A Game setup for every v10 game.
+
+
 # World Migration
 
 ## SJ
