@@ -34,6 +34,27 @@
 
 # World Migration
 
+## SJ
+
+1. Overwrite the game's Data directory in the new v11 game directors such as fvtt/11/toa/data/Data with Data from backup.
+1. Start FVTT and open the chrome browser client (client).
+1. Under Game Systems Check For Update of the DnD5e - Fifth Edition System ( note that "checking" means updating if there is any ).
+1. Start the World. Begin Migration ( be patient, do not do anything before agreement that migration is complete has been confirmed ).
+1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
+1. Review the errors ( it is expected that there are numerous compendium migration errors of which a few should be checked and their impact estimated ).
+1. Return to Setup.
+1. Add-on Modules, Update All. Confirm switching to moved Modules. An error with Magic Items is expected.
+1. Try Update All again until only the Magic Items error remains ( expected once ).
+1. Start the World.
+1. Activate all Modules except Compendium Folders.
+1. FXMaster should migrate without displaying errors.
+1. Return to Setup.
+1. Delete Compendium Folders.
+1. Start the World.
+
+### Testing
+
+
 ## ToA
 
 1. Overwrite the game's Data directory in the new v11 game directors such as fvtt/11/toa/data/Data with Data from backup.
@@ -42,6 +63,18 @@
 1. Start the World. Begin Migration ( be patient, do not do anything before agreement that migration is complete has been confirmed ).
 1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
 1. Review the errors ( it is expected that there are numerous compendium migration errors of which a few should be checked and their impact estimated ).
+1. Return to Setup.
+1. Add-on Modules, Update All. Confirm switching to moved Modules. An error with Magic Items is expected.
+1. Try Update All again until only the Magic Items error remains ( expected once ).
+1. Start the World.
+1. Activate all Modules except Compendium Folders.
+1. FXMaster should migrate without displaying errors.
+1. Return to Setup.
+1. Delete Compendium Folders.
+1. Start the World.
+
+### Testing
+
 
 
 # Running A Game
