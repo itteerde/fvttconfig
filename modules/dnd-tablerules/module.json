@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.0.137",
+    "version": "0.0.138",
     "compatibility": {
         "minimum": "10",
         "verified": "10.291"
@@ -93,15 +93,6 @@
                     "verified": "1.8.0"
                 },
                 "manifest": "https://github.com/Kekilla0/Item-Macro/releases/download/1.8.0/module.json"
-            },
-            {
-                "id": "magicitems",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "3.0.0",
-                    "verified": "3.0.0"
-                },
-                "manifest": "https://gitlab.com/riccisi/foundryvtt-magic-items/raw/master/module/module.json"
             },
             {
                 "id": "token-auras",
