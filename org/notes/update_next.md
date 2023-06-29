@@ -1,6 +1,8 @@
 # TODO
 
+1. Establish agreement on having sufficient backups.
 1. Remember that every step of copying, let alone overwriting, files should only happen with no instance of FVTT running.
+1. Esablish clarity about necessity of, and agree on method to achieve, certainty of overwriting the right direction every time.
 
 
 # Setup
