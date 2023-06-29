@@ -41,6 +41,7 @@
 1. Under Game Systems Check For Update of the DnD5e - Fifth Edition System ( note that "checking" means updating if there is any ).
 1. Start the World. Begin Migration ( be patient, do not do anything before agreement that migration is complete has been confirmed ).
 1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
+1. Review the errors ( it is expected that there are numerous compendium migration errors of which a few should be checked and their impact estimated ).
 
 
 # Running A Game
