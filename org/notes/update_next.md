@@ -22,6 +22,13 @@
 1. Make run.bat file ( New textfile in Explorer, run.bat [check if it really is or if the extensions being hidden makes it run.bat.txt] node code/resources/app/main.js --port=30000 --dataPath=data ).
 
 
+# Setting Up A Game
+
+1. Create the game folder within the proper version directory, such as creating a sj folder within the 11 folder.
+1. Copy the code and data folders and the run.bat into the game folder such as sj.
+1. Overwrite the games Data folder such as 11/sj/data/Data with the backup's Data folder.
+
+
 # Running A Game
-1. Open the game's folder in Explorer.
-1. Open cmd in that folder (cmd in its adress bar).
+1. Open the game's folder in Explorer such as 11/sj.
+1. Double-click run.bat.
