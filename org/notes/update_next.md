@@ -1,6 +1,6 @@
 # TODO
 
-1. Establish agreement on having sufficient backups.
+1. Establish agreement on having sufficient backups, local zips of current are sufficient.
 1. Remember that every step of copying, let alone overwriting, files should only happen with no instance of FVTT running.
 1. Esablish clarity about necessity of, and agree on method to achieve, certainty of overwriting the right direction every time.
 
@@ -50,6 +50,8 @@
 1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
 1. Review the errors ( it is expected that there are numerous compendium migration errors of which a few should be checked and their impact estimated ).
 1. Return to Setup.
+1. Add-on Modules update Tablerules only (removes Magical Items dependency).
+1. Add-on Modules delete Magical Items.
 1. Add-on Modules, Update All. Confirm switching to moved Modules. An error with Magic Items is expected.
 1. Try Update All again until only the Magic Items error remains ( expected once ).
 1. Start the World.
@@ -71,6 +73,8 @@
 1. Login as Gamemaster. The extensive parts of migration starts now automatically ( be patient, do not do anything before agreement that migration is complete has been confirmed, this time it will take time... ).
 1. Review the errors ( it is expected that there are numerous compendium migration errors of which a few should be checked and their impact estimated ).
 1. Return to Setup.
+1. Add-on Modules update Tablerules only (removes Magical Items dependency).
+1. Add-on Modules delete Magical Items.
 1. Add-on Modules, Update All. Confirm switching to moved Modules. An error with Magic Items is expected.
 1. Try Update All again until only the Magic Items error remains ( expected once ).
 1. Start the World.
