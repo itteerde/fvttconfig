@@ -1,4 +1,9 @@
-actor = canvas.tokens.controlled[0].actor;
+actor = canvas.tokens.controlled[0]?.actor;
+if (actor === undefined) {
+    ui.notifications.warn("Select exactly one Actor");
+    return;
+}
+
 weapons = actor.items.filter(i => i.system.equipped === "equipped" && i.type === "weapon");
 
 if (weapons.length !== 1) {
