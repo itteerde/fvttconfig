@@ -73,6 +73,7 @@ if (typeof template !== "undefined") {
         flavor: `${macroLabel}, healing ${target.name} for ${hpHealed}hp.`
     });
     const requestorData = [{ uuid: target.document.uuid, healing: hpHealed }];
+    console.log({ message: "requestorData", requestorData: requestorData });
 
     // request healing
     await Requestor.request({

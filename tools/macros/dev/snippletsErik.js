@@ -200,3 +200,4 @@ game.actors.get("kf5lTiiNlXd1B9vq").items.filter(s => s.type === "spell").filter
             return a.name.localeCompare(b.name)
         }
     }).map(e => e.name)
+
