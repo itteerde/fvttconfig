@@ -13,10 +13,10 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.2",
+    "version": "0.11.3",
     "compatibility": {
         "minimum": "10",
-        "verified": "11.302"
+        "verified": "11.304"
     },
     "scripts": [
         "scripts/dnd-tablerules.js"
@@ -69,58 +69,13 @@
                 "type": "system",
                 "compatibility": {
                     "minimum": "2.1.0",
-                    "verified": "2.1.4"
+                    "verified": "2.2.0"
                 },
                 "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }
 
         ],
         "requires": [
-            {
-                "id": "effectmacro",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "10.0.7",
-                    "verified": "10.0.7"
-                },
-                "manifest": "https://github.com/krbz999/effectmacro/releases/latest/download/module.json"
-            },
-            {
-                "id": "itemacro",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.8.0",
-                    "verified": "1.8.0"
-                },
-                "manifest": "https://github.com/Kekilla0/Item-Macro/releases/download/1.8.0/module.json"
-            },
-            {
-                "id": "token-auras",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "2.1",
-                    "verified": "2.1"
-                },
-                "manifest": "https://bitbucket.org/Fyorl/token-auras/raw/master/module.json"
-            },
-            {
-                "id": "tokenmagic",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "0.6.1.2",
-                    "verified": "0.6.1.2"
-                },
-                "manifest": "https://raw.githubusercontent.com/Feu-Secret/Tokenmagic/master/tokenmagic/module.json"
-            },
-            {
-                "id": "warpgate",
-                "type": "module",
-                "compatibility": {
-                    "minimum": "1.15.1",
-                    "verified": "1.15.1"
-                },
-                "manifest": "https://github.com/trioderegion/warpgate/releases/latest/download/module.json"
-            }
         ]
     }
 }
