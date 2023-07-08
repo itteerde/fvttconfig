@@ -336,15 +336,6 @@ class TRUtils {
             type: Boolean
         });
 
-        game.settings.register("Tablerules", "encumbrance", {
-            name: "Encumbrance AE",
-            hint: "Add Active Effects for Encumbrance according to the Variant Encumbrance rules",
-            scope: "world",
-            config: true,
-            default: true,
-            type: Boolean
-        });
-
         game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
@@ -606,7 +597,7 @@ class Tablerules {
     /**
      * 
      */
-    static dnd5eUseItem() {
+    static async dnd5eUseItem() {
 
         if (TRUtils.isDebugEnabled()) {
             Tablerules.debug({ message: "Tablerules.dnd5eUseItem", arguments: arguments });
@@ -629,251 +620,87 @@ class Tablerules {
         }
     }
 
-    static async preUpdateActor() {
+    static async preUpdateActor(actor, system, changes, id) {
         if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "Tablerules.preUpdateActor", arguments: arguments });
+            Tablerules.debug({
+                message: "Tablerules.preUpdateActor",
+                actor: actor,
+                system: system,
+                changes: changes,
+                id: id,
+                arguments: arguments
+            });
         }
 
         /**
          * Wounded Condition Active Effect
          */
         if (game.settings.get("Tablerules", "woundedCondition")) {
-            Tablerules.handleWounded(...arguments);
+            Tablerules.handleWounded(actor, system, changes, id, ...arguments);
         }
 
         /**
          * Incapacitated Condition Active Effect
          */
         if (game.settings.get("Tablerules", "incapacitatedCondition")) {
-            Tablerules.handleIncapacitated(...arguments);
+            Tablerules.handleIncapacitated(actor, system, changes, id, ...arguments);
         }
-
-        /**
-         * Encumbrance Active Effects
-         */
-        if (game.settings.get("Tablerules", "encumbrance")) {
-            Tablerules.handleEncumbrance(...arguments);
-        }
-    }
-
-    static async handleEncumbrance() {
-        const actor = arguments[0];
-        if (!actor.type === "character") {
-            return;
-        }
-
-        const percentage = actor.system.attributes.encumbrance.value / actor.system.attributes.encumbrance.max;
-        let effects = actor.effects.filter(e => e.flags?.world === "Encumbrance");
-
-        if (percentage < 0.33333) {// below carry capacity
-
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
-
-            return;
-        }
-
-        const icon = "modules/Tablerules/icons/mechanics/turtle.svg";
-
-        if (percentage < 0.66667) {// encumbered
-
-            if (effects.filter(e => e.label === "Encumbered").length === 1) {
-                return;
-            }
-
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
-
-            await actor.createEmbeddedDocuments("ActiveEffect", [{
-                icon: icon,
-                label: "Encumbered",
-                flags: { world: "Encumbrance", core: { statusId: "Encumbered" } },
-                changes: [
-                    {
-                        "key": "system.attributes.movement.walk",
-                        "value": "-10",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.fly",
-                        "value": "-10",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.swim",
-                        "value": "-10",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.burrow",
-                        "value": "-10",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.climb",
-                        "value": "-10",
-                        "mode": 2,
-                        "priority": 20
-                    }
-                ]
-            }]); // create the appropriate level of Encumbrance
-
-            return;
-        }
-
-        if (percentage <= 1) {// heavily encumbered
-            if (effects.filter(e => e.label === "Heavily Encumbered").length === 1) {
-                return;
-            }
-
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
-
-            await actor.createEmbeddedDocuments("ActiveEffect", [{
-                icon: icon, label: "Heavily Encumbered", flags: { world: "Encumbrance", core: { statusId: "Heavily Encumbered" } },
-                changes: [
-                    {
-                        "key": "system.attributes.movement.walk",
-                        "value": "-20",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.fly",
-                        "value": "-20",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.swim",
-                        "value": "-20",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.burrow",
-                        "value": "-20",
-                        "mode": 2,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.climb",
-                        "value": "-20",
-                        "mode": 2,
-                        "priority": 20
-                    }
-                ]
-            }]); // create the appropriate level of Encumbrance
-
-            return;
-        }
-
-        if (percentage <= 2) {// overburdened but below lift capacity
-            if (effects.filter(e => e.label === "Overburdened").length === 1) {
-                return;
-            }
-
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects.map(e => e.id)); // delete all prior version of encumberance
-
-            await actor.createEmbeddedDocuments("ActiveEffect", [{
-                icon: icon, label: "Overburdened", flags: { world: "Encumbrance", core: { statusId: "Overburdened" } },
-                changes: [
-                    {
-                        "key": "system.attributes.movement.walk",
-                        "value": "5",
-                        "mode": 3,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.fly",
-                        "value": "5",
-                        "mode": 3,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.swim",
-                        "value": "5",
-                        "mode": 3,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.burrow",
-                        "value": "5",
-                        "mode": 3,
-                        "priority": 20
-                    },
-                    {
-                        "key": "system.attributes.movement.climb",
-                        "value": "5",
-                        "mode": 3,
-                        "priority": 20
-                    }
-                ]
-            }]); // create the appropriate level of Encumbrance
-
-            return;
-        }
-
-        // overburdened to immobility
 
     }
 
-    static async handleWounded() {
+    static async handleWounded(actor, system, changes, id) {
 
-        if (!arguments[2].diff || arguments[2].dhp === undefined) {// does not work for updates directly on the document
+        if (!changes.diff || changes.dhp === undefined) {// does not work for updates directly on the document
             return;
         }
 
-        const actor = arguments[0];
-        const diff = arguments[2].diff ? arguments[2].dhp : 0;
+        const diff = changes.diff ? changes.dhp : 0;
         let effects = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
 
         if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff < game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
             if (effects.length > 0) {
                 if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was wounded, now dead, so no longer just wounded
-                    await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                    actor.deleteEmbeddedDocuments("ActiveEffect", effects);
                     return;
                 }
                 return;// was wounded, still wounded, nothing to do
             }
             // was not yet wounded, but is now
             const effectData = { icon: "modules/Tablerules/icons/conditions/wounded.svg", label: "Wounded", flags: { core: { statusId: "Wounded" } } };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
             return;
         }
 
         //not below threshold
         if (effects.length > 0) {
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+            actor.deleteEmbeddedDocuments("ActiveEffect", effects);
             return;
         }
     }
 
-    static async handleIncapacitated() {
+    static async handleIncapacitated(actor, system, changes, id) {
 
-        const actor = arguments[0];
         if (actor.type !== "character") {
             return;
         }
 
-        if (!arguments[2].diff || arguments[2].dhp === undefined) {
+        if (!changes.diff || changes.dhp === undefined) {
             return;
         }
 
-        const diff = arguments[2].diff ? arguments[2].dhp : 0;
+        const diff = changes.diff ? changes.dhp : 0;
         let effects = actor.effects.filter(e => e.label === "Incapacitated").map(e => e.id);
 
         if (effects.length > 0) {
             if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff > 0) {// was incapacitated, not anymore
-                await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                actor.deleteEmbeddedDocuments("ActiveEffect", effects);
                 return;
             }
         }
 
         if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was not incapacitated, is now
             let effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
             let effects = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
             if (effects.length > 0) {
@@ -881,7 +708,7 @@ class Tablerules {
             }
 
             effectData = { icon: "modules/Tablerules/icons/conditions/prone.svg", label: "Prone", flags: { core: { statusId: "Prone" } } };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
             return;
         }
