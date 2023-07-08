@@ -201,3 +201,20 @@ game.actors.get("kf5lTiiNlXd1B9vq").items.filter(s => s.type === "spell").filter
         }
     }).map(e => e.name)
 
+// version 1:
+function filter(map, pred) {
+    const result = new Map();
+    for (let [k, v] of map) {
+        if (pred(k, v)) {
+            result.set(k, v);
+        }
+    }
+    return result;
+}
+
+const map = new Map().set(1, "one").set(2, "two").set(3, "three");
+const even = filter(map, (k, v) => k % 2 === 0);
+console.log([...even]); // Output: "[ [ 2, 'two' ] ]"
+
+let settingsArray = Array.from(game.settings.settings, ([key, value]) => ({ key, value }));
+settingsArray.filter(e => e.key.startsWith("Tablerules"))
