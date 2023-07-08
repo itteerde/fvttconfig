@@ -629,7 +629,7 @@ class Tablerules {
         }
     }
 
-    static preUpdateActor() {
+    static async preUpdateActor() {
         if (TRUtils.isDebugEnabled()) {
             Tablerules.debug({ message: "Tablerules.preUpdateActor", arguments: arguments });
         }
