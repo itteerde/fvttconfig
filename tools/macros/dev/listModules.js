@@ -15,3 +15,15 @@ for (i = 0; i < modulesActive.length; i++) {
 }
 
 console.log({ reportString: reportString });
+
+
+let wlString = "{";
+
+for (i = 0; i < modulesActive.length; i++) {
+    m = modulesActive[i];
+    wlString = `${wlString} {"${m.title}", "${m.version}", "${m.url}"}${i < modulesActive.length - 1 ? "," : ""}`;
+}
+
+wlString = `${wlString}}`;
+
+console.log({ wlString: wlString });

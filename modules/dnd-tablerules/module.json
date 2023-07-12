@@ -16,7 +16,7 @@
     "version": "0.11.5",
     "compatibility": {
         "minimum": "10",
-        "verified": "11.304"
+        "verified": "11.305"
     },
     "scripts": [
         "scripts/dnd-tablerules.js"
