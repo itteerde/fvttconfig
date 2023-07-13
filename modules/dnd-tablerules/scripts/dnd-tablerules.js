@@ -57,6 +57,7 @@ class TRUtils {
             config: true,
             default: true,
             type: Boolean,
+            requiresReload: true
         });
 
         game.settings.register('Tablerules', 'deathSaveDC', {
@@ -66,6 +67,7 @@ class TRUtils {
             config: true,
             default: 10,
             type: Number,
+            requiresReload: true
         });
 
         game.settings.register('Tablerules', 'noHealOnLongRest', {
@@ -75,6 +77,7 @@ class TRUtils {
             config: true,
             default: true,
             type: Boolean,
+            requiresReload: true
         });
 
         game.settings.register('Tablerules', 'reduceExhaustionOnLongRest', {
@@ -84,6 +87,7 @@ class TRUtils {
             config: true,
             default: true,
             type: Boolean,
+            requiresReload: true
         });
 
         game.settings.register("Tablerules", "woundedCondition", {
@@ -92,7 +96,8 @@ class TRUtils {
             scope: "world",
             config: true,
             default: true,
-            type: Boolean
+            type: Boolean,
+            requiresReload: true
         });
 
         game.settings.register("Tablerules", "woundedConditionThreshold", {
@@ -101,7 +106,8 @@ class TRUtils {
             scope: "world",
             config: true,
             default: 0.5,
-            type: Number
+            type: Number,
+            requiresReload: true
         });
 
         game.settings.register("Tablerules", "incapacitatedCondition", {
@@ -110,7 +116,8 @@ class TRUtils {
             scope: "world",
             config: true,
             default: true,
-            type: Boolean
+            type: Boolean,
+            requiresReload: true
         });
 
         game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
@@ -140,7 +147,47 @@ class TRUtils {
             config: true,
             default: true,
             type: Boolean,
-            requiresReload: false
+            requiresReload: true
+        });
+
+        game.settings.register("Tablerules", "modifyDefaultVolumes", {
+            name: "Modify Default Volumes",
+            hint: "modified the core default volumes, if enabled the Module checks the current settings and adjusts them to the configured below values if they are at assumed core default values.",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
+        game.settings.register("Tablerules", "globalPlaylistVolume", {
+            name: "globalPlaylistVolume default overwrite value",
+            hint: "if Modify Default Volumes is enabled this overwrites the core default",
+            scope: "world",
+            config: true,
+            default: 0.3,
+            type: Number,
+            requiresReload: true
+        });
+
+        game.settings.register("Tablerules", "globalAmbientVolume", {
+            name: "globalAmbientVolume default overwrite value",
+            hint: "if Modify Default Volumes is enabled this overwrites the core default",
+            scope: "world",
+            config: true,
+            default: 0.3,
+            type: Number,
+            requiresReload: true
+        });
+
+        game.settings.register("Tablerules", "globalInterfaceVolume", {
+            name: "globalInterfaceVolume default overwrite value",
+            hint: "if Modify Default Volumes is enabled this overwrites the core default",
+            scope: "world",
+            config: true,
+            default: 0.3,
+            type: Number,
+            requiresReload: true
         });
 
         game.settings.register("Tablerules", "logLevel", {
@@ -156,7 +203,6 @@ class TRUtils {
                 2: "info",
                 3: "debug"
             },
-            //onChange: () => window.location.reload()
             requiresReload: true
         });
 
@@ -167,7 +213,6 @@ class TRUtils {
             config: true,
             default: false,
             type: Boolean,
-            //onChange: () => window.location.reload()
             requiresReload: true
         });
     }
