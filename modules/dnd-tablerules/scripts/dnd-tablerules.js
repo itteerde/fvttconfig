@@ -590,6 +590,23 @@ Hooks.on("ready", function () {
 
     Tablerules.config.loglevel = game.settings.get("Tablerules", "logLevel");
     Tablerules.config.logOwn = game.settings.get("Tablerules", "logOwn");
+
+    if (game.settings.get("Tablerules", "modifyDefaultVolumes")) {
+        if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalPlaylistVolume").value.default === game.settings.get("core", "globalPlaylistVolume")) {
+            game.settings.set("core", "globalPlaylistVolume", game.settings.get("Tablerules", "globalPlaylistVolume"));
+        }
+
+        if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalAmbientVolume").value.default === game.settings.get("core", "globalAmbientVolume")) {
+            game.settings.set("core", "globalAmbientVolume", game.settings.get("Tablerules", "globalAmbientVolume"));
+        }
+
+        if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalInterfaceVolume").value.default === game.settings.get("core", "globalInterfaceVolume")) {
+            game.settings.set("core", "globalInterfaceVolume", game.settings.get("Tablerules", "globalInterfaceVolume"));
+        }
+
+        ui.sidebar.tabs.playlists.render();
+    }
+
 });
 
 Hooks.on("getChatLogEntryContext", (html, options) => {
