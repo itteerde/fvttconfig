@@ -165,7 +165,7 @@ class TRUtils {
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
             config: true,
-            default: 0.3,
+            default: 0.1,
             type: Number,
             requiresReload: true
         });
@@ -175,7 +175,7 @@ class TRUtils {
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
             config: true,
-            default: 0.3,
+            default: 0.1,
             type: Number,
             requiresReload: true
         });
@@ -185,7 +185,7 @@ class TRUtils {
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
             config: true,
-            default: 0.3,
+            default: 0.1,
             type: Number,
             requiresReload: true
         });
@@ -593,15 +593,15 @@ Hooks.on("ready", function () {
 
     if (game.settings.get("Tablerules", "modifyDefaultVolumes")) {
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalPlaylistVolume").value.default === game.settings.get("core", "globalPlaylistVolume")) {
-            game.settings.set("core", "globalPlaylistVolume", game.settings.get("Tablerules", "globalPlaylistVolume"));
+            game.settings.set("core", "globalPlaylistVolume", game.user.flags?.world?.globalPlaylistVolume ?? game.settings.get("Tablerules", "globalPlaylistVolume"));
         }
 
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalAmbientVolume").value.default === game.settings.get("core", "globalAmbientVolume")) {
-            game.settings.set("core", "globalAmbientVolume", game.settings.get("Tablerules", "globalAmbientVolume"));
+            game.settings.set("core", "globalAmbientVolume", game.user.flags?.world?.globalAmbientVolume ?? game.settings.get("Tablerules", "globalAmbientVolume"));
         }
 
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalInterfaceVolume").value.default === game.settings.get("core", "globalInterfaceVolume")) {
-            game.settings.set("core", "globalInterfaceVolume", game.settings.get("Tablerules", "globalInterfaceVolume"));
+            game.settings.set("core", "globalInterfaceVolume", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get("Tablerules", "globalInterfaceVolume"));
         }
 
         ui.sidebar.tabs.playlists.render();
