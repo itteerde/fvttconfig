@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.11",
+    "version": "0.11.12",
     "compatibility": {
         "minimum": "11",
         "verified": "11.305"
@@ -28,7 +28,12 @@
             "path": "packs/actors.db",
             "type": "Actor",
             "system": "dnd5e",
-            "ownership": "observer",
+            "ownership": {
+                "player": "observer",
+                "trusted": "owner",
+                "assistant": "owner",
+                "gamemaster": "owner"
+            },
             "flags": {}
         },
         {
@@ -37,7 +42,6 @@
             "path": "packs/items.db",
             "type": "Item",
             "system": "dnd5e",
-            "ownership": "observer",
             "flags": {}
         },
         {
@@ -46,7 +50,6 @@
             "path": "packs/spells.db",
             "type": "Item",
             "system": "dnd5e",
-            "ownership": "observer",
             "flags": {}
         },
         {
@@ -55,10 +58,24 @@
             "path": "packs/macros.db",
             "type": "Macro",
             "system": "dnd5e",
-            "ownership": "observer",
             "flags": {}
         }
     ],
+    "packFolders": [
+        {
+          "name": "Tablerules",
+          "sorting": "a",
+          "color": "#ff0000",
+          "packs": [
+            "tablerules-actors",
+            "tablerules-items",
+            "tablerules-spells",
+            "tablerules-macros"
+            ],
+          "folders": [
+          ]
+        }
+      ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json",
     "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.11.1/dnd-tablerules.zip",
