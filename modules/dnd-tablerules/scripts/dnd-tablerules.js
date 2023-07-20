@@ -332,80 +332,8 @@ class Tablerules {
 
     }
 
-    static async preUpdateActor(actor, system, changes, id) {
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({
-                message: "Tablerules.preUpdateActor",
-                actor: actor,
-                system: system,
-                changes: changes,
-                id: id,
-                arguments: arguments
-            });
-        }
-
-        /**
-         * Wounded Condition Active Effect
-         */
-        if (game.settings.get("Tablerules", "woundedCondition")) {
-            await Tablerules.handleWounded(actor, system, changes, id);
-        }
-
-        /**
-         * Incapacitated Condition Active Effect
-         */
-        if (game.settings.get("Tablerules", "incapacitatedCondition")) {
-            await Tablerules.handleIncapacitated(actor, system, changes, id);
-        }
-
-    }
-
-    static async handleWounded(actor, system, changes, id) {
-
-        if (!changes.diff || changes.dhp === undefined) {// does not work for updates directly on the document
-            return;
-        }
-
-        const diff = changes.diff ? changes.dhp : 0;
-        let effects = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
-
-        if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff < game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
-            if (effects.length > 0) {
-                if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was wounded, now dead, so no longer just wounded
-                    await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
-                    return;
-                }
-                return;// was wounded, still wounded, nothing to do
-            }
-            // was not yet wounded, but is now
-            const effectData = {
-                icon: "modules/Tablerules/icons/conditions/wounded.svg",
-                label: "Wounded",
-                flags: { core: { statusId: "Wounded" } }
-            };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-            return;
-        }
-
-        //not below threshold
-        if (effects.length > 0) {
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
-            return;
-        }
-    }
-
     static async handleIncapacitated(actor, system, changes, id) {
 
-        if (actor.type !== "character") {
-            return;
-        }
-
-        if (!changes.diff || changes.dhp === undefined) {
-            return;
-        }
-
-        const diff = changes.diff ? changes.dhp : 0;
-        let effects = actor.effects.filter(e => e.label === "Incapacitated").map(e => e.id);
 
         if (effects.length > 0) {
             if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff > 0) {// was incapacitated, not anymore
@@ -510,10 +438,6 @@ Hooks.on('init', () => {
         });
     }
 
-    Hooks.on("preUpdateActor", async function () {
-        await Tablerules.preUpdateActor(...arguments);
-    });
-
 });
 
 Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) => {
@@ -606,6 +530,75 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
     } else {
         console.warning("Tablerules: no ChatLog context menu delete ChatMessage option to be removed found.");
     }
+
+});
+
+Hooks.on("updateActor", async function (actor, update, options, userId) {
+
+    if (TRUtils.isDebugEnabled()) {
+        Tablerules.debug({
+            message: "Tablerules.updateActor",
+            actor: actor,
+            update: update,
+            options: options,
+            userId: userId
+        });
+    }
+
+    if (game.user.id !== userId) return;
+    if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
+
+    if (game.settings.get("Tablerules", "woundedCondition")) {
+        let effectsWoundedIds = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
+
+        if (update.system.attributes.hp.value > 0 && update.system.attributes.hp.value <= game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
+            if (effectsWoundedIds.length === 0) {
+                const effectData = {
+                    icon: "modules/Tablerules/icons/conditions/wounded.svg",
+                    label: "Wounded",
+                    statuses: ["Wounded"]
+                };
+                await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            }
+        } else {
+            if (effectsWoundedIds.length > 0) {
+                await actor.deleteEmbeddedDocuments("ActiveEffect", effectsWoundedIds);
+            }
+        }
+    }
+
+    if (game.settings.get("Tablerules", "incapacitatedCondition")) {
+
+        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === "Incapacitated").map(e => e.id);
+        let effectsProneIds = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
+
+        if (update.system.attributes.hp.value === 0) {
+
+            if (effectsIncapacitatedIds.length === 0) {
+                const effectDataIncapacitated = {
+                    icon: "modules/Tablerules/icons/conditions/incapacitated.svg",
+                    label: "Incapacitated",
+                    statuses: ["Incapacitated"]
+                };
+
+                const effectDataProne = {
+                    icon: "modules/Tablerules/icons/conditions/prone.svg",
+                    label: "Prone",
+                    statuses: ["Prone"]
+                };
+
+                if (effectsProneIds.length > 0) {
+                    await actor.createEmbeddedDocuments("ActiveEffect", [effectDataIncapacitated]);
+
+                } else {
+                    await actor.createEmbeddedDocuments("ActiveEffect", [effectDataIncapacitated, effectDataProne]);
+                }
+            }
+        } else {
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effectsIncapacitatedIds);
+        }
+    }
+
 
 });
 
