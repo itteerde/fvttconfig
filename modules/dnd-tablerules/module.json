@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.13",
+    "version": "0.11.14",
     "compatibility": {
         "minimum": "11",
         "verified": "11.305"
@@ -28,12 +28,6 @@
             "path": "packs/actors.db",
             "type": "Actor",
             "system": "dnd5e",
-            "ownership": {
-                "PLAYER": "OBSERVER",
-                "TRUSTED": "OWNER",
-                "ASSISTANT": "OWNER",
-                "GAMEMASTER": "OWNER"
-            },
             "flags": {}
         },
         {
