@@ -303,26 +303,6 @@ class Tablerules {
         }
     }
 
-    static isOfClass(o, className) {
-        if (typeof o !== "object") {
-            return false;
-        }
-
-        return o.constructor.name === className;
-    }
-
-    static isActor5e(o) {
-        return Tablerules.isOfClass(o, "Actor5e");
-    }
-
-    static isToken5e(o) {
-        return Tablerules.isOfClass(o, "Token5e");
-    }
-
-    static isItem5e(o) {
-        return Tablerules.isOfClass(o, "Item5e");
-    }
-
     static async dnd5ePreRollDeathSave() {
 
         arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
@@ -332,31 +312,6 @@ class Tablerules {
 
     }
 
-    static async handleIncapacitated(actor, system, changes, id) {
-
-
-        if (effects.length > 0) {
-            if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff > 0) {// was incapacitated, not anymore
-                await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
-                return;
-            }
-        }
-
-        if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was not incapacitated, is now
-            let effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
-            let effects = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
-            if (effects.length > 0) {
-                return;
-            }
-
-            effectData = { icon: "modules/Tablerules/icons/conditions/prone.svg", label: "Prone", flags: { core: { statusId: "Prone" } } };
-            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-
-            return;
-        }
-    }
 }
 
 /**
