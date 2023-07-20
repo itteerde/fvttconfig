@@ -348,14 +348,14 @@ class Tablerules {
          * Wounded Condition Active Effect
          */
         if (game.settings.get("Tablerules", "woundedCondition")) {
-            Tablerules.handleWounded(actor, system, changes, id, ...arguments);
+            await Tablerules.handleWounded(actor, system, changes, id);
         }
 
         /**
          * Incapacitated Condition Active Effect
          */
         if (game.settings.get("Tablerules", "incapacitatedCondition")) {
-            Tablerules.handleIncapacitated(actor, system, changes, id, ...arguments);
+            await Tablerules.handleIncapacitated(actor, system, changes, id);
         }
 
     }
@@ -372,20 +372,24 @@ class Tablerules {
         if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff < game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
             if (effects.length > 0) {
                 if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was wounded, now dead, so no longer just wounded
-                    actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                    await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
                     return;
                 }
                 return;// was wounded, still wounded, nothing to do
             }
             // was not yet wounded, but is now
-            const effectData = { icon: "modules/Tablerules/icons/conditions/wounded.svg", label: "Wounded", flags: { core: { statusId: "Wounded" } } };
-            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            const effectData = {
+                icon: "modules/Tablerules/icons/conditions/wounded.svg",
+                label: "Wounded",
+                flags: { core: { statusId: "Wounded" } }
+            };
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
             return;
         }
 
         //not below threshold
         if (effects.length > 0) {
-            actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+            await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
             return;
         }
     }
@@ -405,14 +409,14 @@ class Tablerules {
 
         if (effects.length > 0) {
             if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff > 0) {// was incapacitated, not anymore
-                actor.deleteEmbeddedDocuments("ActiveEffect", effects);
+                await actor.deleteEmbeddedDocuments("ActiveEffect", effects);
                 return;
             }
         }
 
         if (actor.system.attributes.hp.value + actor.system.attributes.hp.temp + diff <= 0) {// was not incapacitated, is now
             let effectData = { icon: "modules/Tablerules/icons/conditions/incapacitated.svg", label: "Incapacitated", flags: { core: { statusId: "Incapacitated" } } };
-            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
             let effects = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
             if (effects.length > 0) {
@@ -420,52 +424,11 @@ class Tablerules {
             }
 
             effectData = { icon: "modules/Tablerules/icons/conditions/prone.svg", label: "Prone", flags: { core: { statusId: "Prone" } } };
-            actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
+            await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
 
             return;
         }
     }
-}
-
-/**
- * https://github.com/foundryvtt/dnd5e/blob/master/dnd5e.mjs
- */
-class TRActorSheet5eCharacter extends dnd5e.applications.actor.ActorSheet5eCharacter {
-
-    /** @override */
-    get template() {
-        if (!game.user.isGM && this.actor.limited) return "systems/dnd5e/templates/actors/limited-sheet.hbs";
-
-        if (this.actor.type === "character") {
-            if (TRUtils.isDebugEnabled()) {
-                Tablerules.debug({ message: "overwritten get template.", arguments: arguments });
-            }
-            return `modules/Tablerules/templates/actors/${this.actor.type}-sheet.hbs`;
-        }
-
-        return `systems/dnd5e/templates/actors/${this.actor.type}-sheet.hbs`;
-    }
-
-    async getData() {
-        const data = foundry.utils.mergeObject(await super.getData(), {
-            //"Tablerules.truelyBlindDeathSaves": game.settings.get("Tablerules", "truelyBlindDeathSaves")
-        });
-
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "TRActorSheet5eCharacter.getData", data: data });
-        }
-        return data;
-    }
-
-    /** @inheritdoc */
-    async _updateObject(event, formData) {
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "TRActorSheet5eCharacter._updateObject", event: event, formData: formData });
-        }
-
-        return super._updateObject(event, formData);
-    }
-
 }
 
 /**
@@ -547,8 +510,8 @@ Hooks.on('init', () => {
         });
     }
 
-    Hooks.on("preUpdateActor", function () {
-        Tablerules.preUpdateActor(...arguments);
+    Hooks.on("preUpdateActor", async function () {
+        await Tablerules.preUpdateActor(...arguments);
     });
 
 });
@@ -647,7 +610,4 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
 });
 
 console.log("Tablerules registering sheets.");
-Actors.registerSheet("Tablerules", TRActorSheet5eCharacter, { types: ["character"], makeDefault: true, label: "Tablerules Character" });
-
-
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);

@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.10",
+    "version": "0.11.11",
     "compatibility": {
         "minimum": "11",
         "verified": "11.305"
@@ -28,7 +28,7 @@
             "path": "packs/actors.db",
             "type": "Actor",
             "system": "dnd5e",
-            "private": "false",
+            "ownership": "observer",
             "flags": {}
         },
         {
@@ -37,7 +37,7 @@
             "path": "packs/items.db",
             "type": "Item",
             "system": "dnd5e",
-            "private": "false",
+            "ownership": "observer",
             "flags": {}
         },
         {
@@ -46,7 +46,7 @@
             "path": "packs/spells.db",
             "type": "Item",
             "system": "dnd5e",
-            "private": "false",
+            "ownership": "observer",
             "flags": {}
         },
         {
@@ -55,7 +55,7 @@
             "path": "packs/macros.db",
             "type": "Macro",
             "system": "dnd5e",
-            "private": "false",
+            "ownership": "observer",
             "flags": {}
         }
     ],
