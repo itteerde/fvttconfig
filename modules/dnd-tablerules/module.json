@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.14",
+    "version": "0.11.15",
     "compatibility": {
         "minimum": "11",
         "verified": "11.305"
@@ -25,7 +25,7 @@
         {
             "name": "tablerules-actors",
             "label": "Tablerules Actors",
-            "path": "packs/actors.db",
+            "path": "packs/actors",
             "type": "Actor",
             "system": "dnd5e",
             "flags": {}
@@ -33,7 +33,7 @@
         {
             "name": "tablerules-items",
             "label": "Tablerules Items",
-            "path": "packs/items.db",
+            "path": "packs/items",
             "type": "Item",
             "system": "dnd5e",
             "flags": {}
@@ -41,7 +41,7 @@
         {
             "name": "tablerules-spells",
             "label": "Tablerules Spells",
-            "path": "packs/spells.db",
+            "path": "packs/spells",
             "type": "Item",
             "system": "dnd5e",
             "flags": {}
@@ -49,7 +49,7 @@
         {
             "name": "tablerules-macros",
             "label": "Tablerules Macros",
-            "path": "packs/macros.db",
+            "path": "packs/macros",
             "type": "Macro",
             "system": "dnd5e",
             "flags": {}
