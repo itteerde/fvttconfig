@@ -557,5 +557,4 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
 });
 
-console.log("Tablerules registering sheets.");
 console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
