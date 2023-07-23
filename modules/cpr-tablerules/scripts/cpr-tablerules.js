@@ -22,7 +22,7 @@ class TRUtils {
             hint: "adds the GM to all whispered chat messages",
             scope: "world",
             config: true,
-            default: false,
+            default: true,
             type: Boolean,
             requiresReload: true
         });
@@ -185,6 +185,38 @@ class Tablerules {
 Hooks.on('init', () => {
     TRUtils.registerSettings();
 });
+
+Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) => {
+
+    if (!game.settings.get("Tablerules", "whispersIncludeGM") || !game.settings.get("Tablerules", "isEnabled")) {
+        return;
+    }
+
+    const gmWhisperIds = ChatMessage.getWhisperRecipients("gm").map(i => i.id) // get all gm ids in the world
+    let whisperArray = duplicate(messageDoc.whisper) // Copy our array out
+    if (whisperArray.length === 0) return // Not a whisper if there's no whisper ids
+
+
+    for (let gmId of gmWhisperIds) {// Push each gm id into the array of whisper ids
+        if (gmId === game.user.id) continue // You never include yourself in the whisper so this would erronously add yourself causing the "we changed the array! trigger later on"
+        if (!whisperArray.includes(gmId)) {
+            whisperArray.push(gmId)
+        }
+    }
+
+    if (whisperArray.length !== messageDoc.whisper.length) { //only modify if needed
+        let userListString = ""
+        for (let userId of messageDoc.whisper) {
+            userListString = userListString + game.users.get(userId).name + ", "
+        }
+        userListString = userListString.slice(0, -2)
+
+        messageDoc.updateSource({
+            content: `${messageDoc.content}`,//<br>Original Whisper Recipients: ${userListString}`,
+            whisper: whisperArray
+        })
+    }
+})
 
 Hooks.on("ready", function () {
     console.log("Tablerules hooked onto ready.");
