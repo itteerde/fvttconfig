@@ -1,4 +1,10 @@
 const original = canvas.scene.templates.contents.at(-1);
+
+if (original === undefined) {
+    ui.notifications.warn("There is no MeasuredTemplate. This randomizes the last one created, giving up.");
+    return;
+}
+
 const range = original.distance;
 
 Math.radians = function (degrees) {
