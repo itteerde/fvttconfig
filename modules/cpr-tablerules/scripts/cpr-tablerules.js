@@ -18,7 +18,7 @@ class TRUtils {
         });
 
         game.settings.register("Tablerules", "whispersIncludeGM", {
-            name: "Whispers, add GM (not implemented yet)",
+            name: "Whispers, add GM",
             hint: "adds the GM to all whispered chat messages",
             scope: "world",
             config: true,
