@@ -83,21 +83,10 @@ for (let i = 0; i < dialogResult.length - 1; i++) {
   requestorDescription += ` ${canvas.scene.tokens.find(t => t.id === dialogResult[i].id).actor.name} +${dialogResult[i].healing}; `
 }
 
-await Requestor.request({
-  title: `${macroLabel}`,
-  description: requestorDescription,
-  img: image,
-  whisper: [game.users.getName("Gamemaster").id],
-  buttonData: [{
-    label: "Approve Healing",
-    limit: Requestor.LIMIT.ONCE,
-    action: async () => {
-      for (let i = 0; i < this.dialogResult.length - 1; i++) {
-        await canvas.scene.tokens.find(t => t.id === this.dialogResult[i].id).actor.applyDamage(-parseInt(this.dialogResult[i].healing));
-      }
-    },
-    dialogResult: dialogResult // what is here gets into this.<something>
-  }]
+//console.log(dialogResult);
+dialogResult.forEach(e => {
+  console.log(e);
+  new Roll(e.healing).toMessage({ flavor: `healing ${canvas.scene.tokens.find(t => t.id === e.id).actor.name}` });
 });
 
 
