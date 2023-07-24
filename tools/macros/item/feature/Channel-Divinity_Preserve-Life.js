@@ -5,6 +5,8 @@
  * icon-suggestion: icons/magic/light/orb-beams-green.webp
  */
 
+//const item = game.actors.get("DRKzuVShUC9JXDFx").items.find(i => i.id === "h36VHBJKCBhI1mvz"); // for use without Item-Macro
+
 const macroLabel = "Channel Divinity: Preserve Life";
 const useDistance3D = true;
 const image = "icons/magic/light/orb-beams-green.webp";
