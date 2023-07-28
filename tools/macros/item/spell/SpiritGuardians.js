@@ -26,8 +26,8 @@ template = canvas.scene.templates.filter(t => t.flags.dnd5e !== undefined).find(
 
 const templateData = {
     distance: 17.5,
-    borderColor: "#00800f",
-    fillColor: "#022400",
+    //borderColor: "#00800f",
+    //fillColor: "#022400",
     x: token.center.x,
     y: token.center.y
 };

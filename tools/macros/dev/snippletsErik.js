@@ -219,4 +219,7 @@ console.log([...even]); // Output: "[ [ 2, 'two' ] ]"
 let settingsArray = Array.from(game.settings.settings, ([key, value]) => ({ key, value }));
 settingsArray.filter(e => e.key.startsWith("Tablerules"))
 
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).filter(e => e.key.startsWith("Tablerules"))
+
+
 canvas.scene.tiles._source.map((e) => e.texture.src)
