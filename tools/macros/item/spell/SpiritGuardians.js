@@ -30,9 +30,9 @@ const templateData = {
     y: token.center.y
 };
 
-if (!game.modules.get("tokenmagicasdas")?.active ?? false) {
-    templateData.borderColor = "#00800f";
-    templateData.fillColor = "#022400";
+if (!(game.modules.get("tokenmagic")?.active ?? false)) {
+    templateData.borderColor = "#ffff33";
+    templateData.fillColor = "#ffff33";
 }
 
 await template.update(templateData);
