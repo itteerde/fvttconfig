@@ -16,7 +16,7 @@ for (i = 0; i < modulesActive.length; i++) {
 
 console.log({ reportString: reportString });
 
-
+/*
 let wlString = "{";
 
 for (i = 0; i < modulesActive.length; i++) {
@@ -27,3 +27,4 @@ for (i = 0; i < modulesActive.length; i++) {
 wlString = `${wlString}}`;
 
 console.log({ wlString: wlString });
+*/
