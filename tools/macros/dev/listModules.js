@@ -11,7 +11,7 @@ let reportString = "";
 
 for (i = 0; i < modulesActive.length; i++) {
     m = modulesActive[i];
-    reportString = `${reportString}\n1. ${m.title} (version: ${m.version}) : [Project-URL](${m.url})`;
+    reportString = `${reportString}\n1. ${m.title} (version: ${m.version}) : [Project-URL](${m.url}), [Manifest](${m.manifest})`;
 }
 
 console.log({ reportString: reportString });
