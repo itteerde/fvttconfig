@@ -1,7 +1,7 @@
 /**
  * Item-Macro Macro for Spirit Guardians
  * 
- * after dropping onto Actor create empty AE for duration/concentration and deleting the MeasuredTemplate with
+ * after dropping onto Actor create empty AE for duration/concentration and if effectmacro is active add On Effect Deletion the MeasuredTemplate with
  * await canvas.scene.deleteEmbeddedDocuments("MeasuredTemplate",canvas.scene.templates.filter(t => t.flags?.dnd5e?.origin === origin.uuid).map(t=>t.id));
  * on Effect-Macro onDelete
  */
@@ -31,9 +31,14 @@ const templateData = {
 };
 
 if (!(game.modules.get("tokenmagic")?.active ?? false)) {
+    ui.notifications.info(`${macroLabel} uses own coloring, Tokenmagic not active.`);
     templateData.borderColor = "#ffff33";
     templateData.fillColor = "#ffff33";
 }
 
 await template.update(templateData);
-await tokenAttacher.attachElementsToToken([template], token);
+if (game.modules.get("token-attacher")?.active) {
+    await tokenAttacher.attachElementsToToken([template], token);
+} else {
+    ui.notifications.warn("Token-Attacher not active. MeassuredTemplate will not be attached to Token.");
+}
