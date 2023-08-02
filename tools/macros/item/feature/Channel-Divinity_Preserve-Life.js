@@ -5,7 +5,7 @@
  * icon-suggestion: icons/magic/light/orb-beams-green.webp
  */
 
-const item = game.actors.get("DRKzuVShUC9JXDFx").items.find(i => i.id === "h36VHBJKCBhI1mvz"); // for use without Item-Macro
+//const item = game.actors.get("DRKzuVShUC9JXDFx").items.find(i => i.id === "h36VHBJKCBhI1mvz"); // for use without Item-Macro
 
 const macroLabel = "Channel Divinity: Preserve Life";
 const useDistance3D = true;
@@ -87,8 +87,9 @@ for (let i = 0; i < dialogResult.length - 1; i++) {
 
 //console.log(dialogResult);
 dialogResult.forEach(e => {
-  console.log(e);
-  new Roll(e.healing).toMessage({ flavor: `healing ${canvas.scene.tokens.find(t => t.id === e.id).actor.name}` });
+  if (e.healing > 0) {
+    new Roll(e.healing).toMessage({ flavor: `healing ${canvas.scene.tokens.find(t => t.id === e.id).actor.name}` });
+  }
 });
 
 
