@@ -223,3 +223,5 @@ Array.from(game.settings.settings, ([key, value]) => ({ key, value })).filter(e 
 
 
 canvas.scene.tiles._source.map((e) => e.texture.src)
+
+ui.notifications.error("error message", { permanent: true })
