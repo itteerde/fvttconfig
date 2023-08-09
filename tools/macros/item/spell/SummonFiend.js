@@ -4,6 +4,8 @@
  * https://www.dndbeyond.com/spells/summon-fiend
  */
 
+// item = await fromUuid("Actor.sCFDiS70WMy0Snst.Item.6qoh4lATnhNLJ6GM");
+
 const macroLabel = item.name;
 const textureDemon = "modules/Tablerules/icons/magic/summons/fiendishSpiritDemon.png";
 const textureDevil = "modules/Tablerules/icons/magic/summons/fiendishSpiritDevil.png";

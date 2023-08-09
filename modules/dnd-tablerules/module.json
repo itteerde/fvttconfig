@@ -13,10 +13,10 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.21",
+    "version": "0.11.22",
     "compatibility": {
         "minimum": "11",
-        "verified": "11.306"
+        "verified": "11.307"
     },
     "scripts": [
         "scripts/dnd-tablerules.js"
@@ -79,8 +79,8 @@
                 "id": "dnd5e",
                 "type": "system",
                 "compatibility": {
-                    "minimum": "2.1.0",
-                    "verified": "2.2.0"
+                    "minimum": "2.2.0",
+                    "verified": "2.2.2"
                 },
                 "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }

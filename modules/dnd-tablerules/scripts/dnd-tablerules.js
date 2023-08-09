@@ -120,6 +120,16 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register("Tablerules", "incapacitatedConditionLabel", {
+            name: "Incapacitated Condition Label",
+            hint: "if Incapacitated Condition, label text to use",
+            scope: "world",
+            config: true,
+            default: "Incapacitated & Unconscious",
+            type: String,
+            requiresReload: true
+        });
+
         game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
@@ -524,7 +534,7 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
     if (game.settings.get("Tablerules", "incapacitatedCondition")) {
 
-        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === "Incapacitated").map(e => e.id);
+        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === game.settings.get("Tablerules", "incapacitatedConditionLabel")).map(e => e.id);
         let effectsProneIds = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
 
         if (update.system.attributes.hp.value === 0) {
@@ -532,8 +542,8 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
             if (effectsIncapacitatedIds.length === 0) {
                 const effectDataIncapacitated = {
                     icon: "modules/Tablerules/icons/conditions/incapacitated.svg",
-                    label: "Incapacitated",
-                    statuses: ["Incapacitated"]
+                    label: game.settings.get("Tablerules", "incapacitatedConditionLabel"),
+                    statuses: [game.settings.get("Tablerules", "incapacitatedConditionLabel")]
                 };
 
                 const effectDataProne = {
