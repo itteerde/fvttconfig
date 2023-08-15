@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.22",
+    "version": "0.11.23",
     "compatibility": {
         "minimum": "11",
         "verified": "11.307"
@@ -80,7 +80,7 @@
                 "type": "system",
                 "compatibility": {
                     "minimum": "2.2.0",
-                    "verified": "2.2.2"
+                    "verified": "2.3.0"
                 },
                 "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }
