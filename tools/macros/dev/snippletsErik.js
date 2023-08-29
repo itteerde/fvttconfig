@@ -228,3 +228,14 @@ ui.notifications.error("error message", { permanent: true })
 
 let item = game.actors.get("EKf9YAMM3zb8EoUF").items.get("BfaUa5ahoPkVBLLC");
 item.update({ ["system.magazine.value"]: item.system.magazine.value + 7 });
+
+export default class TIMER {
+    // for example
+    // TIMER.logTimeByFunction("test",0,()=>{console.log("testing")})
+    static logTimeByFunction = (message, funct) => {
+        const start = performance.now();
+        const returnValue = funct();
+        console.log(`${message}, function: ${funct}, time: ${performance.now() - start}ms`);// to be LOGGER in CPR
+        return returnValue;
+    }
+}
