@@ -1,3 +1,5 @@
+import { forEach } from "mathjs"
+
 game.actors.get("y8pM6f2v4YLwcrxj").items.filter(s => s.type === "spell")
 game.user.targets.find(t => true).actor.name
 game.actors.getName(game.user.targets.find(t => true).actor.name).items.filter(s => s.type === "spell")
@@ -239,3 +241,10 @@ export default class TIMER {
         return returnValue;
     }
 }
+
+
+await canvas.tokens.controlled.forEach((t) => t.document.update({ vision: false }));
+
+const start = performance.now();
+await canvas.tokens.moveMany({ dx: 1, dy: 1 });
+console.log(`time measured: ${performance.now() - start}ms`);
