@@ -9,6 +9,12 @@
 
 ## ToA
 
+### Considerations
+
+1.  There is a second party in ToA. Does it need to be checked?
+
+### Update
+
 1.  Update FVTT. *We do this first, even before checking the in-game preparations, to have that checking already be some very basic testing.*
     1.  Start Server, ToA instance.
     1.  Update. *This is just downloading and replacing in file system, nothing to monitor. The server is shut down for the replacement automatically.*
