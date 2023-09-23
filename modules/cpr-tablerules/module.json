@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.4",
+    "version": "0.11.5",
     "compatibility": {
         "minimum": "11",
         "verified": "11.309"
@@ -28,7 +28,6 @@
             "path": "packs/items",
             "type": "Item",
             "system": "cyberpunk-red-core",
-            "private": "false",
             "flags": {}
         },
         {
@@ -37,7 +36,6 @@
             "path": "packs/macros",
             "type": "Macro",
             "system": "cyberpunk-red-core",
-            "private": "false",
             "flags": {}
         }
     ],
