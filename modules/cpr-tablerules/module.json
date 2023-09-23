@@ -13,10 +13,10 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.2",
+    "version": "0.11.3",
     "compatibility": {
         "minimum": "11",
-        "verified": "11.308"
+        "verified": "11.309"
     },
     "scripts": [
         "scripts/cpr-tablerules.js"
@@ -25,7 +25,7 @@
         {
             "name": "tablerules-items",
             "label": "Tablerules Items",
-            "path": "packs/items.db",
+            "path": "packs/items",
             "type": "Item",
             "system": "cyberpunk-red-core",
             "private": "false",
@@ -34,13 +34,26 @@
         {
             "name": "tablerules-macros",
             "label": "Tablerules Macros",
-            "path": "packs/macros.db",
+            "path": "packs/macros",
             "type": "Macro",
             "system": "cyberpunk-red-core",
             "private": "false",
             "flags": {}
         }
     ],
+    "packFolders": [
+        {
+          "name": "Tablerules",
+          "sorting": "a",
+          "color": "#ff0000",
+          "packs": [
+            "tablerules-items",
+            "tablerules-macros"
+            ],
+          "folders": [
+          ]
+        }
+      ],
     "url": "https://github.com/itteerde/fvttconfig/",
     "manifest": "https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/cpr-tablerules/module.json",
     "download": "https://github.com/itteerde/fvttconfig/releases/download/v0.11.1/cpr-tablerules.zip",
