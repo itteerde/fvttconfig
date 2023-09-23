@@ -37,7 +37,7 @@
 
 # Notes
 
-*   `canvas.tokens.controlled[0].actor.items.filter(i => i.flags.itemcollection !== undefined)` allows checking the selected token (one) for trash remaining from Item-Containers. I think we should keep it as is and just let if fade away with setting up new worlds.
+*   `canvas.tokens.controlled[0].actor.items.filter(i => i.flags.itemcollection !== undefined)` allows checking the selected token (one) for trash remaining from Item-Containers. I think we should keep it as is and just let it fade away with setting up new worlds.
     ```js
     let numberOfItemsWithTrash = 0;
     game.actors.contents.forEach((a) => {
@@ -47,3 +47,4 @@
     ```
     counts the items carrying trash in the world (172 for ToA).
 *   Leaving the trash in for existing worlds also allows to check on console like if there was money forgotten.
+*   This seems to be a good opportunity to stress the point of never trying out any module with the real game server, as it cannot just destroy everything (that is actually the minor part as one would hope one would have done the backup before trying out shit), but also will almost certainly leave behind trash (and without a proper process one would expect not to restore from backup in such a case after having the look at the module one was interested in). Instead for trying out anything **always** do a copy (with server shut down), and try shit out in the throw away copy. If it looks promising there put it into the pipeline to be tested by Erik or Tyler (who can look into technical impact that might be impossible to see without looking at code), and get it a bit later, but with much reduced risks for the table being able to play the game.
