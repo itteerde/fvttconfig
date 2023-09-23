@@ -34,6 +34,33 @@
 1.  Launch World.
 
 
+## SJ
+
+### Considerations
+
+1.  There is a second party in ToA. Does it need to be checked?
+
+### Update
+
+1.  Update FVTT. *We do this first, even before checking the in-game preparations, to have that checking already be some very basic testing.*
+    1.  Start Server, ToA instance.
+    1.  Update. *This is just downloading and replacing in file system, nothing to monitor. The server is shut down for the replacement automatically.*
+    1.  Start Server, ToA instance.
+    1.  Open Console.
+    1.  Launch World. *Does migrate, but does not do any meaningful migration. Suspect to see nothing more than the popup telling one that it is doing the migration step.*
+1.  Drop Item-Containers. *We are currently in the running world.*
+    1.  Return to Setup.
+    1.  Uninstall Item Containers.
+1.  Drop DAE.
+    1.  Uninstall Dynamic effects using Active Effects.
+1.  Drop Times Up.
+    1.  Uninstall Times Up.
+1.  Drop Tablerules Summons.
+    1. Uninstall Tablerules Summons.
+1.  Update Modules.
+    1.  Update All. *Should report having updated DDB-Importer, Simple Calendar, Monk's Combat Details.*
+1.  Launch World.
+
 
 # Notes
 
@@ -47,4 +74,4 @@
     ```
     counts the items carrying trash in the world (172 for ToA).
 *   Leaving the trash in for existing worlds also allows to check on console like if there was money forgotten.
-*   This seems to be a good opportunity to stress the point of never trying out any module with the real game server, as it cannot just destroy everything (that is actually the minor part as one would hope one would have done the backup before trying out shit), but also will almost certainly leave behind trash (and without a proper process one would expect not to restore from backup in such a case after having the look at the module one was interested in). Instead for trying out anything **always** do a copy (with server shut down), and try shit out in the throw away copy. If it looks promising there put it into the pipeline to be tested by Erik or Tyler (who can look into technical impact that might be impossible to see without looking at code), and get it a bit later, but with much reduced risks for the table being able to play the game.
+*   This seems to be a good opportunity to stress the point of never trying out any module with the real game server, as it cannot just destroy everything (that is actually the minor part as one would hope one would have done the backup before trying out shit), but also will almost certainly leave behind trash (and without a proper process one would expect not to restore from backup in such a case after having the look at the module one was interested in). Instead for trying out anything **always** do a copy (with server shut down), and try shit out in the throw away copy. If it looks promising there put it into the pipeline to be tested by Erik or Tyler (who can look into technical impact that might be impossible to see without looking at code), and get it a bit later, but with much reduced risks for the table being unable to properly play the game.
