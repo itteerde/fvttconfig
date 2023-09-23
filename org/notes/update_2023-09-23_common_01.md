@@ -32,11 +32,12 @@
 # Notes
 
 *   `canvas.tokens.controlled[0].actor.items.filter(i => i.flags.itemcollection !== undefined)` allows checking the selected token (one) for trash remaining from Item-Containers. I think we should keep it as is and just let if fade away with setting up new worlds.
-```js
-let numberOfItemsWithTrash = 0;
-game.actors.contents.forEach((a) => {
-    numberOfItemsWithTrash += a.items.filter(i => i.flags.itemcollection !== undefined).length;
-});
-numberOfItemsWithTrash;
-```
-counts the items carrying trash in the world.
+    ```js
+    let numberOfItemsWithTrash = 0;
+    game.actors.contents.forEach((a) => {
+        numberOfItemsWithTrash += a.items.filter(i => i.flags.itemcollection !== undefined).length;
+    });
+    numberOfItemsWithTrash;
+    ```
+    counts the items carrying trash in the world (172 for ToA).
+*   Leaving the trash in for existing worlds also allows to check on console like if there was money forgotten.
