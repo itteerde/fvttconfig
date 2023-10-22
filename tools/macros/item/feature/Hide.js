@@ -47,7 +47,7 @@ if (modifier === "disadvantage") {
 const roll = await new Roll(rollFormula, { skill: actor.getRollData().skills.ste.total, async: true });
 const chatMessage = await roll.toMessage({
     speaker: ChatMessage.getSpeaker({ actor: actor }),
-    flavor: `${item.name}, stealth tobreak:`
+    flavor: `${item.name}, stealth to break:`
 }, { rollMode: CONST.DICE_ROLL_MODES.BLIND });
 
 const stealth = chatMessage.rolls[0].total;
