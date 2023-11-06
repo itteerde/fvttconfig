@@ -1,6 +1,9 @@
 var start_time = performance.now();
 console.log("Tablerules is loading.");
 
+const MODULE_SCOPE = "Tablerules"; // don't change without serious consideration, unless making a copy setting up a new Module (if changing for a System already used it might be necessary to fork the repository for that System -- unless there comes a time where no instance is currently used, including backups).
+
+
 class Timer {
     // for example
     // TIMER.logTimeByFunction("test",0,()=>{console.log("testing")})
@@ -313,9 +316,6 @@ class Tablerules {
         debug: 3
     };
 
-    /**
-     * check usage and remove.
-     */
     static config = {
         loglevel: 0,
         logOwn: false
@@ -533,6 +533,15 @@ Hooks.on("ready", function () {
         ui.sidebar.tabs.playlists.render();
     }
 
+    if (game.settings.get(MODULE_SCOPE, "modifyChatBubbles")) {
+        if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.chatBubbles").value.default === game.settings.get("core", "chatBubbles")) {
+            game.settings.set("core", "chatBubbles", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get(MODULE_SCOPE, "chatBubbles"));
+        }
+
+        if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.chatBubblesPan").value.default === game.settings.get("core", "chatBubblesPan")) {
+            game.settings.set("core", "chatBubblesPan", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get(MODULE_SCOPE, "chatBubblesPan"));
+        }
+    }
 });
 
 Hooks.on("getChatLogEntryContext", (html, options) => {
