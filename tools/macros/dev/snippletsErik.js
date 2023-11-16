@@ -37,6 +37,21 @@ canvas.tokens.controlled[0].actor.items.filter(
             }
         }).map(e => e.name)
 
+canvas.tokens.controlled[0].actor.items.filter(
+    s => s.type === "spell").sort((a, b) => {
+        if (a.system.level !== b.system.level) {
+            return a.system.level - b.system.level
+        } else {
+            return a.name.localeCompare(b.name)
+        }
+    }).reduce((acc, s) => {
+        if (acc[s.system.level] === undefined) {
+            acc[s.system.level] = [];
+        };
+        acc[s.system.level].push(s.name);
+        return acc;
+    }, {})
+
 Object.getPrototypeOf(game.actors.get("qoF84nzjLIRH4NCg")).constructor.name
 
 
