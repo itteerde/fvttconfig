@@ -120,3 +120,5 @@ game.actors.contents.forEach((a) => {
     numberOfItemsWithTrash += a.items.filter(i => i.flags.itemcollection !== undefined).length;
 });
 numberOfItemsWithTrash;
+
+ChatMessage.create({ content: `<iframe style="width:100%;" src="https://www.youtube.com/embed/dJ-QLl5qjLg" title="Two Steps From Hell - Archangel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
