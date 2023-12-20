@@ -4,7 +4,7 @@
  * https://www.dndbeyond.com/spells/summon-fiend
  */
 
-// item = await fromUuid("Actor.sCFDiS70WMy0Snst.Item.6qoh4lATnhNLJ6GM");
+// item = await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.CRBZeUCIijSHX5xH");
 
 const macroLabel = item.name;
 const textureDemon = "modules/Tablerules/icons/magic/summons/fiendishSpiritDemon.png";
@@ -19,7 +19,8 @@ const scaleDemon = 1;
 const scaleDevil = 1;
 const scaleYugoloth = 1;
 
-const level = await warpgate.dnd5e.rollItem(item);
+//const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use(), 'flags.dnd5e.use.spellLevel');
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
