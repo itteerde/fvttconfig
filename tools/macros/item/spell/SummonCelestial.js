@@ -14,7 +14,7 @@ const formDefender = "Defender";
 const scaleAvenger = 1;
 const scaleDefender = 1;
 
-const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use(), 'flags.dnd5e.use.spellLevel');
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
