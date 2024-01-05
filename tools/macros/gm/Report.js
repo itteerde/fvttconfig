@@ -1,18 +1,3 @@
-/**
- * Report stuff for quick overview of the state of game
- * 
- * https://github.com/itteerde/fvttconfig/issues/52
-*/
-
-const partyIds = [
-    "8ugKnRSqQzxSxrZO", //Πως της αυγής (Copy)
-    "FC2ZItcPqgCuvkhW", //Enona Jadrcej 10
-    "oNbN0RJqlNH2pfSQ",
-    "ui8iYXUbXVqLyiFX",
-    "SjsjOTHTLfnugGtm",
-    "xsI2KBbkRJlauxB7"
-];
-
 const macroLabel = "Party State Report";
 const passivesIncludeAll = true; // overwrites passivesIncluded
 const passivesIncluded = ["insight", "perception", "investigation"]; // ignored if passivesIncludeAll = true, set to false if you want to create only a partial list.
@@ -21,7 +6,7 @@ const width = 1000;
 const ignoreEffects = ["Crossbow Expert", "War Caster"];
 const displayStealth = true;
 
-const party = partyIds.map(i => game.actors.get(i));
+const party = game.folders.find(f => f.name === "PC").contents.sort((a, b) => { return a.name.localeCompare(b.name) });
 
 let dialogContent = `
     <div class="dnd5e chat-card">
@@ -64,7 +49,7 @@ function summary(party) {
 function renderStatusIcons(actor) {
     const inspiration = actor.system.attributes.inspiration ? `<img src="icons/magic/perception/eye-ringed-green.webp" title="Inspiration" width="20" height="20">` : "";
 
-    let effects = displayEffects ? Array.from(new Set(actor.effects.map(e => ignoreEffects.includes(e.label) ? "" : `<img src="${e.icon}" title="${e.label}" height="20", width="20">`))).join("") : "";
+    let effects = displayEffects ? Array.from(new Set(actor.effects.map(e => ignoreEffects.includes(e.name) ? "" : `<img src="${e.icon}" title="${e.name}" height="20", width="20">`))).join("") : "";
 
     return `${inspiration}${effects}`;
 }
@@ -114,6 +99,13 @@ function spellSlots(actor) {
         spellSlots += `, (${numberPrepared} prepared)`;
     }
 
+    spellSlots += actor.classes.paladin?.system.levels !== undefined ? `, LoH:${actor.items.find(i => i.name === "Lay on Hands Pool").system.uses.value}/${actor.items.find(i => i.name === "Lay on Hands Pool").system.uses.max}` : "";
+
+    spellSlots += actor.classes?.cleric?.system?.levels >= 2 ? `, CDiv:${actor.items.find(i => i.name === "Channel Divinity").system.uses.value}/${actor.items.find(i => i.name === "Channel Divinity").system.uses.max}` : "";
+
+    // needs the Bardic Inspiration to be configured with uses instead of using the Primary Resource
+    // spellSlots += actor.classes?.bard?.system?.levels !== undefined ? `, BInsp:${actor.items.find(i => i.name === "Bardic Inspiration").system.uses.value}/${actor.items.find(i => i.name === "Bardic Inspiration").system.uses.max}` : "";
+
     return spellSlots;
 }
 
@@ -122,7 +114,7 @@ function stealthActor(a) {
 
     r += `<td>${a.name}</td>`;
 
-    const effect = a.effects.find(e => e.label.startsWith("Stealth"));
+    const effect = a.effects.find(e => e.name.startsWith("Stealth"));
 
     if (effect !== undefined) {
         r += `<td>${effect?.flags?.world.stealth}</td>`;

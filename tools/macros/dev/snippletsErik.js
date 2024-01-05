@@ -122,3 +122,50 @@ game.actors.contents.forEach((a) => {
 numberOfItemsWithTrash;
 
 ChatMessage.create({ content: `<iframe style="width:100%;" src="https://www.youtube.com/embed/dJ-QLl5qjLg" title="Two Steps From Hell - Archangel" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>` })
+
+
+function d(n) {
+    return getRandomIntInclusive(1, n);
+}
+
+function empoweredSpell(dice, sides, chaBonus) {
+    let roll = [];
+    for (let i = 0; i < dice; i++) {
+        roll.push(d(sides));
+    }
+    roll.sort();
+
+    for (let i = 0; i < chaBonus; i++) {
+        if (roll[i] < sides / 2) {
+            roll[i] = d(sides);
+        }
+    }
+
+    return roll.reduce((acc, r) => { return acc + r }, 0);
+}
+
+function empoweredFireball() {
+    let roll = [];
+    for (let i = 0; i < 8; i++) {
+        roll.push(d(6));
+    }
+    roll.sort();
+
+    for (let i = 0; i < 5; i++) {
+        if (roll[i] < 4) {
+            roll[i] = d(6);
+        }
+    }
+
+    return roll.reduce((acc, r) => { return acc + r }, 0);
+}
+
+function sample(f, args, sampleSize) {
+    let sum = 0;
+    for (let i = 0; i < sampleSize; i++) {
+        sum += f(...args);
+    }
+    return sum / sampleSize;
+}
+
+sample(empoweredSpell, [8, 8, 5], 100000)

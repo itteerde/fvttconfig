@@ -22,8 +22,16 @@ const scaleGem = 1;
 
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
-const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use(), 'flags.dnd5e.use.spellLevel');
 if (!level > 0) {
+    ui.notifications.warn(`${macroLabel}, level > 0 expected, was ${level}.`);
+    console.warn({
+        message: `${macroLabel}, level > 0 expected, was ${level}.`,
+        macroLabel: macroLabel,
+        summonerDc: summonerDc,
+        summonerAttack: summonerAttack,
+        level: level
+    });
     return;
 }
 
