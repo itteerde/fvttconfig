@@ -169,3 +169,90 @@ function sample(f, args, sampleSize) {
 }
 
 sample(empoweredSpell, [8, 8, 5], 100000)
+
+let data = item.toObject();
+data.ownership = { default: 0 };
+await item.update(data, { recursive: false, diff: false });
+
+
+Array.from(game.settings.settings, ([key, value]) => ({ key, value }))
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).filter(e => e.key.startsWith("core"))
+game.settings.settings.get("Tablerules.whispersIncludeGM")
+
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).map((e) => ({ key: e.key, ["default"]: e.value.default, value: game.settings.get(e.key.split(".")[0], e.key.substring(e.key.indexOf('.') + 1)) }))
+
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).map((e) => ({ key: e.key, ["default"]: e.value.default, value: `${e.key.split(".")[0]}.${e.key.split(".")[1]}` }))
+
+let errors = [];
+settings.forEach((e) => {
+    try {
+        game.settings.get(e.key.split(".")[0], e.key.split(".")[1])
+    } catch (error) {
+        errors.push({ error: error, key: e.key })
+    }
+})
+console.error({ errors: errors })
+
+// comparing default versus value set for all settings.
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).map((e) => ({ key: e.key, ["default"]: e.value.default, value: game.settings.get(e.key.split(".")[0], e.key.substring(e.key.indexOf('.') + 1)) }))
+// difference
+Array.from(game.settings.settings, ([key, value]) => ({ key, value })).map((e) => ({ key: e.key, ["default"]: e.value.default, value: game.settings.get(e.key.split(".")[0], e.key.substring(e.key.indexOf('.') + 1)) })).filter(e => e.default !== e.value)
+
+let sampleSize = 1000000;
+let character = { conBonus: 0, mode: "normal" };
+
+function sample(character, sampleSize) {
+    let deaths = new Array(10000).fill(0);
+
+    for (let i = 0; i < sampleSize; i++) {
+        let exhaustion = 0;
+        let alive = true;
+        for (let hours = 0; alive; hours++) {
+            let roll = Math.floor(Math.random() * 20) + 1;
+            if (exhaustion >= 3 && character.mode === "normal") {
+                roll = Math.min(roll, Math.floor(Math.random() * 20) + 1);
+            }
+            if (exhaustion < 3 && character.mode === "advantage") {
+                roll = Math.max(roll, Math.floor(Math.random() * 20) + 1);
+            }
+            if (roll + character.conBonus < 10) {
+                exhaustion++;
+                if (exhaustion > 5) {
+                    alive = false;
+                    deaths[hours]++;
+                }
+            }
+            if (hours % 24 === 0 && exhaustion <= 5) {
+                if (exhaustion > 0) {
+                    exhaustion--;
+                }
+            }
+        }
+    }
+    let alive = [sampleSize];
+    let aliveNumber = sampleSize;
+    for (let i = 0; aliveNumber > 0; i++) {
+        if (i > alive.length) {
+            alive.push(aliveNumber);
+        }
+        if (deaths[i] > 0) {
+            aliveNumber -= deaths[i];
+            alive[i] = aliveNumber;
+        }
+    }
+    return alive;
+}
+sample({ conBonus: 0, mode: "normal" }, 1000000)
+sample({ conBonus: 5, mode: "advantage" }, 1000000)
+
+await ActiveEffect.create({ name: "Steve" }, { parent: token.actor, renderSheet: true }); //create and open Sheet
+effect.sheet.render(true) //open Sheet for existing
+
+
+await canvas.tokens.controlled[0].actor.update({ "system.spells.spell9": { value: 1, override: 1, max: 1 } })
+
+await canvas.tokens.controlled[0].actor.items.find(i => i.name === "Form of Dread: Transform").update({ "flags.itemacro.macro.ownership": { default: 0, [game.userId]: 3 } })
+
+await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.o1dRuMh8G6a6LTO1").update({ "flags.itemacro.macro.ownership": { default: 0, [game.userId]: 3 } })
+
+await (await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.CRBZeUCIijSHX5xH")).update({ "flags.itemacro.macro.ownership": { default: 0, [game.userId]: 3 } })

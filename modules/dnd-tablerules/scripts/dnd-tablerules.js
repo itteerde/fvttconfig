@@ -1,7 +1,7 @@
-var start_time = performance.now();
-console.log("Tablerules is loading.");
-
 const MODULE_SCOPE = "Tablerules"; // don't change without serious consideration, unless making a copy setting up a new Module (if changing for a System already used it might be necessary to fork the repository for that System -- unless there comes a time where no instance is currently used, including backups).
+
+var start_time = performance.now(); // should this be let?
+console.log(`${MODULE_SCOPE} is loading.`);
 
 
 class Timer {
@@ -78,56 +78,14 @@ class Performance {
     }
 }
 
-/*
-    Should be moved into Tablerules.config. At least do not make anything new in CONFIG.
-*/
-CONFIG["Tablerules"] = {
-    "guidance": { maxTimesPerLongRest: 1 }
-};
-
-
 class TRUtils {
 
     static isDebugEnabled() {
-        return (game.settings.get("Tablerules", "logLevel") >= 3);
+        return (game.settings.get(MODULE_SCOPE, "logLevel") >= 3);
     }
-
-    /**
-     * Distance between two Tokens.
-     * 
-     * @param {Token} tokenSource One of the two Tokens.
-     * @param {Token} tokenTarget The other Token.
-     * @param {boolean} [in3D=true] false if to ignore elevation difference. By default true meassuring 3-dimensional.
-     * @returns {number} the distance.
-     */
-    static distanceTokens(tokenSource, tokenTarget, in3D = true) {
-        const distance = Math.round(canvas.grid.measureDistance(tokenSource, tokenTarget, { gridSpaces: true }));
-        if (!in3D)
-            return distance;
-
-        return Math.round(Math.sqrt(distance * distance + (tokenSource.document.elevation - tokenTarget.document.elevation) * (tokenSource.document.elevation - tokenTarget.document.elevation)));
-    }
-
-    /**
-       * Distance between two placeables.
-       * 
-       * @param {Placable} source One of the two placables.
-       * @param {Placable} target The other placables.
-       * @param {boolean} [in3D=false] false if to ignore elevation difference. By default true meassuring 3-dimensional.
-       * @returns {number} the distance.
-       */
-    static distancePlacables(source, target, in3D = false) {
-        const distance = Math.round(canvas.grid.measureDistance(source, target, { gridSpaces: true }));
-        if (!in3D)
-            return distance;
-
-        return Math.round(Math.sqrt(distance * distance + (source.document.elevation - target.document.elevation) * (source.document.elevation - target.document.elevation)));
-    }
-
-
 
     static registerSettings() {
-        game.settings.register('Tablerules', 'isEnabled', {
+        game.settings.register(MODULE_SCOPE, 'isEnabled', {
             name: "Enable Tablerules",
             hint: "Enables Tablerules Module changes. If we ever implement this disabling this setting will make all other Tablerules settings be ignored and return the stuff that has settings configured return to what it is without the Module. This has no effect as of now, and might just get removed instead of being implemented in the future.",
             scope: 'world',
@@ -137,7 +95,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register('Tablerules', 'deathSaveDC', {
+        game.settings.register(MODULE_SCOPE, 'deathSaveDC', {
             name: "Death Save DC",
             hint: "This will set the DC of Deathsaves. Setting of 10 is the D&D 5e default, other values enable for brighter or darker games, such as 15 for Tomb of Annihilation.",
             scope: 'world',
@@ -147,7 +105,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register('Tablerules', 'noHealOnLongRest', {
+        game.settings.register(MODULE_SCOPE, 'noHealOnLongRest', {
             name: "Long Rest does not reset HP",
             hint: "Typically, all HP are regained on a Long Rest. This will disable that feature.",
             scope: 'world',
@@ -157,7 +115,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register('Tablerules', 'reduceExhaustionOnLongRest', {
+        game.settings.register(MODULE_SCOPE, 'reduceExhaustionOnLongRest', {
             name: "Long Rest does reduce Exhaustion",
             hint: "Without this enabled Exhaustion is not automatically reduced by one per Long Rest.",
             scope: 'world',
@@ -167,7 +125,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "woundedCondition", {
+        game.settings.register(MODULE_SCOPE, "woundedCondition", {
             name: "Wounded Condition",
             hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value",
             scope: "world",
@@ -177,7 +135,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "woundedConditionThreshold", {
+        game.settings.register(MODULE_SCOPE, "woundedConditionThreshold", {
             name: "Wounded Condition Threshold",
             hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value if Wounded Condition is enabled.",
             scope: "world",
@@ -187,7 +145,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "incapacitatedCondition", {
+        game.settings.register(MODULE_SCOPE, "incapacitatedCondition", {
             name: "Incapacitated Condition",
             hint: "Displays a Incapacitated Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
             scope: "world",
@@ -197,7 +155,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "incapacitatedConditionLabel", {
+        game.settings.register(MODULE_SCOPE, "incapacitatedConditionLabel", {
             name: "Incapacitated Condition Label",
             hint: "if Incapacitated Condition, label text to use",
             scope: "world",
@@ -207,7 +165,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree", {
+        game.settings.register(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
             scope: "world",
@@ -217,7 +175,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "chatLogEntryContext_ApplyHalfDamageMinusThree", {
+        game.settings.register(MODULE_SCOPE, "chatLogEntryContext_ApplyHalfDamageMinusThree", {
             name: "ChatLogEntryContext, add option to apply half damage minus three (Heavy Armor Master Feat)",
             hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total/2) - 3, 0)));",
             scope: "world",
@@ -227,7 +185,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "whispersIncludeGM", {
+        game.settings.register(MODULE_SCOPE, "whispersIncludeGM", {
             name: "Whispers, add GM",
             hint: "adds the GM to all whispered chat messages",
             scope: "world",
@@ -237,7 +195,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "modifyDefaultVolumes", {
+        game.settings.register(MODULE_SCOPE, "modifyDefaultVolumes", {
             name: "Modify Default Volumes",
             hint: "modified the core default volumes, if enabled the Module checks the current settings and adjusts them to the configured below values if they are at assumed core default values.",
             scope: "world",
@@ -247,7 +205,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "globalPlaylistVolume", {
+        game.settings.register(MODULE_SCOPE, "globalPlaylistVolume", {
             name: "globalPlaylistVolume default overwrite value",
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
@@ -257,7 +215,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "globalAmbientVolume", {
+        game.settings.register(MODULE_SCOPE, "globalAmbientVolume", {
             name: "globalAmbientVolume default overwrite value",
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
@@ -267,7 +225,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "globalInterfaceVolume", {
+        game.settings.register(MODULE_SCOPE, "globalInterfaceVolume", {
             name: "globalInterfaceVolume default overwrite value",
             hint: "if Modify Default Volumes is enabled this overwrites the core default",
             scope: "world",
@@ -277,7 +235,37 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register("Tablerules", "logLevel", {
+        game.settings.register(MODULE_SCOPE, "modifyChatBubbles", {
+            name: "Modify Chat Bubbles",
+            hint: "modified the core default for chatBubbles, if enabled the Module checks the current settings and adjusts them to the configured below values if they are at assumed core default values.",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
+        game.settings.register(MODULE_SCOPE, "additionalStatuses", {
+            name: "Add additional Statuses (Conditions)",
+            hint: "...",
+            scope: "world",
+            config: true,
+            default: '[{"id":"surprised","name":"Surprised","icon":"icons/magic/control/fear-fright-white.webp"}]',
+            type: String,
+            requiresReload: true
+        });
+
+        game.settings.register(MODULE_SCOPE, "checkSettings", {
+            name: "Check Settings",
+            hint: "Checks if settings are as expected. If active the Module will check a number of expected settings and report surprises in console (F-12) as warnings.",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
+        game.settings.register(MODULE_SCOPE, "logLevel", {
             name: "Log Level",
             hint: "The Module's own log level. By default FVTT and the module don't log debug and info. Set to error for normal operation and debug for development.",
             scope: 'world',
@@ -293,7 +281,7 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register('Tablerules', 'logOwn', {
+        game.settings.register(MODULE_SCOPE, 'logOwn', {
             name: "Use own logging function.",
             hint: "Enable to log using own logging method. Disable for play and enable for development if debugging (with Log Level set to debug above).",
             scope: 'world',
@@ -308,7 +296,7 @@ class TRUtils {
 
 class Tablerules {
 
-    static SCOPE = "Tablerules";
+    static SCOPE = MODULE_SCOPE;
     static LOGLEVEL = {
         error: 0,
         warning: 1,
@@ -345,7 +333,7 @@ class Tablerules {
         if (typeof message === "object") {
             console.log(message);
         } else {
-            console.log({ message: "Tablerules | " + levelstring + ":" + message, obj: typeof message === "object" ? message : null });
+            console.log({ message: `${MODULE_SCOPE} | ${levelstring}: ${message}`, obj: typeof message === "object" ? message : null });
         }
     }
 
@@ -389,9 +377,9 @@ class Tablerules {
 
     static async dnd5ePreRollDeathSave() {
 
-        arguments[1].targetValue = game.settings.get("Tablerules", "deathSaveDC");
+        arguments[1].targetValue = game.settings.get(MODULE_SCOPE, "deathSaveDC");
         if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "Tablerules.dnd5ePreRollDeathSave", object: arguments });
+            Tablerules.debug({ message: `${MODULE_SCOPE}.dnd5ePreRollDeathSave`, object: arguments });
         }
 
     }
@@ -411,7 +399,7 @@ Hooks.on("dnd5e.preRestCompleted", function () {
         arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
         arguments[1].dhp = 0;
 
-        if (game.settings.get("Tablerules", "reduceExhaustionOnLongRest")) {
+        if (game.settings.get(MODULE_SCOPE, "reduceExhaustionOnLongRest")) {
             arguments[1].updateData["system.attributes.exhaustion"] = Math.max(arguments[0].system.attributes.exhaustion - 1, 0);
         }
     }
@@ -430,7 +418,7 @@ Hooks.on('init', () => {
     /**
      * Add ChatLog context menu option to apply damage minus three (Heavy Armor Master)
      */
-    if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
+    if (game.settings.get(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree")) {
         Hooks.on("getChatLogEntryContext", (html, options) => {
             const condition = (li) => {
                 const message = game.messages.get(li.data("messageId"));
@@ -453,9 +441,9 @@ Hooks.on('init', () => {
     }
 
     /**
-     * Add ChatLog context menu option to apply half damage minus three (Heavy Armor Master)
+     * Add ChatLog context menu option to apply half damage minus three (Heavy Armor Master).
      */
-    if (game.settings.get("Tablerules", "chatLogEntryContext_ApplyDamageMinusThree")) {
+    if (game.settings.get(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree")) {
         Hooks.on("getChatLogEntryContext", (html, options) => {
             const condition = (li) => {
                 const message = game.messages.get(li.data("messageId"));
@@ -481,7 +469,7 @@ Hooks.on('init', () => {
 
 Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) => {
 
-    if (!game.settings.get("Tablerules", "whispersIncludeGM") || !game.settings.get("Tablerules", "isEnabled")) {
+    if (!game.settings.get(MODULE_SCOPE, "whispersIncludeGM") || !game.settings.get("Tablerules", "isEnabled")) {
         return;
     }
 
@@ -512,22 +500,22 @@ Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) =
 })
 
 Hooks.on("ready", function () {
-    console.log("Tablerules hooked onto ready.");
+    console.log(`${MODULE_SCOPE} hooked onto ready.`);
 
-    Tablerules.config.loglevel = game.settings.get("Tablerules", "logLevel");
-    Tablerules.config.logOwn = game.settings.get("Tablerules", "logOwn");
+    Tablerules.config.loglevel = game.settings.get(MODULE_SCOPE, "logLevel");
+    Tablerules.config.logOwn = game.settings.get(MODULE_SCOPE, "logOwn");
 
-    if (game.settings.get("Tablerules", "modifyDefaultVolumes")) {
+    if (game.settings.get(MODULE_SCOPE, "modifyDefaultVolumes")) {
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalPlaylistVolume").value.default === game.settings.get("core", "globalPlaylistVolume")) {
-            game.settings.set("core", "globalPlaylistVolume", game.user.flags?.world?.globalPlaylistVolume ?? game.settings.get("Tablerules", "globalPlaylistVolume"));
+            game.settings.set("core", "globalPlaylistVolume", game.user.flags?.world?.globalPlaylistVolume ?? game.settings.get(MODULE_SCOPE, "globalPlaylistVolume"));
         }
 
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalAmbientVolume").value.default === game.settings.get("core", "globalAmbientVolume")) {
-            game.settings.set("core", "globalAmbientVolume", game.user.flags?.world?.globalAmbientVolume ?? game.settings.get("Tablerules", "globalAmbientVolume"));
+            game.settings.set("core", "globalAmbientVolume", game.user.flags?.world?.globalAmbientVolume ?? game.settings.get(MODULE_SCOPE, "globalAmbientVolume"));
         }
 
         if (Array.from(game.settings.settings, ([key, value]) => ({ key, value })).find(e => e.key === "core.globalInterfaceVolume").value.default === game.settings.get("core", "globalInterfaceVolume")) {
-            game.settings.set("core", "globalInterfaceVolume", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get("Tablerules", "globalInterfaceVolume"));
+            game.settings.set("core", "globalInterfaceVolume", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get(MODULE_SCOPE, "globalInterfaceVolume"));
         }
 
         ui.sidebar.tabs.playlists.render();
@@ -542,6 +530,18 @@ Hooks.on("ready", function () {
             game.settings.set("core", "chatBubblesPan", game.user.flags?.world?.globalInterfaceVolume ?? game.settings.get(MODULE_SCOPE, "chatBubblesPan"));
         }
     }
+
+    if (game.settings.get(MODULE_SCOPE, "checkSettings")) {
+        if (!game.settings.get(MODULE_SCOPE, "modifyChatBubbles")) {
+            ui.notifications.warn(`Setting ${MODULE_SCOPE}, modifyChatBubbles expected to be ${true}, but was ${game.settings.get(MODULE_SCOPE, "modifyChatBubbles")}.`);
+        }
+
+        if (!game.settings.get("itemacro", "charsheet")) {
+            ui.notifications.warn(`Setting itemacro, charsheet expected to be ${true}, but was ${game.settings.get("itemacro", "charsheet")}`);
+        }
+    }
+
+    CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
 });
 
 Hooks.on("getChatLogEntryContext", (html, options) => {
@@ -585,7 +585,7 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
     if (TRUtils.isDebugEnabled()) {
         Tablerules.debug({
-            message: "Tablerules.updateActor",
+            message: `${MODULE_SCOPE}.updateActor`,
             actor: actor,
             update: update,
             options: options,
@@ -596,7 +596,7 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
     if (game.user.id !== userId) return;
     if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
 
-    if (game.settings.get("Tablerules", "woundedCondition")) {
+    if (game.settings.get(MODULE_SCOPE, "woundedCondition")) {
         let effectsWoundedIds = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
 
         if (update.system.attributes.hp.value > 0 && update.system.attributes.hp.value <= game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
@@ -615,9 +615,9 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
         }
     }
 
-    if (game.settings.get("Tablerules", "incapacitatedCondition")) {
+    if (game.settings.get(MODULE_SCOPE, "incapacitatedCondition")) {
 
-        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === game.settings.get("Tablerules", "incapacitatedConditionLabel")).map(e => e.id);
+        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === game.settings.get(MODULE_SCOPE, "incapacitatedConditionLabel")).map(e => e.id);
         let effectsProneIds = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
 
         if (update.system.attributes.hp.value === 0) {
@@ -650,4 +650,4 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
 });
 
-console.log(`Tablerules has been loaded (${performance.now() - start_time}ms).`);
+console.log(`${MODULE_SCOPE} has been loaded (${performance.now() - start_time}ms).`);
