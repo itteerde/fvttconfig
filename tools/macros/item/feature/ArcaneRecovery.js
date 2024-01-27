@@ -33,14 +33,14 @@ const maxVal = Math.ceil(levels / 2);
 let spent = 0;
 
 let content = `<p name="header">Recovering spell slots: <strong>${spent}</strong> / ${maxVal}.</p> <hr> <form>`;
-for (let i = 0; i < level_maps.length; i++) {
+for (let i = 0; i < Math.min(level_maps.length, 5); i++) {
     const val = i + 1;
     const name = `level${val}`;
     content += `
   <div class="form-group">
     <label style="text-align:center"><strong>${val.ordinalString()}-level</strong></label>
     <div class="form-fields">`;
-    for (let j = 0; j < level_maps[i].max; j++) {
+    for (let j = 0; j < Math.min(level_maps[i].max, 5); j++) {
         const cd = j < level_maps[i].value ? "checked disabled" : "";
         content += `<input type="checkbox" value="${val}" name="${name}" ${cd}></input>`;
     }
