@@ -551,7 +551,9 @@ Hooks.on("ready", function () {
         }
     }
 
-    CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
+    if (game.setting.get(MODULE_SCOPE, "useAdditionalStatuses")) {
+        CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
+    }
 });
 
 Hooks.on("getChatLogEntryContext", (html, options) => {
