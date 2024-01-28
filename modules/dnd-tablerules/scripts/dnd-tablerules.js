@@ -551,7 +551,7 @@ Hooks.on("ready", function () {
         }
     }
 
-    if (game.setting.get(MODULE_SCOPE, "useAdditionalStatuses")) {
+    if (game.settings.get(MODULE_SCOPE, "useAdditionalStatuses")) {
         CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
     }
 });
