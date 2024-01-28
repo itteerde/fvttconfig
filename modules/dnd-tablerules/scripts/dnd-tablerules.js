@@ -245,9 +245,19 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register(MODULE_SCOPE, "useAdditionalStatuses", {
+            name: "Use Additional Statuses",
+            hint: "if active the additional statuses from Add additional Statuses are added.",
+            scope: "world",
+            config: true,
+            default: false,
+            type: Boolean,
+            requiresReload: true
+        });
+
         game.settings.register(MODULE_SCOPE, "additionalStatuses", {
             name: "Add additional Statuses (Conditions)",
-            hint: "...",
+            hint: "Adds the Statuses to CONFIG.statusEffects. By core they would be at the end. Monks (Details?) sorts them after adding though, so they will be in alphabetical order. The JSON String is not checked. So currently this is easy to break.",
             scope: "world",
             config: true,
             default: '[{"id":"surprised","name":"Surprised","icon":"icons/magic/control/fear-fright-white.webp"}]',
