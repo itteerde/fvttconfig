@@ -609,13 +609,13 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
     if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
 
     if (game.settings.get(MODULE_SCOPE, "woundedCondition")) {
-        let effectsWoundedIds = actor.effects.filter(e => e.label === "Wounded").map(e => e.id);
+        let effectsWoundedIds = actor.effects.filter(e => e.name === "Wounded").map(e => e.id);
 
         if (update.system.attributes.hp.value > 0 && update.system.attributes.hp.value <= game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
             if (effectsWoundedIds.length === 0) {
                 const effectData = {
                     icon: "modules/Tablerules/icons/conditions/wounded.svg",
-                    label: "Wounded",
+                    name: "Wounded",
                     statuses: ["Wounded"]
                 };
                 await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
@@ -629,21 +629,21 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
     if (game.settings.get(MODULE_SCOPE, "incapacitatedCondition")) {
 
-        let effectsIncapacitatedIds = actor.effects.filter(e => e.label === game.settings.get(MODULE_SCOPE, "incapacitatedConditionLabel")).map(e => e.id);
-        let effectsProneIds = actor.effects.filter(e => e.label === "Prone").map(e => e.id);
+        let effectsIncapacitatedIds = actor.effects.filter(e => e.name === game.settings.get(MODULE_SCOPE, "incapacitatedConditionLabel")).map(e => e.id);
+        let effectsProneIds = actor.effects.filter(e => e.name === "Prone").map(e => e.id);
 
         if (update.system.attributes.hp.value === 0) {
 
             if (effectsIncapacitatedIds.length === 0) {
                 const effectDataIncapacitated = {
                     icon: "modules/Tablerules/icons/conditions/incapacitated.svg",
-                    label: game.settings.get("Tablerules", "incapacitatedConditionLabel"),
+                    name: game.settings.get("Tablerules", "incapacitatedConditionLabel"),
                     statuses: [game.settings.get("Tablerules", "incapacitatedConditionLabel")]
                 };
 
                 const effectDataProne = {
                     icon: "modules/Tablerules/icons/conditions/prone.svg",
-                    label: "Prone",
+                    name: "Prone",
                     statuses: ["Prone"]
                 };
 
