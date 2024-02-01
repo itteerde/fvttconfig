@@ -55,9 +55,9 @@ const stealth = chatMessage.rolls[0].total;
 let effect = actor.getEmbeddedCollection("ActiveEffect").find(e => e.label === "Stealth");
 
 if (effect === undefined) {
-    const effectData = { icon: item.img, label: showValue ? `Stealth: (${stealth})` : "Stealth" };
+    const effectData = { icon: item.img, label: showValue ? `Stealth: (${stealth})` : "Stealth", statuses: [showValue ? `Stealth: (${stealth})` : "Stealth"] };
     foundry.utils.setProperty(effectData, "flags.world.origin", item.uuid);
-    foundry.utils.setProperty(effectData, "flags.core.statusId", showValue ? `Stealth: (${stealth})` : "Stealth");
+    //foundry.utils.setProperty(effectData, "flags.core.statusId", showValue ? `Stealth: (${stealth})` : "Stealth");
     foundry.utils.setProperty(effectData, "flags.world.stealth", stealth);
 
     await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);

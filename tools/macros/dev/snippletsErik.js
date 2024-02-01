@@ -256,3 +256,7 @@ await canvas.tokens.controlled[0].actor.items.find(i => i.name === "Form of Drea
 await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.o1dRuMh8G6a6LTO1").update({ "flags.itemacro.macro.ownership": { default: 0, [game.userId]: 3 } })
 
 await (await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.CRBZeUCIijSHX5xH")).update({ "flags.itemacro.macro.ownership": { default: 0, [game.userId]: 3 } })
+
+if ((await item.use()) !== undefined) {
+    item.parent.createEmbeddedDocuments("ActiveEffect", [item.effects.contents[0].toObject()]);
+}

@@ -3,81 +3,6 @@ const MODULE_SCOPE = "Tablerules"; // don't change without serious consideration
 var start_time = performance.now(); // should this be let?
 console.log(`${MODULE_SCOPE} is loading.`);
 
-
-class Timer {
-    // for example
-    // TIMER.logTimeByFunction("test",0,()=>{console.log("testing")})
-    static logTimeByFunctionSync = (message, funct) => {
-        const start = performance.now();
-        const returnValue = funct();
-        console.log(`${message}, function: ${funct}, time: ${performance.now() - start}ms`);// to be LOGGER in CPR
-        return returnValue;
-    }
-
-    static logTimeByFunctionAsync = (message, funct) => {
-        const start = performance.now();
-        const returnValue = funct();
-        console.log(`${message}, function: ${funct}, time: ${performance.now() - start}ms`);// to be LOGGER in CPR
-        return returnValue;
-    }
-}
-
-class MeasuringPoint {
-
-    constructor(key, label) {
-        this.key = key;
-        this.label = label;
-        count = 0;
-        min = NaN;
-        max = NaN;
-        average = NaN;
-    }
-
-    addResult(measurement) {
-
-        count++;
-
-        if (min === NaN || min > measurement) {
-            min = measurement;
-        }
-
-        if (max === NaN || max < measurement) {
-            max = measurement;
-        }
-
-        if (average === NaN) {
-            average = measurement;
-        } else {
-            average += ((measurement - average) / (count + 1));
-        }
-    }
-
-}
-
-class Performance {
-
-    constructor() {
-        const map = new Map();
-    }
-
-    getMeasuringPoint(key) {
-        return map[key];
-    }
-
-    report() {
-        map.forEach((values, keys) => {
-            console.log({
-                label: values.label,
-                key: values.key,
-                count: values.count,
-                min: values.min,
-                max: values.max,
-                average: values.average
-            })
-        })
-    }
-}
-
 class TRUtils {
 
     static isDebugEnabled() {
@@ -393,7 +318,6 @@ class Tablerules {
         }
 
     }
-
 }
 
 /**
