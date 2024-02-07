@@ -1,19 +1,10 @@
-//////////////////............How does this work?.............//////////////////////
-// You as the GM have to check the itemName is correct in this macro. (see main function)
-// The player clicks the macro and on first run it will only give the button refresh
-// this will set the dice for the first time. CLicking the macro again will allow the
-// player to use the dice set by the macro. It is then upto the DM and player on how
-// to interpret this number. Since there are too many use cases to capture at once.
-//
-// Gallery: https://imgur.com/a/PYpMbUy
-//
 // https://gitlab.com/Freeze020/foundry-vtt-scripts/-/blob/master/DnD5e%20specific%20macros/portent.js
 //
 // Requires v10 and DnD 5e v2.0.3+
 
 const itemName = "Portent"                                                    // set this string to what the Portent feature item is called in your game.
 const wizardActor = game.user.character || token.actor; //second option is for the GM.
-const portentItem = item;
+const portentItem = wizardActor.items.find(i => i.name.includes(itemName)); // finds that item name.
 
 if (!portentItem) return ui.notifications.warn("Your actor does not have the Portent feature");
 let myButtons = await generateButtons(wizardActor, portentItem, itemName); // creates the buttons, see function below.
@@ -24,25 +15,25 @@ new Dialog({
 }).render(true);
 
 async function generateButtons(macroActor, item, itemName) {
-    let portentRolled = await macroActor.getFlag("world", "portent"); // does the character already have a set of buttons
+    let portentRolled = macroActor.getFlag("world", "portent"); // does the character already have a set of buttons
     let diceNumber = macroActor.items.getName("Wizard").system.levels < 14 ? 2 : 3; //sets up for Greater Portent where the player gets 3 dice at level 14.
     let myButtons = {};
     if (portentRolled !== undefined) {
-        myButtons = portentRolled.reduce((buttons, roll) => {
+        myButtons = portentRolled.reduce((buttons, roll, i) => {
             let msgContent = `I forsaw this event and choose to roll: <b>${roll}</b>`;
             buttons[roll] = {
                 label: `Roll: ${roll}`,
                 callback: async () => {
-                    ChatMessage.create({
+                    await ChatMessage.create({
                         content: `<div class="dnd5e chat-card">
                                                     <header class="card-header flexrow">
                                                         <img src="${item.img}" title="${item.name}" width="36" height="36" />
                                                         <h3 class="item-name">${item.name}:</h3>
                                                     </header></div>` + msgContent, speaker: { alias: macroActor.name }
                     });
-                    portentRolled.splice(portentRolled.indexOf(roll), 1); // removes the used value from the array.
+                    portentRolled.splice(i, 1); // removes the used value from the array.
                     await macroActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
-                    //await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
+                    await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
                 }
             };
             return buttons;
@@ -61,7 +52,7 @@ async function generateButtons(macroActor, item, itemName) {
                 i++;
             }
             await macroActor.setFlag("world", "portent", portentRolls); // sets a fresh array of 2 or 3 d20s 
-            //await item.update({ name: `${itemName} [${portentRolls}]` })
+            await item.update({ name: `${itemName} [${portentRolls}]` })
             ChatMessage.create({
                 content: `<div class="dnd5e chat-card">
                                             <header class="card-header flexrow">
