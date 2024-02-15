@@ -170,6 +170,26 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register(MODULE_SCOPE, "chatBubbles", {
+            name: "Chat Bubbles",
+            hint: "if Modify Chat Bubbles is enabled: modifies the core default for chatBubbles, if enabled the Module checks the current settings and adjusts them to the configured below values if they are at assumed core default values.",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
+        game.settings.register(MODULE_SCOPE, "chatBubblesPan", {
+            name: "Chat Bubbles Pan",
+            hint: "if Modify Chat Bubbles is enabled: modifies the core default for chatBubblesPan, if enabled the Module checks the current settings and adjusts them to the configured below values if they are at assumed core default values.",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
         game.settings.register(MODULE_SCOPE, "useAdditionalStatuses", {
             name: "Use Additional Statuses",
             hint: "if active the additional statuses from Add additional Statuses are added.",
@@ -470,9 +490,6 @@ Hooks.on("ready", function () {
             ui.notifications.warn(`Setting ${MODULE_SCOPE}, modifyChatBubbles expected to be ${true}, but was ${game.settings.get(MODULE_SCOPE, "modifyChatBubbles")}.`);
         }
 
-        if (!game.settings.get("itemacro", "charsheet")) {
-            ui.notifications.warn(`Setting itemacro, charsheet expected to be ${true}, but was ${game.settings.get("itemacro", "charsheet")}`);
-        }
     }
 
     if (game.settings.get(MODULE_SCOPE, "useAdditionalStatuses")) {
