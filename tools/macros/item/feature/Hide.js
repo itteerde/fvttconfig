@@ -6,33 +6,23 @@ const showValue = false;
 
 await item.displayCard();
 
-let modifier = "normal";
-
 const buttons = {
     advantage: {
         label: "Advantage",
-        callback: async (html) => {
-            modifier = "advantage";
-            return;
-        }
+        callback: () => "advantage",
     },
     normal: {
         label: "Normal",
-        callback: async (html) => {
-            modifier = "normal";
-            return;
-        }
+        callback: () => "normal",
     },
     disadvantage: {
         label: "Disadvantage",
-        callback: async (html) => {
-            modifier = "disadvantage";
-            return;
-        }
+        callback: () => "disadvantage",
     }
 }
 
-await Dialog.wait({ title: item.name, buttons });
+const modifier = await Dialog.wait({ title: item.name, buttons, close: () => null });
+if (!modifier) return;
 
 let rollFormula = "1d20+@skill";
 
