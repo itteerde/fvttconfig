@@ -1,63 +1,25 @@
-/** 
- * Reference values torch version with the default settings for ambient light (except color, which is handled differently there). Probably default values for Tokens, too.
- * 
- * icon suggestion: icons/sundries/lights/torch-brown-lit.webp
- * 
- */
-const dim_range = 40;
-const bright_range = 20;
-const tokensToBeModified = canvas.tokens.controlled;
-for (let i = 0; i < tokensToBeModified.length; i++) {
-    if (tokensToBeModified[i].document.light.dim === 0) {
-        await tokensToBeModified[i].document.update({
-            light: {
-                alpha: 0.5,
-                angle: 0,
-                bright: 15,
-                coloration: 1,
-                dim: 30,
-                gradual: true,
-                luminosity: 0.5,
-                saturation: 0,
-                contrast: 0,
-                shadows: 0,
-                animation: {
-                    speed: 1,
-                    intensity: 5,
-                    reverse: false,
-                    type: "torch"
-                },
-                darkness: {
-                    min: 0,
-                    max: 1
-                },
-                color: "#000000"
-            }
-        });
-    } else {
-        await tokensToBeModified[i].document.update({
-            light: {
-                alpha: 0.5,
-                angle: 0,
-                bright: 0,
-                color: "#000000",
-                coloration: 1,
-                dim: 0,
-                gradual: true,
-                luminosity: 0.5,
-                saturation: 0,
-                contrast: 0,
-                shadows: 0,
-                animation: {
-                    speed: 5,
-                    intensity: 5,
-                    reverse: false,
-                },
-                darkness: {
-                    min: 0,
-                    max: 1,
-                },
-            },
-        });
-    }
+const configs = {
+    def: { dim: 0, bright: 0 },
+    torch: { dim: 40, bright: 20, color: "#92bd51", animation: { type: "torch" }, angle: 0 },
+    bullseye: { dim: 120, bright: 60, color: "#92bd51", animation: { type: "torch" }, angle: 60 }
+};
+
+const states = new Set(Object.keys(configs));
+states.delete("def");
+
+const state = token.document.flags.world?.light ?? null;
+if (states.has(state)) return token.document.update({ light: configs.def, "flags.world.light": null });
+
+return Dialog.wait({
+    title: "Light Config",
+    buttons: states.reduce((acc, k) => {
+        acc[k] = { label: k.capitalize(), callback: callback };
+        return acc;
+    }, {})
+});
+
+async function callback([html], event) {
+    const state = event.currentTarget.dataset.button;
+    const light = configs[state];
+    return token.document.update({ light: light, "flags.world.light": state });
 }
