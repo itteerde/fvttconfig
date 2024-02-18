@@ -11,14 +11,14 @@ if (combats.size === 0) {
 
 async function doCombatant(combatant, combat) {
     const token = game.scenes.get(combatant.sceneId).tokens.get(combatant.tokenId); // is a TokenDocument5e both for pc and npc
-    if (token.actorData?.flags?.world?.summoned === undefined) {
+    if (token.actor?.flags?.world?.summoned === undefined) {
         if (combatant.initiative === Math.floor(combatant.initiative)) {
             await combatant.update({ initiative: combatant.initiative + token.actor.system.abilities.dex.value / 100 + Math.random() / 100000 });
         }
         return;
     }
 
-    const summonerId = token.actorData.flags.world.summoned.actor.substring(6);
+    const summonerId = token.actor.flags.world.summoned.actor.substring(6);
     const summonerCombatant = combat.turns.find(c => c.actorId === summonerId);
 
     if (summonerCombatant === undefined) {
