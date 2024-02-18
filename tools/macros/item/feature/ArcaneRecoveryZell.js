@@ -39,9 +39,6 @@ if (!missingSlots.length) {
     return null;
 }
 
-const use = await item.use();
-if (!use) return;
-
 function getContentAndValue() {
     let spent = 0;
 
