@@ -260,3 +260,6 @@ await (await fromUuid("Actor.CVogtJ8SM5XVdEwE.Item.CRBZeUCIijSHX5xH")).update({ 
 if ((await item.use()) !== undefined) {
     item.parent.createEmbeddedDocuments("ActiveEffect", [item.effects.contents[0].toObject()]);
 }
+
+
+actor.items.filter(i => i.type === "spell").sort((a, b) => { return a.system.level !== b.system.level ? a.system.level - b.system.level : a.name.localeCompare(b.name) }).map(e => { return `\n  - [ ] \`${e.name}\` create \`ActiveEffect\`.` }).reduce((acc, s) => acc + s, "")

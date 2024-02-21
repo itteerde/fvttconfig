@@ -3,7 +3,6 @@
  * 
  * https://www.dndbeyond.com/spells/summon-beast
  * 
- * TODO: clean up logging (pretty much remove, or put all to Tablerules logging with .debug() )
  */
 
 const macroLabel = "Summon Beast";
