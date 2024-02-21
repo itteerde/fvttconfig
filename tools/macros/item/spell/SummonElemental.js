@@ -15,7 +15,7 @@ const formEarth = "Earth";
 const formFire = "Fire";
 const formWater = "Water";
 
-const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use({}, { skipItemMacro: true }), 'flags.dnd5e.use.spellLevel');
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
