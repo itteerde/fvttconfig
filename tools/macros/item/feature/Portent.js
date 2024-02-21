@@ -29,11 +29,13 @@ async function generateButtons(macroActor, item, itemName) {
                                                     <header class="card-header flexrow">
                                                         <img src="${item.img}" title="${item.name}" width="36" height="36" />
                                                         <h3 class="item-name">${item.name}:</h3>
-                                                    </header></div>` + msgContent, speaker: { alias: macroActor.name }
+                                                    </header></div>` + msgContent,
+                        speaker: { alias: macroActor.name },
+                        whisper: ChatMessage.getWhisperRecipients('GM')
                     });
                     portentRolled.splice(i, 1); // removes the used value from the array.
                     await macroActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
-                    await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
+                    await item.update({ name: `${itemName}` });  // updates the item name to contain the new array.
                 }
             };
             return buttons;
@@ -52,15 +54,18 @@ async function generateButtons(macroActor, item, itemName) {
                 i++;
             }
             await macroActor.setFlag("world", "portent", portentRolls); // sets a fresh array of 2 or 3 d20s 
-            await item.update({ name: `${itemName} [${portentRolls}]` })
+            await item.update({ name: `${itemName}` })
             ChatMessage.create({
                 content: `<div class="dnd5e chat-card">
                                             <header class="card-header flexrow">
                                             <img src="${item.img}" title="${item.name}" width="36" height="36" />
                                             <h3 class="item-name">${item.name}:</h3>
                                         </header></div>
-                                            My portent forsees the following outcomes:</br>` + msgContent, speaker: { alias: macroActor.name }
+                                            My portent forsees the following outcomes:</br>` + msgContent,
+                speaker: { alias: macroActor.name },
+                whisper: ChatMessage.getWhisperRecipients('GM')
             });
+            item.use({}, { skipItemMacro: true });
         }
 
     };
