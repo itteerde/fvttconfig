@@ -1,7 +1,7 @@
 const icon = item.img;
 const label = item.name;
 
-if ((await item.use()) === null) {
+if ((await item.use({}, { skipItemMacro: true })) === null) {
     ui.notifications.warn(`${label} has no uses left.`);
     return;
 }
