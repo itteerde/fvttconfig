@@ -14,7 +14,7 @@ const formGhostly = "Ghostly Spirit";
 const formPutrid = "Putrid Spirit";
 const formSkeletal = "Skeletal Spirit";
 
-const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use({}, { skipItemMacro: true }), 'flags.dnd5e.use.spellLevel');
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
