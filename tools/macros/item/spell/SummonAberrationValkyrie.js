@@ -17,7 +17,7 @@ const scaleBeholderkin = 1;
 const scaleSlaad = 1;
 const scaleStarSpawn = 1;
 
-const level = foundry.utils.getProperty(await item.use(), 'flags.dnd5e.use.spellLevel');
+const level = foundry.utils.getProperty(await item.use({}, { skipItemMacro: true }), 'flags.dnd5e.use.spellLevel');
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
 
