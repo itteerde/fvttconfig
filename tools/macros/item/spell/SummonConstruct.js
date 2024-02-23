@@ -20,7 +20,7 @@ const scaleStone = 1;
 
 const summonerDc = actor.system.attributes.spelldc;
 const summonerAttack = summonerDc - 8;
-const level = await warpgate.dnd5e.rollItem(item);
+const level = foundry.utils.getProperty(await item.use({}, { skipItemMacro: true }), 'flags.dnd5e.use.spellLevel');
 if (!level > 0) {
     return;
 }
