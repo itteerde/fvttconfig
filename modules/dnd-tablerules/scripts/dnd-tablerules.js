@@ -210,6 +210,16 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register(MODULE_SCOPE, "displaySpellUsesOnCharacterSheet", {
+            name: "Diplay Spell Item Uses on CharacterSheet",
+            hint: "Adds a column displaying the uses for Spell Items on the Spells page of the Character Sheet",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
         game.settings.register(MODULE_SCOPE, "checkSettings", {
             name: "Check Settings",
             hint: "Checks if settings are as expected. If active the Module will check a number of expected settings and report surprises in console (F-12) as warnings.",
@@ -494,6 +504,30 @@ Hooks.on("ready", function () {
 
     if (game.settings.get(MODULE_SCOPE, "useAdditionalStatuses")) {
         CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
+    }
+
+    if (game.settings.get(MODULE_SCOPE, "displaySpellUsesOnCharacterSheet")) {
+        Hooks.on("renderActorSheet5eCharacter2", (app, [html]) => {
+            if (!app.document.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return;
+            const spellTab = html.querySelector(".items-list.spells-list").querySelectorAll(".item-list");
+            for (const list of spellTab) {
+                const spells = list.querySelectorAll(".item");
+                for (const spell of spells) {
+                    const item = app.document.items.get(spell.dataset.itemId);
+                    const uses = item.system.uses;
+                    if (uses.max > 0 && uses.per) {
+                        const per = (uses.per === "lr" || uses.per === "sr") ? uses.per : "";
+                        const newHTML = `
+                    <div class="item-detail item-range item-casts">
+                      <span class="value">${uses.value}/${uses.max}</span>
+                      <span class="unit">${per}</span>
+                    </div>
+                  `;
+                        spell.querySelector(".item-school").insertAdjacentHTML("beforebegin", newHTML);
+                    };
+                };
+            };
+        });
     }
 });
 
