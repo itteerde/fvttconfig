@@ -14,7 +14,4 @@ if (actor.items.find(i => i.name === "Short Rest").system.uses.value < 1) {
     return;
 }
 
-if ((await item.use()) !== undefined) {
-    item.parent.createEmbeddedDocuments("ActiveEffect", [item.effects.contents[0].toObject()]);
-    actor.items.find(i => i.name === "Short Rest").update({ "system.uses.value": actor.items.find(i => i.name === "Short Rest").system.uses.value - 1 });
-}
+item.use({}, { skipItemMacro: true })

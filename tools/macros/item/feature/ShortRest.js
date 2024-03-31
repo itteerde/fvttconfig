@@ -9,6 +9,4 @@ if (value < 1) {
     return;
 }
 
-if ((await item.use()) !== undefined) {
-    item.parent.createEmbeddedDocuments("ActiveEffect", [item.effects.contents[0].toObject()]);
-}
+item.use({}, { skipItemMacro: true })
