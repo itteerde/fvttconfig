@@ -355,21 +355,21 @@ class Tablerules {
  * - no hp gain on long rest
  * - reset death saves (as they are now not reset on healing)
  */
-Hooks.on("dnd5e.preRestCompleted", function () {
+Hooks.on("dnd5e.preRestCompleted", function (actor, data, options) {
     if (arguments[1].longRest) {
         if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "preventing healing on Long Rest.", arguments: arguments });
+            Tablerules.debug({ message: "preventing healing on Long Rest.", arguments: arguments, actor: actor, data: data, options: options });
         }
-        arguments[1].updateData["system.attributes.hp.value"] -= arguments[1].dhp;
-        arguments[1].dhp = 0;
+        data.updateData["system.attributes.hp.value"] = actor.system.attributes.hp.value;
+        data.dhp = 0;
 
         if (game.settings.get(MODULE_SCOPE, "reduceExhaustionOnLongRest")) {
-            arguments[1].updateData["system.attributes.exhaustion"] = Math.max(arguments[0].system.attributes.exhaustion - 1, 0);
+            data.updateData["system.attributes.exhaustion"] = Math.max(actor.system.attributes.exhaustion - 1, 0);
         }
     }
 
-    arguments[1].updateData["system.attributes.death.success"] = 0;
-    arguments[1].updateData["system.attributes.death.failure"] = 0;
+    data.updateData["system.attributes.death.success"] = 0;
+    data.updateData["system.attributes.death.failure"] = 0;
 });
 
 Hooks.on("dnd5e.preRollDeathSave", function () {
