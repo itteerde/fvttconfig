@@ -263,3 +263,8 @@ if ((await item.use()) !== undefined) {
 
 
 actor.items.filter(i => i.type === "spell").sort((a, b) => { return a.system.level !== b.system.level ? a.system.level - b.system.level : a.name.localeCompare(b.name) }).map(e => { return `\n  - [ ] \`${e.name}\` create \`ActiveEffect\`.` }).reduce((acc, s) => acc + s, "")
+
+// spells to copy from Renaud
+let spellsToCopy = game.actors.get("kf5lTiiNlXd1B9vq").items.filter(i => i.type === "spell" && i.system.level > 0 && !game.actors.get("8azRNn6lEhQ4nJlR").items.find(si => si.name === i.name));
+spellsToCopy.reduce((acc, s) => acc + s.system.level, 0);
+spellsToCopy.map(s => ({ name: s.name, level: s.system.level })).sort((a, b) => { return a.level - b.level })

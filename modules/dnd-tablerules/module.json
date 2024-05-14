@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.29",
+    "version": "0.11.30",
     "compatibility": {
         "minimum": "11",
         "verified": "11.315"
@@ -53,6 +53,14 @@
             "type": "Macro",
             "system": "dnd5e",
             "flags": {}
+        },
+        {
+            "name": "tablerules-tables",
+            "label": "Tablerules Tables",
+            "path": "packs/tables",
+            "type": "RollTable",
+            "system": "dnd5e",
+            "flags": {}
         }
     ],
     "packFolders": [
@@ -64,7 +72,8 @@
             "tablerules-actors",
             "tablerules-items",
             "tablerules-spells",
-            "tablerules-macros"
+            "tablerules-macros",
+            "tablerules-tables"
             ],
           "folders": [
           ]
@@ -81,7 +90,7 @@
                 "compatibility": {
                     "maximum": "3.1.999",
                     "minimum": "3.0.1",
-                    "verified": "3.1.1"
+                    "verified": "3.1.2"
                 },
                 "manifest": "https://raw.githubusercontent.com/foundryvtt/dnd5e/master/system.json"
             }
