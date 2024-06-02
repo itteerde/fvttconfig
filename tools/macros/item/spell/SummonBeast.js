@@ -10,6 +10,10 @@ const textureLand = "modules/Tablerules/icons/magic/summons/beastialSpiritLand.w
 const textureAir = "modules/Tablerules/icons/magic/summons/beastialSpiritAir.webp";
 const textureWater = "modules/Tablerules/icons/magic/summons/beastialSpiritWater.webp";
 
+const scaleLand = 1;
+const scaleAir = 1;
+const scaleWater = 1;
+
 const addGlow = true;
 const addBlur = true;
 
@@ -97,6 +101,8 @@ let updates = {
 if (spirit.actor.name === "Bestial Spirit Land") {
     updates["actor.img"] = textureLand;
     updates["token.texture.src"] = textureLand;
+    updates["token.texture.scaleX"] = scaleLand;
+    updates["token.texture.scaleY"] = scaleLand;
     updates["actor.system.attributes.movement.climb"] = 30;
 }
 
@@ -104,12 +110,16 @@ if (spirit.actor.name === "Bestial Spirit Air") {
     updates['actor.system.attributes.hp'] = { value: 20 + 5 * (level - 2), max: 20 + 5 * (level - 2) };
     updates["actor.img"] = textureAir;
     updates["token.texture.src"] = textureAir;
+    updates["token.texture.scaleX"] = scaleAir;
+    updates["token.texture.scaleY"] = scaleAir;
     updates["actor.system.attributes.movement.fly"] = 60;
 }
 
 if (spirit.actor.name === "Bestial Spirit Water") {
     updates["actor.img"] = textureWater;
     updates["token.texture.src"] = textureWater;
+    updates["token.texture.scaleX"] = scaleWater;
+    updates["token.texture.scaleY"] = scaleWater;
     updates["actor.system.attributes.movement.swim"] = 30;
 }
 
