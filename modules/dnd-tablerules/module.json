@@ -13,7 +13,7 @@
             "name": "PhDave"
         }
     ],
-    "version": "0.11.31",
+    "version": "0.11.32",
     "compatibility": {
         "minimum": "11",
         "verified": "11.315"
@@ -88,7 +88,6 @@
                 "id": "dnd5e",
                 "type": "system",
                 "compatibility": {
-                    "maximum": "3.1.999",
                     "minimum": "3.0.1",
                     "verified": "3.1.2"
                 },
