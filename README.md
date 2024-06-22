@@ -27,7 +27,6 @@ Configuration and customization for Foundry Virtual Tabletop (FVTT)
 1. PopOut! (version: 2.15) : [Project-URL](https://github.com/League-of-Foundry-Developers/fvtt-module-popout), [Manifest](https://raw.githubusercontent.com/League-of-Foundry-Developers/fvtt-module-popout/master/module.json)
 1. Tablerules - FVTT Module (version: 0.11.26) : [Project-URL](https://github.com/itteerde/fvttconfig/), [Manifest](https://raw.githubusercontent.com/itteerde/fvttconfig/main/modules/dnd-tablerules/module.json)
 1. Token Magic FX (version: 0.6.5.0) : [Project-URL](https://github.com/Feu-Secret/Tokenmagic), [Manifest](https://raw.githubusercontent.com/Feu-Secret/Tokenmagic/master/tokenmagic/module.json)
-1. Warp Gate (version: 1.19.2) : [Project-URL](https://github.com/trioderegion/warpgate), [Manifest](https://github.com/trioderegion/warpgate/releases/latest/download/module.json)
 
 # General
 
@@ -42,7 +41,7 @@ Configuration and customization for Foundry Virtual Tabletop (FVTT)
   like `game.actors.get("id of actor").update({"system.currency.-=undefined": null})`
 + [Deleting Documents](https://github.com/GamerFlix/foundryvtt-api-guide/blob/main/macro_guide.md#deleting-documents)
 + [dnd5e](https://github.com/foundryvtt/dnd5e)
-+ [Font-Awesome](https://fontawesome.com/search?m=free&o=r)
++ [summoning](https://github.com/foundryvtt/dnd5e/wiki/Summoning)
 
 
 ## ActiveEffects
