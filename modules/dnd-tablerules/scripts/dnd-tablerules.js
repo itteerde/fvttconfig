@@ -540,7 +540,7 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
     const callback = (li) => {
         const message = game.messages.get(li.data("messageId"));
         const roll = message.rolls[0];
-        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(roll.total, 0.25));
+        canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.floor(roll.total * 0.25)));
     }
 
     /**
