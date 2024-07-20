@@ -438,7 +438,7 @@ Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) =
     }
 
     const gmWhisperIds = ChatMessage.getWhisperRecipients("gm").map(i => i.id) // get all gm ids in the world
-    let whisperArray = duplicate(messageDoc.whisper) // Copy our array out
+    let whisperArray = foundry.utils.duplicate(messageDoc.whisper) // Copy our array out
     if (whisperArray.length === 0) return // Not a whisper if there's no whisper ids
 
 
