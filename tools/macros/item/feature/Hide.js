@@ -7,19 +7,21 @@ const showValue = false;
 await item.displayCard();
 
 async function rollHide(modifier, sitBonus) {
-    let rollFormula = "1d20+@skill";
+
+    let skill = actor.getRollData().skills.ste.total;
+    let rollFormula = `1d20 +${skill}`;
 
     if (modifier === "advantage") {
-        rollFormula = "2d20kh1+@skill";
+        rollFormula = `2d20kh1 +${skill}`;
     }
 
     if (modifier === "disadvantage") {
-        rollFormula = "2d20kl1+@skill";
+        rollFormula = `2d20kl1 +${skill}`;
     }
 
     rollFormula += `+${sitBonus}`;
 
-    const roll = await new Roll(rollFormula, { skill: actor.getRollData().skills.ste.total, async: true });
+    const roll = await new Roll(rollFormula, { async: true });
     const chatMessage = await roll.toMessage({
         speaker: ChatMessage.getSpeaker({ actor: actor }),
         flavor: `${item.name}, stealth to break:`
@@ -46,7 +48,7 @@ const content = `
     <div class="form-group">
         <label for="text">Situational Bonus?</label>
         <div class="form-fields">
-            <input id="sitBonus" type="text" value=""></input>
+            <input id="sitBonus" type="text" value="0"></input>
         </div>
     </div>
 </form>`;
