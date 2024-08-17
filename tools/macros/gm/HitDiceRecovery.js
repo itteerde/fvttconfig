@@ -23,6 +23,5 @@ async function regainHitDice(actor) {
 }
 
 canvas.tokens.controlled.forEach(t => {
-    console.log({ t: t, actor: actor });
     regainHitDice(t.actor);
 })
