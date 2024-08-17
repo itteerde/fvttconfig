@@ -22,6 +22,6 @@ async function regainHitDice(actor) {
 
 }
 
-game.folder.find(f => f.name === "PCs").contents.filter(pc => pc.type === "character").forEach(t => {
-    regainHitDice(t.actor);
+game.folder.find(f => f.name === "PCs").contents.filter(pc => pc.type === "character").forEach(a => {
+    regainHitDice(a);
 })
