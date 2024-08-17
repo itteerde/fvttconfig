@@ -7,7 +7,7 @@ for (let i = 0; i < tokensToBeModified.length; i++) {
 		await tokensToBeModified[i].document.update({
 			light: {
 				alpha: 0.2,
-				angle: 0,
+				angle: 360,
 				bright: bright_range,
 				coloration: 1,
 				dim: dim_range,
