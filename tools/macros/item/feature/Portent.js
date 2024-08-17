@@ -47,7 +47,7 @@ async function generateButtons(macroActor, item, itemName) {
             let portentRolls = [];
             let msgContent = "";
             let i = 1; // roll counter
-            let myRoll = await new Roll(`${diceNumber}d20`).evaluate({ async: true }); // rolling the new dice
+            let myRoll = await new Roll(`${diceNumber}d20`).evaluate(); // rolling the new dice
             for (let result of myRoll.terms[0].results) {
                 portentRolls.push(result.result); // adding the result to the array.
                 msgContent += `Roll ${i} - <b>${result.result}</b></br>`; // preps part of the chat message content
