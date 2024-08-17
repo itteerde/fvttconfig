@@ -7,7 +7,7 @@ async function regainHitDice(actor) {
     let hdRegained = 0;
     let levels = classes.reduce((acc, c) => acc + c.system.levels, 0);
 
-    console.log({ actor: actor, levels: levels, hdUsed: hdUsed, hdRegained: hdRegained });
+    //console.log({ actor: actor, levels: levels, hdUsed: hdUsed, hdRegained: hdRegained });
 
     while (hdRegained < Math.ceil(levels / 2) && hdRegained < hdUsed) {
 
