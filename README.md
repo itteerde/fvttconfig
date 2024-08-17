@@ -13,7 +13,7 @@ Configuration and customization for Foundry Virtual Tabletop (FVTT)
 
 `game.modules.filter(m => m.active)` (might not order alphabetically, `id` is probably key for ordering while `title` is what we use). This list can be updated [by Macro](https://github.com/itteerde/fvttconfig/blob/main/tools/macros/dev/listModules.js). This list is supposed to be to real Production list. Currently there is a bit of a gap during preparing the next update. Maybe in the future it should reflect the accpeted list instead, which would mean it is either Production or what production is supposed to catch up soon, with the list already being somewhat approved.
 
-**reported from RotFM 2024-08-17**
+**Reported from RotFM 2024-08-17:**
 
 1. Autocomplete Whisper (version: 1.0.5) : [Project-URL](https://github.com/orcnog/autocomplete-whisper/)
 1. Covered Token Rescue HUD (version: 1.2.0) : [Project-URL](https://github.com/xaukael/covered-token-rescue-hud/)
