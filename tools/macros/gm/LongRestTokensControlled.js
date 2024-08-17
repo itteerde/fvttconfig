@@ -1,5 +1,3 @@
-//let players = game.folders.find(f => f.name === "PCs").contents.filter(a => a.type === "character").forEach(pc => {
-
 canvas.tokens.controlled.forEach(t => {
 
     let item = t.actor.items.find(i => i.name === "Long Rest")
