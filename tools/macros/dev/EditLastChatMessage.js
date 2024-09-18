@@ -1,1 +1,0 @@
-await game.messages.filter(m => m.isAuthor).sort(function (a, b) { return a.timestamp - b.timestamp })[game.messages.filter(m => m.isAuthor).length - 1].update({ content: "So we can overwrite this?" })

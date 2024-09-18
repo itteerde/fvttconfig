@@ -1,1 +1,0 @@
-await actor.update({ "system.attributes.hp.value": Math.min(actor.system.attributes.hp.value, actor.system.attributes.hp.max) });
