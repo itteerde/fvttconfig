@@ -20,16 +20,6 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register(MODULE_SCOPE, 'deathSaveDC', {
-            name: "Death Save DC",
-            hint: "This will set the DC of Deathsaves. Setting of 10 is the D&D 5e default, other values enable for brighter or darker games, such as 15 for Tomb of Annihilation.",
-            scope: 'world',
-            config: true,
-            default: 10,
-            type: Number,
-            requiresReload: true
-        });
-
         game.settings.register(MODULE_SCOPE, 'noHealOnLongRest', {
             name: "Long Rest does not reset HP",
             hint: "Typically, all HP are regained on a Long Rest. This will disable that feature.",
@@ -50,26 +40,6 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register(MODULE_SCOPE, "woundedCondition", {
-            name: "Wounded Condition",
-            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value",
-            scope: "world",
-            config: true,
-            default: true,
-            type: Boolean,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "woundedConditionThreshold", {
-            name: "Wounded Condition Threshold",
-            hint: "Displays a Wounded Active Status Effect when the Token's Actor's hp.value hp is 0 < hp < hp.max*value if Wounded Condition is enabled.",
-            scope: "world",
-            config: true,
-            default: 0.5,
-            type: Number,
-            requiresReload: true
-        });
-
         game.settings.register(MODULE_SCOPE, "incapacitatedCondition", {
             name: "Incapacitated Condition",
             hint: "Displays a Incapacitated Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
@@ -87,26 +57,6 @@ class TRUtils {
             config: true,
             default: "Incapacitated & Unconscious",
             type: String,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree", {
-            name: "ChatLogEntryContext, add option to apply damage minus three (Heavy Armor Master Feat)",
-            hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));",
-            scope: "world",
-            config: true,
-            default: false,
-            type: Boolean,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "chatLogEntryContext_ApplyHalfDamageMinusThree", {
-            name: "ChatLogEntryContext, add option to apply half damage minus three (Heavy Armor Master Feat)",
-            hint: "canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total/2) - 3, 0)));",
-            scope: "world",
-            config: true,
-            default: false,
-            type: Boolean,
             requiresReload: true
         });
 
@@ -207,26 +157,6 @@ class TRUtils {
             config: true,
             default: '[{"id":"surprised","name":"Surprised","icon":"icons/magic/control/fear-fright-white.webp"}]',
             type: String,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "displaySpellUsesOnCharacterSheet", {
-            name: "Diplay Spell Item Uses on CharacterSheet",
-            hint: "Adds a column displaying the uses for Spell Items on the Spells page of the Character Sheet",
-            scope: "world",
-            config: true,
-            default: true,
-            type: Boolean,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "checkSettings", {
-            name: "Check Settings",
-            hint: "Checks if settings are as expected. If active the Module will check a number of expected settings and report surprises in console (F-12) as warnings.",
-            scope: "world",
-            config: true,
-            default: true,
-            type: Boolean,
             requiresReload: true
         });
 
@@ -339,15 +269,6 @@ class Tablerules {
             console.info(message);
         }
     }
-
-    static async dnd5ePreRollDeathSave() {
-
-        arguments[1].targetValue = game.settings.get(MODULE_SCOPE, "deathSaveDC");
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: `${MODULE_SCOPE}.dnd5ePreRollDeathSave`, object: arguments });
-        }
-
-    }
 }
 
 /**
@@ -372,63 +293,8 @@ Hooks.on("dnd5e.preRestCompleted", function (actor, data, options) {
     data.updateData["system.attributes.death.failure"] = 0;
 });
 
-Hooks.on("dnd5e.preRollDeathSave", function () {
-    return Tablerules.dnd5ePreRollDeathSave(...arguments);
-});
-
 Hooks.on('init', () => {
     TRUtils.registerSettings();
-
-    /**
-     * Add ChatLog context menu option to apply damage minus three (Heavy Armor Master)
-     */
-    if (game.settings.get(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree")) {
-        Hooks.on("getChatLogEntryContext", (html, options) => {
-            const condition = (li) => {
-                const message = game.messages.get(li.data("messageId"));
-                return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
-            }
-
-            const callback = (li) => {
-                const message = game.messages.get(li.data("messageId"));
-                const roll = message.rolls[0];
-                canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(roll.total - 3, 0)));
-            }
-
-            options.push({
-                name: "Apply Damage -3",
-                icon: `<i class="fas fa-user-clock"></i>`,
-                condition,
-                callback,
-            });
-        });
-    }
-
-    /**
-     * Add ChatLog context menu option to apply half damage minus three (Heavy Armor Master).
-     */
-    if (game.settings.get(MODULE_SCOPE, "chatLogEntryContext_ApplyDamageMinusThree")) {
-        Hooks.on("getChatLogEntryContext", (html, options) => {
-            const condition = (li) => {
-                const message = game.messages.get(li.data("messageId"));
-                return (message?.isRoll && message?.isContentVisible && canvas.tokens.controlled.length);
-            }
-
-            const callback = (li) => {
-                const message = game.messages.get(li.data("messageId"));
-                const roll = message.rolls[0];
-                canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.max(Math.floor(roll.total / 2) - 3, 0)));
-            }
-
-            options.push({
-                name: "Apply Half Damage -3",
-                icon: `<i class="fas fa-user-clock"></i>`,
-                condition,
-                callback,
-            });
-        });
-    }
-
 });
 
 Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) => {
@@ -463,6 +329,9 @@ Hooks.on("preCreateChatMessage", (messageDoc, rawMessageData, context, userId) =
     }
 })
 
+/**
+ * @todo Should be conditional on Module-global active Setting
+ */
 Hooks.on("ready", function () {
     console.log(`${MODULE_SCOPE} hooked onto ready.`);
 
@@ -495,40 +364,10 @@ Hooks.on("ready", function () {
         }
     }
 
-    if (game.settings.get(MODULE_SCOPE, "checkSettings")) {
-        if (!game.settings.get(MODULE_SCOPE, "modifyChatBubbles")) {
-            ui.notifications.warn(`Setting ${MODULE_SCOPE}, modifyChatBubbles expected to be ${true}, but was ${game.settings.get(MODULE_SCOPE, "modifyChatBubbles")}.`);
-        }
-
-    }
-
     if (game.settings.get(MODULE_SCOPE, "useAdditionalStatuses")) {
         CONFIG.statusEffects = CONFIG.statusEffects.concat(JSON.parse(game.settings.get("Tablerules", "additionalStatuses")));
     }
 
-    if (game.settings.get(MODULE_SCOPE, "displaySpellUsesOnCharacterSheet")) {
-        Hooks.on("renderActorSheet5eCharacter2", (app, [html]) => {
-            if (!app.document.testUserPermission(game.user, CONST.DOCUMENT_OWNERSHIP_LEVELS.OBSERVER)) return;
-            const spellTab = html.querySelector(".items-list.spells-list").querySelectorAll(".item-list");
-            for (const list of spellTab) {
-                const spells = list.querySelectorAll(".item");
-                for (const spell of spells) {
-                    const item = app.document.items.get(spell.dataset.itemId);
-                    const uses = item.system.uses;
-                    if (uses.max > 0 && uses.per) {
-                        const per = (uses.per === "lr" || uses.per === "sr") ? uses.per : "";
-                        const newHTML = `
-                    <div class="item-detail item-range item-casts">
-                      <span class="value">${uses.value}/${uses.max}</span>
-                      <span class="unit">${per}</span>
-                    </div>
-                  `;
-                        spell.querySelector(".item-school").insertAdjacentHTML("beforebegin", newHTML);
-                    };
-                };
-            };
-        });
-    }
 });
 
 Hooks.on("getChatLogEntryContext", (html, options) => {
@@ -543,9 +382,6 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
         canvas.tokens.controlled.forEach(t => t.actor?.applyDamage(Math.floor(roll.total * 0.25)));
     }
 
-    /**
-     * remove ChatLog context menu option to delete ChatMessage
-     */
     options.push({
         name: "Apply Quarter Damage",
         icon: `<i class="fas fa-user-clock"></i>`,
@@ -553,6 +389,9 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
         callback,
     });
 
+    /**
+     * remove ChatLog context menu option to delete ChatMessage
+     */
     let idx = -1;
     for (let i = 0; i < options.length; i++) {
         if (options[i].name === "SIDEBAR.Delete") {
@@ -568,6 +407,9 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
 
 });
 
+/**
+ * @todo Remove the Conditions stuff no longer needed after complete migration to dnd5e 4.x.
+ */
 Hooks.on("updateActor", async function (actor, update, options, userId) {
 
     if (TRUtils.isDebugEnabled()) {
@@ -582,25 +424,6 @@ Hooks.on("updateActor", async function (actor, update, options, userId) {
 
     if (game.user.id !== userId) return;
     if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
-
-    if (game.settings.get(MODULE_SCOPE, "woundedCondition")) {
-        let effectsWoundedIds = actor.effects.filter(e => e.name === "Wounded").map(e => e.id);
-
-        if (update.system.attributes.hp.value > 0 && update.system.attributes.hp.value <= game.settings.get("Tablerules", "woundedConditionThreshold") * actor.system.attributes.hp.max) {
-            if (effectsWoundedIds.length === 0) {
-                const effectData = {
-                    icon: "modules/Tablerules/icons/conditions/wounded.svg",
-                    name: "Wounded",
-                    statuses: ["Wounded"]
-                };
-                await actor.createEmbeddedDocuments("ActiveEffect", [effectData]);
-            }
-        } else {
-            if (effectsWoundedIds.length > 0) {
-                await actor.deleteEmbeddedDocuments("ActiveEffect", effectsWoundedIds);
-            }
-        }
-    }
 
     if (game.settings.get(MODULE_SCOPE, "incapacitatedCondition")) {
 
