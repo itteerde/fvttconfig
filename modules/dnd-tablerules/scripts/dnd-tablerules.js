@@ -20,16 +20,6 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register(MODULE_SCOPE, 'noHealOnLongRest', {
-            name: "Long Rest does not reset HP",
-            hint: "Typically, all HP are regained on a Long Rest. This will disable that feature.",
-            scope: 'world',
-            config: true,
-            default: true,
-            type: Boolean,
-            requiresReload: true
-        });
-
         game.settings.register(MODULE_SCOPE, 'reduceExhaustionOnLongRest', {
             name: "Long Rest does reduce Exhaustion",
             hint: "Without this enabled Exhaustion is not automatically reduced by one per Long Rest.",
@@ -270,28 +260,6 @@ class Tablerules {
         }
     }
 }
-
-/**
- * modify resting rules
- * - no hp gain on long rest
- * - reset death saves (as they are now not reset on healing)
- */
-Hooks.on("dnd5e.preRestCompleted", function (actor, data, options) {
-    if (arguments[1].longRest) {
-        if (TRUtils.isDebugEnabled()) {
-            Tablerules.debug({ message: "preventing healing on Long Rest.", arguments: arguments, actor: actor, data: data, options: options });
-        }
-        data.updateData["system.attributes.hp.value"] = actor.system.attributes.hp.value;
-        data.dhp = 0;
-
-        if (game.settings.get(MODULE_SCOPE, "reduceExhaustionOnLongRest")) {
-            data.updateData["system.attributes.exhaustion"] = Math.max(actor.system.attributes.exhaustion - 1, 0);
-        }
-    }
-
-    data.updateData["system.attributes.death.success"] = 0;
-    data.updateData["system.attributes.death.failure"] = 0;
-});
 
 Hooks.on('init', () => {
     TRUtils.registerSettings();
