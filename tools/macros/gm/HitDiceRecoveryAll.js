@@ -1,3 +1,19 @@
+if (!game.user.isGM) {
+    ui.notifications.warn("GM only.");
+    return;
+}
+
+if (!MODULE_SCOPE) {
+    ui.notifications.warn("Required Module not found.");
+    return;
+}
+
+console.log({ this: this, lastRun: this.getFlag(MODULE_SCOPE, "lastRun") });
+if (new Date().getTime() - this.getFlag(MODULE_SCOPE, "lastRun") < 3000) {
+    ui.notifications.warn("Do not keep smashing that Macro. This has a 3s cooldown to keep you from breaking the game.");
+    return;
+}
+
 async function regainHitDice(actor) {
     const classes = actor.itemTypes.class.toSorted((a, b) => {
         return parseInt(b.system.hitDice.substring(1)) - parseInt(a.system.hitDice.substring(1));
@@ -23,14 +39,7 @@ async function regainHitDice(actor) {
 }
 
 game.folders.find(f => f.name === "PCs").contents.filter(pc => pc.type === "character").forEach(a => {
-
     regainHitDice(a);
-
-    let item = a.items.find(i => i.name === "Long Rest")
-    if (item) {
-        item.update({ "system.uses.value": Math.min(item.system.uses.max, item.system.uses.value + 1) });
-    } else {
-        ui.notifications.warn(`${a.name}: no Long Rest Item found`, { permanent: true });
-    }
 });
 
+this.setFlag(MODULE_SCOPE, "lastRun", new Date().getTime());
