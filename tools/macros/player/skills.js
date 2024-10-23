@@ -1,4 +1,4 @@
-const width = 500;
+const width = 650;
 
 let party = game.folders.find(f => f.name === "The Party").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
 console.log(party);
@@ -6,7 +6,7 @@ console.log(party);
 function portraits(party) {
     let html = '';
     party.forEach(a => {
-        html += `<td style="min-height:50px; min-width:50px;"><img src="${a.img}" alt="${a.name}" width="50" height="50"></td>`;
+        html += `<td align="center" style="min-height:50px; min-width:50px;"><img src="${a.img}" alt="${a.name}" title="${a.name}" width="50" height="50"></td>`;
     });
     return html;
 }
@@ -22,7 +22,7 @@ function skill(party, skill) {
 function inspiration(party) {
     let html = '';
     party.forEach(a => {
-        html += `<td style="${a.system.attributes.inspiration ? "background-color:green;" : ""}"></td > `;
+        html += `<td align="center">${a.system.attributes.inspiration ? '<img src="icons/svg/light.svg" width="20px" height="20px" style="border:none; outline: none; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(80%) contrast(119%);"/>' : ''}</td > `;
     });
     return html;
 }
@@ -31,6 +31,14 @@ function health(party) {
     let html = '';
     party.forEach(a => {
         html += `<td align="center" style="${a.system.attributes.hp.pct < 33 ? ("color:red") : (a.system.attributes.hp.pct < 66 ? ("color:orange") : ("color:green"))};">${a.system.attributes.hp.value + "/" + a.system.attributes.hp.effectiveMax}</td>`;
+    });
+    return html;
+}
+
+function resting(party) {
+    let html = '';
+    party.forEach(a => {
+        html += `<td align="center" style="${a.items.find(i => i.name === "Long Rest").system.uses.value < 2 ? ("color:gray") : ("color:green")};">${a.items.find(i => i.name === "Long Rest").system.uses.value + "/" + a.items.find(i => i.name === "Long Rest").system.uses.max}</td>`;
     });
     return html;
 }
@@ -125,6 +133,13 @@ content += `
         <tr>
             <td>Survival</td>
             ${skill(party, "sur")}
+        </tr>
+        <tr>
+            <td colspan="${party.length + 1}"></td>
+        </tr>
+        <tr>
+            <td>Rest Charges</td>
+            ${resting(party)}
         </tr>
     </table>
         `;
