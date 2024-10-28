@@ -22,7 +22,7 @@ function skill(party, skill) {
 function inspiration(party) {
     let html = '';
     party.forEach(a => {
-        html += `<td align="center">${a.system.attributes.inspiration ? '<img src="icons/svg/light.svg" width="20px" height="20px" style="border:none; outline: none; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(80%) contrast(119%);"/>' : ''}</td > `;
+        html += `<td align="center">${a.system.attributes.inspiration ? '<img src="icons/svg/light.svg" width="20px" height="20px" style="border:none; outline: none; filter: invert(48%) sepia(79%) saturate(2476%) hue-rotate(86deg) brightness(80%) contrast(119%);"/>' : '<img src="icons/svg/light.svg" width="20px" height="20px" style="border:none; outline: none; filter: invert(39%) sepia(0%) saturate(177%) hue-rotate(194deg) brightness(93%) contrast(85%);"/>'}</td > `;
     });
     return html;
 }
@@ -31,6 +31,14 @@ function health(party) {
     let html = '';
     party.forEach(a => {
         html += `<td align="center" style="${a.system.attributes.hp.pct < 33 ? ("color:red") : (a.system.attributes.hp.pct < 66 ? ("color:orange") : ("color:green"))};">${a.system.attributes.hp.value + "/" + a.system.attributes.hp.effectiveMax}</td>`;
+    });
+    return html;
+}
+
+function exhaustion(party) {
+    let html = '';
+    party.forEach(a => {
+        html += `<td align="center" style="${a.system.attributes.exhaustion === 0 ? ("color:green") : (a.system.attributes.exhaustion < 3 ? ("color:orange") : ("color:red"))};">${a.system.attributes.exhaustion}</td>`;
     });
     return html;
 }
@@ -51,7 +59,7 @@ content += `
         <td></td>
         ${portraits(party)}
         </tr>
-        <tr>
+        <tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">
             <td>Inspiration</td>
             ${inspiration(party)}
         </tr>
@@ -59,10 +67,14 @@ content += `
             <td>Health</td>
             ${health(party)}
         </tr>
+        <tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">
+            <td>Exhaustion</td>
+            ${exhaustion(party)}
+        </tr>
         <tr>
             <td colspan="${party.length + 1}"></td>
         </tr>
-        <tr>
+        <tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">
             <td>Acrobatics</td>
             ${skill(party, "acr")}
         </tr>
@@ -130,14 +142,14 @@ content += `
             <td>Stealth</td>
             ${skill(party, "ste")}
         </tr>
-        <tr>
+        <tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">
             <td>Survival</td>
             ${skill(party, "sur")}
         </tr>
         <tr>
             <td colspan="${party.length + 1}"></td>
         </tr>
-        <tr>
+        <tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">
             <td>Rest Charges</td>
             ${resting(party)}
         </tr>
