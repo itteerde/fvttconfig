@@ -14,7 +14,7 @@ function portraits(party) {
 function skill(party, skill) {
     let html = '';
     party.forEach(a => {
-        html += `<td align="center" style="${a.getRollData().skills[skill].prof.multiplier === 0 ? ("color:gray") : (a.getRollData().skills[skill].prof.multiplier === 1 ? ("color:black") : ("color:green"))};">${a.getRollData().skills[skill].total}</td > `;
+        html += `<td align="center" style="${a.getRollData().skills[skill].prof.multiplier < 1 ? ("color:gray") : (a.getRollData().skills[skill].prof.multiplier === 1 ? ("color:black") : ("color:green"))};">${a.getRollData().skills[skill].total}</td > `;
     });
     return html;
 }
