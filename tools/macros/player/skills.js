@@ -71,16 +71,6 @@ function languages(party) {
     languages = languages.sort((a, b) => a.localeCompare(b));
 
     let html = '';
-    /*
-            <tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">
-            <td>Rest Charges</td>
-            ${resting(party)}
-        </tr>
-        <tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">
-            <td>Survival</td>
-            ${skill(party, "sur")}
-        </tr>
-    */
     let count = 0;
     languages.forEach(l => {
         count++;
