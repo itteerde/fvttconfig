@@ -1,4 +1,5 @@
 const width = 650;
+const SHOW_LANGUAGES = true;
 
 let party = game.folders.find(f => f.name === "The Party").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
 console.log(party);
@@ -45,9 +46,59 @@ function exhaustion(party) {
 
 function resting(party) {
     let html = '';
+    try {
+        party.forEach(a => {
+            html += `<td align="center" style="${a.items.find(i => i.name === "Long Rest").system.uses.value < 2 ? ("color:gray") : ("color:green")};">${a.items.find(i => i.name === "Long Rest").system.uses.value + "/" + a.items.find(i => i.name === "Long Rest").system.uses.max}</td>`;
+        });
+
+    } catch (e) {
+
+    }
+    return html;
+}
+
+function speaks(actor, language) {
+    return actor.system.traits.languages.value.has(language);
+}
+
+function languages(party) {
+    let languages = new Set();
     party.forEach(a => {
-        html += `<td align="center" style="${a.items.find(i => i.name === "Long Rest").system.uses.value < 2 ? ("color:gray") : ("color:green")};">${a.items.find(i => i.name === "Long Rest").system.uses.value + "/" + a.items.find(i => i.name === "Long Rest").system.uses.max}</td>`;
+        languages = languages.union(a.system.traits.languages.value);
     });
+
+    languages = Array.from(languages);
+    languages = languages.sort((a, b) => a.localeCompare(b));
+
+    let html = '';
+    /*
+            <tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">
+            <td>Rest Charges</td>
+            ${resting(party)}
+        </tr>
+        <tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">
+            <td>Survival</td>
+            ${skill(party, "sur")}
+        </tr>
+    */
+    let count = 0;
+    languages.forEach(l => {
+        count++;
+        if (count === 1) {
+            html += `<tr style="border-top: solid; border-top-width: thin; border-top-color: gray;">`;
+        } else {
+            if (count === languages.length) {
+                html += `<tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">`;
+            } else {
+                html += `<tr>`
+            }
+        }
+        html += `<td>${l}</td>`;
+        party.forEach(a => {
+            html += `<td align="center" style="color: ${speaks(a, l) ? "green" : "gray"}">${speaks(a, l) ? "✅" : "-"}</td>`;
+        });
+    });
+
     return html;
 }
 
@@ -145,7 +196,18 @@ content += `
         <tr style="border-bottom: solid; border-bottom-width: thin; border-bottom-color: gray;">
             <td>Survival</td>
             ${skill(party, "sur")}
+        </tr>`;
+
+if (SHOW_LANGUAGES) {
+    content += `
+        <tr>
+            <td colspan="${party.length + 1}"></td>
         </tr>
+        ${languages(party)}
+        `;
+}
+
+content += `
         <tr>
             <td colspan="${party.length + 1}"></td>
         </tr>
