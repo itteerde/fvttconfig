@@ -61,6 +61,24 @@ function speaks(actor, language) {
     return actor.system.traits.languages.value.has(language);
 }
 
+function language_name(language) {
+    switch (language) {
+        case 'cant': return "Thieves' Cant";
+        case 'celestial': return "Celestial";
+        case 'common': return "Common";
+        case 'draconic': return "Draconic";
+        case 'dwarvish': return "Dwarvish";
+        case 'elvish': return "Elvish";
+        case 'giant': return "Giant";
+        case 'gnomish': return "Gnomish";
+        case 'goblin': return "Goblin";
+        case 'orc': return "Orc";
+        case 'sign': return "Common. Sign Lang.";
+        case 'sylvan': return "Sylvan";
+        default: return language;
+    }
+}
+
 function languages(party) {
     let languages = new Set();
     party.forEach(a => {
@@ -83,7 +101,7 @@ function languages(party) {
                 html += `<tr>`
             }
         }
-        html += `<td>${l}</td>`;
+        html += `<td>${language_name(l)}</td>`;
         party.forEach(a => {
             html += `<td align="center" style="color: ${speaks(a, l) ? "green" : "gray"}">${speaks(a, l) ? "✅" : "-"}</td>`;
         });

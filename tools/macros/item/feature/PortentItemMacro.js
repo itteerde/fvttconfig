@@ -13,19 +13,19 @@
 
 const itemName = "Portent"                                                    // set this string to what the Portent feature item is called in your game.
 const wizardActor = game.user.character || token.actor; //second option is for the GM.
-const portentItem = item;
+const portentItem = wizardActor.items.find(i => i.name === "Portent");
 
 if (!portentItem) return ui.notifications.warn("Your actor does not have the Portent feature");
 let myButtons = await generateButtons(wizardActor, portentItem, itemName); // creates the buttons, see function below.
 new Dialog({
     title: "Divination Wizard's Portent",
-    content: "Make a choice",
+    content: `Make a choice ${wizardActor.getFlag("world", "portent")}`,
     buttons: myButtons,
 }).render(true);
 
-async function generateButtons(macroActor, item, itemName) {
-    let portentRolled = await macroActor.getFlag("world", "portent"); // does the character already have a set of buttons
-    let diceNumber = macroActor.items.getName("Wizard").system.levels < 14 ? 2 : 3; //sets up for Greater Portent where the player gets 3 dice at level 14.
+async function generateButtons(wizardActor, item, itemName) {
+    let portentRolled = await wizardActor.getFlag("world", "portent"); // does the character already have a set of buttons
+    let diceNumber = wizardActor.items.getName("Wizard").system.levels < 14 ? 2 : 3; //sets up for Greater Portent where the player gets 3 dice at level 14.
     let myButtons = {};
     if (portentRolled !== undefined) {
         myButtons = portentRolled.reduce((buttons, roll) => {
@@ -41,7 +41,7 @@ async function generateButtons(macroActor, item, itemName) {
                                                     </header></div>` + msgContent, speaker: { alias: macroActor.name }
                     });
                     portentRolled.splice(portentRolled.indexOf(roll), 1); // removes the used value from the array.
-                    await macroActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
+                    await wizardActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
                     //await item.update({ name: `${itemName} [${portentRolled}]` });  // updates the item name to contain the new array.
                 }
             };
@@ -60,7 +60,7 @@ async function generateButtons(macroActor, item, itemName) {
                 msgContent += `Roll ${i} - <b>${result.result}</b></br>`; // preps part of the chat message content
                 i++;
             }
-            await macroActor.setFlag("world", "portent", portentRolls); // sets a fresh array of 2 or 3 d20s 
+            await wizardActor.setFlag("world", "portent", portentRolls); // sets a fresh array of 2 or 3 d20s 
             //await item.update({ name: `${itemName} [${portentRolls}]` })
             ChatMessage.create({
                 content: `<div class="dnd5e chat-card">
