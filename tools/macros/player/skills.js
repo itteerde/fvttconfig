@@ -1,8 +1,15 @@
 const width = 650;
 const SHOW_LANGUAGES = true;
+const SHOW_TREASURY = true;
+const TREASURY_UUID = "Actor.8AEpgEDR8sabumTi.Item.BE9gyEeNtKutK057";
 
 let party = game.folders.find(f => f.name === "The Party").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
 console.log(party);
+
+const ignored_languages = [
+    'common'
+];
+
 
 function portraits(party) {
     let html = '';
@@ -75,6 +82,7 @@ function language_name(language) {
         case 'orc': return "Orc";
         case 'sign': return "Common. Sign Lang.";
         case 'sylvan': return "Sylvan";
+        case 'undercommon': return "Undercommon";
         default: return language;
     }
 }
@@ -84,6 +92,10 @@ function languages(party) {
     party.forEach(a => {
         languages = languages.union(a.system.traits.languages.value);
     });
+
+    ignored_languages.forEach(l => {
+        languages.delete(l);
+    })
 
     languages = Array.from(languages);
     languages = languages.sort((a, b) => a.localeCompare(b));
@@ -234,7 +246,34 @@ let d = new Dialog({
         ok: {
             icon: '',
             label: "OK",
-            callback: () => console.log({ content: content })
+            callback: async () => {
+                console.log({ content: content });
+                if (SHOW_TREASURY) {
+                    const value = (await fromUuid(TREASURY_UUID)).system.currency;
+                    ChatMessage.create({
+                        speaker: { actor: '8AEpgEDR8sabumTi' },
+                        content: `
+                        <div>
+                            Company Treasure
+                            <table>
+                                <tr><td><img src="systems/dnd5e/icons/currency/platinum.webp" alt="Platinum" title="Platinum" style="border:none; outline: none;"></td><td style="text-align: right;">${value.pp}</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/gold.webp" alt="Gold" title="Gold" style="border:none; outline: none;"></td><td style="text-align: right;">${value.gp}</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/electrum.webp" alt="Electrum" title="Electrum" style="border:none; outline: none;"></td><td style="text-align: right;">${value.ep}</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/silver.webp" alt="Silver" title="Silver" style="border:none; outline: none;"></td><td style="text-align: right;">${value.sp}</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/copper.webp" alt="Copper" title="Copper" style="border:none; outline: none;"></td><td style="text-align: right;">${value.cp}</td></tr>
+                            </table>
+                            suggested Payout
+                            <table width="50%">
+                                <tr><td><img src="systems/dnd5e/icons/currency/platinum.webp" alt="Platinum" title="Platinum" style="border:none; outline: none;"></td><td style="text-align: right;">${Math.floor(value.pp / party.length) * party.length} (${Math.floor(value.pp / party.length)} each)</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/gold.webp" alt="Gold" title="Gold" style="border:none; outline: none;"></td><td style="text-align: right;">${Math.floor(value.gp / party.length) * party.length} (${Math.floor(value.gp / party.length)} each)</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/electrum.webp" alt="Electrum" title="Electrum" style="border:none; outline: none;"></td><td style="text-align: right;">${Math.floor(value.ep / party.length) * party.length} (${Math.floor(value.ep / party.length)} each)</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/silver.webp" alt="Silver" title="Silver" style="border:none; outline: none;"></td><td style="text-align: right;">${Math.floor(value.sp / party.length) * party.length} (${Math.floor(value.sp / party.length)} each)</td></tr>
+                                <tr><td><img src="systems/dnd5e/icons/currency/copper.webp" alt="Copper" title="Copper" style="border:none; outline: none;"></td><td style="text-align: right;">${Math.floor(value.cp / party.length) * party.length} (${Math.floor(value.cp / party.length)} each)</td></tr>
+                            </table>
+                        </div>
+                        `})
+                }
+            }
         }
     },
     default: "ok",
