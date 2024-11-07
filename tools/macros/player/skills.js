@@ -2,6 +2,7 @@ const width = 650;
 const SHOW_LANGUAGES = true;
 const SHOW_TREASURY = true;
 const TREASURY_UUID = "Actor.8AEpgEDR8sabumTi.Item.BE9gyEeNtKutK057";
+const TREASURY_RESERVES = 1000;
 
 let party = game.folders.find(f => f.name === "The Party").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
 console.log(party);
@@ -262,6 +263,7 @@ if (SHOW_TREASURY) {
         callback: async () => {
             console.log({ content: content });
             const value = (await fromUuid(TREASURY_UUID)).system.currency;
+
             ChatMessage.create({
                 speaker: { actor: '8AEpgEDR8sabumTi' },
                 content: `
