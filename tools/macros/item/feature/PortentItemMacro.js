@@ -38,7 +38,7 @@ async function generateButtons(wizardActor, item, itemName) {
                                                     <header class="card-header flexrow">
                                                         <img src="${item.img}" title="${item.name}" width="36" height="36" />
                                                         <h3 class="item-name">${item.name}:</h3>
-                                                    </header></div>` + msgContent, speaker: { alias: macroActor.name }
+                                                    </header></div>` + msgContent, speaker: { alias: wizardActor.name }
                     });
                     portentRolled.splice(portentRolled.indexOf(roll), 1); // removes the used value from the array.
                     await wizardActor.setFlag("world", "portent", portentRolled); // sets the new array as the flag value
@@ -68,7 +68,7 @@ async function generateButtons(wizardActor, item, itemName) {
                                             <img src="${item.img}" title="${item.name}" width="36" height="36" />
                                             <h3 class="item-name">${item.name}:</h3>
                                         </header></div>
-                                            My portent forsees the following outcomes:</br>` + msgContent, speaker: { alias: macroActor.name }
+                                            My portent forsees the following outcomes:</br>` + msgContent, speaker: { alias: wizardActor.name }
             });
         }
 

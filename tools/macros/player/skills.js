@@ -1,10 +1,10 @@
 const width = 650;
 const SHOW_LANGUAGES = true;
 const SHOW_TREASURY = true;
-const TREASURY_UUID = "Actor.8AEpgEDR8sabumTi.Item.BE9gyEeNtKutK057";
-const TREASURY_RESERVES = "Actor.8AEpgEDR8sabumTi.Item.5BeqQFcPUAb4R9bX";
+const TREASURY_UUID = "Actor.JXAYzFmOOoNZVfyI.Item.MWBvPr7E85ykkzJu";
+const TREASURY_RESERVES = "Actor.JXAYzFmOOoNZVfyI.Item.smJN2LQYiNWo76lW";
 
-let party = game.folders.find(f => f.name === "The Party").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
+let party = game.folders.find(f => f.name === "PCs").contents.filter(a => a.type === "character").sort((a, b) => { return a.name.localeCompare(b.name) });
 console.log(party);
 
 const ignored_languages = [
