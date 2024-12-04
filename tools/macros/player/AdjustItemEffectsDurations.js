@@ -1,0 +1,1 @@
+game.actors.get("N53fJ7hsMCYqFLD5").items.get("2qPOjahdGOEm2YKQ").effects.contents.forEach(e => e.update({ "duration.startTime": game.time.worldTime }))
