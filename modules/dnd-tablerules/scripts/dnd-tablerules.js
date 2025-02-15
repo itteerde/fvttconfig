@@ -30,26 +30,6 @@ class TRUtils {
             requiresReload: true
         });
 
-        game.settings.register(MODULE_SCOPE, "incapacitatedCondition", {
-            name: "Incapacitated Condition",
-            hint: "Displays a Incapacitated Active Status Effect when the Token's Actor's hp.value hp is 0 hp",
-            scope: "world",
-            config: true,
-            default: true,
-            type: Boolean,
-            requiresReload: true
-        });
-
-        game.settings.register(MODULE_SCOPE, "incapacitatedConditionLabel", {
-            name: "Incapacitated Condition Label",
-            hint: "if Incapacitated Condition, label text to use",
-            scope: "world",
-            config: true,
-            default: "Incapacitated & Unconscious",
-            type: String,
-            requiresReload: true
-        });
-
         game.settings.register(MODULE_SCOPE, "whispersIncludeGM", {
             name: "Whispers, add GM",
             hint: "adds the GM to all whispered chat messages",
@@ -372,59 +352,6 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
     } else {
         console.warning("Tablerules: no ChatLog context menu delete ChatMessage option to be removed found.");
     }
-
-});
-
-/**
- * @todo Remove the Conditions stuff no longer needed after complete migration to dnd5e 4.x.
- */
-Hooks.on("updateActor", async function (actor, update, options, userId) {
-
-    if (TRUtils.isDebugEnabled()) {
-        Tablerules.debug({
-            message: `${MODULE_SCOPE}.updateActor`,
-            actor: actor,
-            update: update,
-            options: options,
-            userId: userId
-        });
-    }
-
-    if (game.user.id !== userId) return;
-    if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
-
-    if (game.settings.get(MODULE_SCOPE, "incapacitatedCondition")) {
-
-        let effectsIncapacitatedIds = actor.effects.filter(e => e.name === game.settings.get(MODULE_SCOPE, "incapacitatedConditionLabel")).map(e => e.id);
-        let effectsProneIds = actor.effects.filter(e => e.name === "Prone").map(e => e.id);
-
-        if (update.system.attributes.hp.value === 0) {
-
-            if (effectsIncapacitatedIds.length === 0) {
-                const effectDataIncapacitated = {
-                    icon: "modules/Tablerules/icons/conditions/incapacitated.svg",
-                    name: game.settings.get("Tablerules", "incapacitatedConditionLabel"),
-                    statuses: [game.settings.get("Tablerules", "incapacitatedConditionLabel")]
-                };
-
-                const effectDataProne = {
-                    icon: "modules/Tablerules/icons/conditions/prone.svg",
-                    name: "Prone",
-                    statuses: ["Prone"]
-                };
-
-                if (effectsProneIds.length > 0) {
-                    await actor.createEmbeddedDocuments("ActiveEffect", [effectDataIncapacitated]);
-
-                } else {
-                    await actor.createEmbeddedDocuments("ActiveEffect", [effectDataIncapacitated, effectDataProne]);
-                }
-            }
-        } else {
-            await actor.deleteEmbeddedDocuments("ActiveEffect", effectsIncapacitatedIds);
-        }
-    }
-
 
 });
 
