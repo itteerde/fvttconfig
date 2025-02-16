@@ -30,6 +30,16 @@ class TRUtils {
             requiresReload: true
         });
 
+        game.settings.register(MODULE_SCOPE, "incapacitatedCondition", {
+            name: "Incapacitated Condition",
+            hint: "Displays Incapacitated, Prone, Unconscious Token's Actor's hp.value hp is 0 hp",
+            scope: "world",
+            config: true,
+            default: true,
+            type: Boolean,
+            requiresReload: true
+        });
+
         game.settings.register(MODULE_SCOPE, "whispersIncludeGM", {
             name: "Whispers, add GM",
             hint: "adds the GM to all whispered chat messages",
@@ -352,6 +362,36 @@ Hooks.on("getChatLogEntryContext", (html, options) => {
     } else {
         console.warning("Tablerules: no ChatLog context menu delete ChatMessage option to be removed found.");
     }
+
+});
+
+/**
+ * @todo Remove the Conditions stuff no longer needed after complete migration to dnd5e 4.x.
+ */
+Hooks.on("updateActor", async function (actor, update, options, userId) {
+
+    if (TRUtils.isDebugEnabled()) {
+        Tablerules.debug({
+            message: `${MODULE_SCOPE}.updateActor`,
+            actor: actor,
+            update: update,
+            options: options,
+            userId: userId
+        });
+    }
+
+    if (game.user.id !== userId) return;
+    if (!foundry.utils.hasProperty(update, "system.attributes.hp.value")) return;
+
+    if (game.settings.get(MODULE_SCOPE, "incapacitatedCondition")) {
+
+        if (update.system.attributes.hp.value === 0) {
+            await actor.toggleStatusEffect("incapacitated");
+            await actor.toggleStatusEffect("prone");
+            await actor.toggleStatusEffect("unconscious");
+        }
+    }
+
 
 });
 
